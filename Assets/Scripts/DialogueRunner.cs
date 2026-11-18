@@ -49,6 +49,7 @@ public class DialogueRunner : MonoBehaviour
 
     private void ShowNode(DialogueObject node)
     {
+        choicesContainer.gameObject.SetActive(true);
         currentNode = node;
 
         if (nameText != null) nameText.text = node.speakerName;
@@ -68,6 +69,9 @@ public class DialogueRunner : MonoBehaviour
                 var capturedChoice = choice;
                 button.onClick.AddListener(() => OnChoiceClicked(capturedChoice));
             }
+        } else
+        {
+            choicesContainer.gameObject.SetActive(false);
         }
     }
 

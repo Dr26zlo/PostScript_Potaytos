@@ -1,0 +1,1214 @@
+{
+  "coordinateOrigin": "top-left",
+  "positionUnits": "design pixels",
+  "pngsAreIntact": true,
+  "assets": [
+    {
+      "id": "lamp-cord",
+      "file": "PNG/lamp/lamp-cord.png",
+      "nativeSize": [
+        724,
+        2172
+      ],
+      "contentBounds": [
+        269,
+        66,
+        452,
+        2115
+      ],
+      "provenance": "independently-generated",
+      "promptFile": "source/lamp-cord.json",
+      "transparentFraction": 0.9598
+    },
+    {
+      "id": "lamp-fixture-on",
+      "file": "PNG/lamp/lamp-fixture-on.png",
+      "nativeSize": [
+        1199,
+        1312
+      ],
+      "contentBounds": [
+        64,
+        67,
+        1133,
+        1250
+      ],
+      "provenance": "independently-generated",
+      "promptFile": "source/lamp-fixture-on.json",
+      "transparentFraction": 0.6629
+    },
+    {
+      "id": "shelf-left-sill",
+      "file": "PNG/shelves/shelf-left-sill.png",
+      "nativeSize": [
+        2172,
+        724
+      ],
+      "contentBounds": [
+        26,
+        188,
+        2150,
+        598
+      ],
+      "provenance": "independently-generated",
+      "promptFile": "source/shelf-left-sill.json",
+      "transparentFraction": 0.7833
+    },
+    {
+      "id": "shelf-left-small",
+      "file": "PNG/shelves/shelf-left-small.png",
+      "nativeSize": [
+        2172,
+        724
+      ],
+      "contentBounds": [
+        147,
+        235,
+        2024,
+        549
+      ],
+      "provenance": "independently-generated",
+      "promptFile": "source/shelf-left-small.json",
+      "transparentFraction": 0.6946
+    },
+    {
+      "id": "shelf-left-upper",
+      "file": "PNG/shelves/shelf-left-upper.png",
+      "nativeSize": [
+        2172,
+        724
+      ],
+      "contentBounds": [
+        17,
+        15,
+        2155,
+        709
+      ],
+      "provenance": "independently-generated",
+      "promptFile": "source/shelf-left-upper.json",
+      "transparentFraction": 0.7677
+    },
+    {
+      "id": "shelf-right-eye-level",
+      "file": "PNG/shelves/shelf-right-eye-level.png",
+      "nativeSize": [
+        2172,
+        724
+      ],
+      "contentBounds": [
+        30,
+        218,
+        2142,
+        530
+      ],
+      "provenance": "independently-generated",
+      "promptFile": "source/shelf-right-eye-level.json",
+      "transparentFraction": 0.8435
+    },
+    {
+      "id": "shelf-right-lower",
+      "file": "PNG/shelves/shelf-right-lower.png",
+      "nativeSize": [
+        2172,
+        724
+      ],
+      "contentBounds": [
+        28,
+        177,
+        2143,
+        654
+      ],
+      "provenance": "independently-generated",
+      "promptFile": "source/shelf-right-lower.json",
+      "transparentFraction": 0.7361
+    },
+    {
+      "id": "shelf-right-middle",
+      "file": "PNG/shelves/shelf-right-middle.png",
+      "nativeSize": [
+        2172,
+        724
+      ],
+      "contentBounds": [
+        19,
+        152,
+        2155,
+        621
+      ],
+      "provenance": "independently-generated",
+      "promptFile": "source/shelf-right-middle.json",
+      "transparentFraction": 0.7965
+    },
+    {
+      "id": "shelf-right-upper",
+      "file": "PNG/shelves/shelf-right-upper.png",
+      "nativeSize": [
+        2172,
+        724
+      ],
+      "contentBounds": [
+        19,
+        27,
+        2160,
+        691
+      ],
+      "provenance": "independently-generated",
+      "promptFile": "source/shelf-right-upper.json",
+      "transparentFraction": 0.7537
+    },
+    {
+      "id": "typewriter-body",
+      "file": "PNG/typewriter/typewriter-body.png",
+      "nativeSize": [
+        1536,
+        1024
+      ],
+      "contentBounds": [
+        47,
+        78,
+        1488,
+        971
+      ],
+      "provenance": "independently-generated",
+      "promptFile": "source/typewriter-body.json",
+      "transparentFraction": 0.3238
+    },
+    {
+      "id": "typewriter-carriage",
+      "file": "PNG/typewriter/typewriter-carriage.png",
+      "nativeSize": [
+        2193,
+        717
+      ],
+      "contentBounds": [
+        25,
+        117,
+        2168,
+        629
+      ],
+      "provenance": "independently-generated",
+      "promptFile": "source/typewriter-carriage.json",
+      "transparentFraction": 0.5373
+    },
+    {
+      "id": "typewriter-key-universal",
+      "file": "PNG/typewriter/typewriter-key-universal.png",
+      "nativeSize": [
+        1859,
+        846
+      ],
+      "contentBounds": [
+        319,
+        74,
+        1532,
+        784
+      ],
+      "provenance": "independently-generated",
+      "promptFile": "source/typewriter-key-universal.json",
+      "transparentFraction": 0.5893
+    },
+    {
+      "id": "typewriter-paper",
+      "file": "PNG/typewriter/typewriter-paper.png",
+      "nativeSize": [
+        2022,
+        778
+      ],
+      "contentBounds": [
+        22,
+        63,
+        1997,
+        730
+      ],
+      "provenance": "independently-generated",
+      "promptFile": "source/typewriter-paper.json",
+      "transparentFraction": 0.2027
+    },
+    {
+      "id": "typewriter-return-lever",
+      "file": "PNG/typewriter/typewriter-return-lever.png",
+      "nativeSize": [
+        2172,
+        724
+      ],
+      "contentBounds": [
+        55,
+        103,
+        2103,
+        631
+      ],
+      "provenance": "independently-generated",
+      "promptFile": "source/typewriter-return-lever.json",
+      "transparentFraction": 0.8662
+    },
+    {
+      "id": "typewriter-spacebar",
+      "file": "PNG/typewriter/typewriter-spacebar.png",
+      "nativeSize": [
+        2170,
+        725
+      ],
+      "contentBounds": [
+        73,
+        223,
+        2096,
+        525
+      ],
+      "provenance": "independently-generated",
+      "promptFile": "source/typewriter-spacebar.json",
+      "transparentFraction": 0.6842
+    }
+  ],
+  "roomSuggestions": {
+    "canvas": [
+      1672,
+      941
+    ],
+    "layers": [
+      {
+        "id": "shelf-left-upper",
+        "asset": "shelf-left-upper",
+        "position": [
+          65.627,
+          125.376
+        ],
+        "scale": [
+          0.2572498,
+          0.2572498
+        ],
+        "sortingOrder": 0,
+        "contentBox": [
+          70.0,
+          129.234,
+          550.0,
+          178.531
+        ]
+      },
+      {
+        "id": "shelf-left-sill",
+        "asset": "shelf-left-sill",
+        "position": [
+          126.051,
+          509.076
+        ],
+        "scale": [
+          0.2288136,
+          0.2288136
+        ],
+        "sortingOrder": 1,
+        "contentBox": [
+          132.0,
+          552.093,
+          486.0,
+          93.814
+        ]
+      },
+      {
+        "id": "shelf-right-upper",
+        "asset": "shelf-right-upper",
+        "position": [
+          1029.962,
+          190.706
+        ],
+        "scale": [
+          0.2125175,
+          0.2125175
+        ],
+        "sortingOrder": 2,
+        "contentBox": [
+          1034.0,
+          196.444,
+          455.0,
+          141.112
+        ]
+      },
+      {
+        "id": "shelf-right-middle",
+        "asset": "shelf-right-middle",
+        "position": [
+          1086.72,
+          309.721
+        ],
+        "scale": [
+          0.1663113,
+          0.1663113
+        ],
+        "sortingOrder": 3,
+        "contentBox": [
+          1089.88,
+          335.0,
+          355.241,
+          78.0
+        ]
+      },
+      {
+        "id": "shelf-right-eye-level",
+        "asset": "shelf-right-eye-level",
+        "position": [
+          1044.849,
+          381.323
+        ],
+        "scale": [
+          0.2050189,
+          0.2050189
+        ],
+        "sortingOrder": 4,
+        "contentBox": [
+          1051.0,
+          426.017,
+          433.0,
+          63.966
+        ]
+      },
+      {
+        "id": "shelf-right-lower",
+        "asset": "shelf-right-lower",
+        "position": [
+          1055.862,
+          460.491
+        ],
+        "scale": [
+          0.1949686,
+          0.1949686
+        ],
+        "sortingOrder": 5,
+        "contentBox": [
+          1061.321,
+          495.0,
+          412.358,
+          93.0
+        ]
+      },
+      {
+        "id": "shelf-left-small",
+        "asset": "shelf-left-small",
+        "position": [
+          -2.025,
+          229.768
+        ],
+        "scale": [
+          0.0681939,
+          0.0681939
+        ],
+        "sortingOrder": 6,
+        "contentBox": [
+          8.0,
+          245.794,
+          128.0,
+          21.413
+        ]
+      }
+    ]
+  },
+  "notes": [
+    "PNG files are independent generations, not extractions from a room image.",
+    "Position is top-left of the FULL PNG, including its original transparent padding.",
+    "Scale is applied to the entire native PNG. Sorting order increases toward viewer.",
+    "Room suggestions place shelves only; this is not the complete room manifest."
+  ],
+  "lampAssembly": {
+    "canvas": [
+      800,
+      1200
+    ],
+    "layers": [
+      {
+        "id": "lamp-cord",
+        "asset": "lamp-cord",
+        "position": [
+          234.525,
+          -14.463
+        ],
+        "scale": [
+          0.4590164,
+          0.2191313
+        ],
+        "sortingOrder": 0,
+        "contentBox": [
+          358,
+          0,
+          84.0,
+          449.0
+        ]
+      },
+      {
+        "id": "lamp-fixture-on",
+        "asset": "lamp-fixture-on",
+        "position": [
+          35.74,
+          390.222
+        ],
+        "scale": [
+          0.6086221,
+          0.6086221
+        ],
+        "sortingOrder": 1,
+        "contentBox": [
+          74.691,
+          431.0,
+          650.617,
+          720.0
+        ]
+      }
+    ],
+    "lightOrigin": [
+      400,
+      800
+    ],
+    "animation": "Rotate the common parent about the cord top. Add spill as a separate Unity lighting layer."
+  },
+  "typewriterAssembly": {
+    "canvas": [
+      1600,
+      1180
+    ],
+    "layers": [
+      {
+        "id": "typewriter-body",
+        "asset": "typewriter-body",
+        "position": [
+          172.592,
+          276.237
+        ],
+        "scale": [
+          0.8174692,
+          0.8174692
+        ],
+        "sortingOrder": 10,
+        "contentBox": [
+          211.013,
+          340.0,
+          1177.973,
+          730.0
+        ]
+      },
+      {
+        "id": "typewriter-paper",
+        "asset": "typewriter-paper",
+        "position": [
+          452.425,
+          3.484
+        ],
+        "scale": [
+          0.3443038,
+          0.3443038
+        ],
+        "sortingOrder": 0,
+        "contentBox": [
+          460.0,
+          25.175,
+          680.0,
+          229.651
+        ]
+      },
+      {
+        "id": "typewriter-carriage",
+        "asset": "typewriter-carriage",
+        "position": [
+          189.644,
+          89.873
+        ],
+        "scale": [
+          0.5566406,
+          0.5566406
+        ],
+        "sortingOrder": 5,
+        "contentBox": [
+          203.56,
+          155.0,
+          1192.881,
+          285.0
+        ]
+      },
+      {
+        "id": "key-1-01",
+        "asset": "typewriter-key-universal",
+        "position": [
+          355.101,
+          731.01
+        ],
+        "scale": [
+          0.0539155,
+          0.0539155
+        ],
+        "sortingOrder": 40,
+        "contentBox": [
+          372.3,
+          735.0,
+          65.399,
+          38.28
+        ]
+      },
+      {
+        "id": "key-1-02",
+        "asset": "typewriter-key-universal",
+        "position": [
+          434.101,
+          731.01
+        ],
+        "scale": [
+          0.0539155,
+          0.0539155
+        ],
+        "sortingOrder": 40,
+        "contentBox": [
+          451.3,
+          735.0,
+          65.399,
+          38.28
+        ]
+      },
+      {
+        "id": "key-1-03",
+        "asset": "typewriter-key-universal",
+        "position": [
+          513.101,
+          731.01
+        ],
+        "scale": [
+          0.0539155,
+          0.0539155
+        ],
+        "sortingOrder": 40,
+        "contentBox": [
+          530.3,
+          735.0,
+          65.399,
+          38.28
+        ]
+      },
+      {
+        "id": "key-1-04",
+        "asset": "typewriter-key-universal",
+        "position": [
+          592.101,
+          731.01
+        ],
+        "scale": [
+          0.0539155,
+          0.0539155
+        ],
+        "sortingOrder": 40,
+        "contentBox": [
+          609.3,
+          735.0,
+          65.399,
+          38.28
+        ]
+      },
+      {
+        "id": "key-1-05",
+        "asset": "typewriter-key-universal",
+        "position": [
+          671.101,
+          731.01
+        ],
+        "scale": [
+          0.0539155,
+          0.0539155
+        ],
+        "sortingOrder": 40,
+        "contentBox": [
+          688.3,
+          735.0,
+          65.399,
+          38.28
+        ]
+      },
+      {
+        "id": "key-1-06",
+        "asset": "typewriter-key-universal",
+        "position": [
+          750.101,
+          731.01
+        ],
+        "scale": [
+          0.0539155,
+          0.0539155
+        ],
+        "sortingOrder": 40,
+        "contentBox": [
+          767.3,
+          735.0,
+          65.399,
+          38.28
+        ]
+      },
+      {
+        "id": "key-1-07",
+        "asset": "typewriter-key-universal",
+        "position": [
+          829.101,
+          731.01
+        ],
+        "scale": [
+          0.0539155,
+          0.0539155
+        ],
+        "sortingOrder": 40,
+        "contentBox": [
+          846.3,
+          735.0,
+          65.399,
+          38.28
+        ]
+      },
+      {
+        "id": "key-1-08",
+        "asset": "typewriter-key-universal",
+        "position": [
+          908.101,
+          731.01
+        ],
+        "scale": [
+          0.0539155,
+          0.0539155
+        ],
+        "sortingOrder": 40,
+        "contentBox": [
+          925.3,
+          735.0,
+          65.399,
+          38.28
+        ]
+      },
+      {
+        "id": "key-1-09",
+        "asset": "typewriter-key-universal",
+        "position": [
+          987.101,
+          731.01
+        ],
+        "scale": [
+          0.0539155,
+          0.0539155
+        ],
+        "sortingOrder": 40,
+        "contentBox": [
+          1004.3,
+          735.0,
+          65.399,
+          38.28
+        ]
+      },
+      {
+        "id": "key-1-10",
+        "asset": "typewriter-key-universal",
+        "position": [
+          1066.101,
+          731.01
+        ],
+        "scale": [
+          0.0539155,
+          0.0539155
+        ],
+        "sortingOrder": 40,
+        "contentBox": [
+          1083.3,
+          735.0,
+          65.399,
+          38.28
+        ]
+      },
+      {
+        "id": "key-1-11",
+        "asset": "typewriter-key-universal",
+        "position": [
+          1145.101,
+          731.01
+        ],
+        "scale": [
+          0.0539155,
+          0.0539155
+        ],
+        "sortingOrder": 40,
+        "contentBox": [
+          1162.3,
+          735.0,
+          65.399,
+          38.28
+        ]
+      },
+      {
+        "id": "key-2-01",
+        "asset": "typewriter-key-universal",
+        "position": [
+          278.565,
+          813.648
+        ],
+        "scale": [
+          0.0588169,
+          0.0588169
+        ],
+        "sortingOrder": 41,
+        "contentBox": [
+          297.328,
+          818.0,
+          71.345,
+          41.76
+        ]
+      },
+      {
+        "id": "key-2-02",
+        "asset": "typewriter-key-universal",
+        "position": [
+          363.565,
+          813.648
+        ],
+        "scale": [
+          0.0588169,
+          0.0588169
+        ],
+        "sortingOrder": 41,
+        "contentBox": [
+          382.328,
+          818.0,
+          71.345,
+          41.76
+        ]
+      },
+      {
+        "id": "key-2-03",
+        "asset": "typewriter-key-universal",
+        "position": [
+          448.565,
+          813.648
+        ],
+        "scale": [
+          0.0588169,
+          0.0588169
+        ],
+        "sortingOrder": 41,
+        "contentBox": [
+          467.328,
+          818.0,
+          71.345,
+          41.76
+        ]
+      },
+      {
+        "id": "key-2-04",
+        "asset": "typewriter-key-universal",
+        "position": [
+          533.565,
+          813.648
+        ],
+        "scale": [
+          0.0588169,
+          0.0588169
+        ],
+        "sortingOrder": 41,
+        "contentBox": [
+          552.328,
+          818.0,
+          71.345,
+          41.76
+        ]
+      },
+      {
+        "id": "key-2-05",
+        "asset": "typewriter-key-universal",
+        "position": [
+          618.565,
+          813.648
+        ],
+        "scale": [
+          0.0588169,
+          0.0588169
+        ],
+        "sortingOrder": 41,
+        "contentBox": [
+          637.328,
+          818.0,
+          71.345,
+          41.76
+        ]
+      },
+      {
+        "id": "key-2-06",
+        "asset": "typewriter-key-universal",
+        "position": [
+          703.565,
+          813.648
+        ],
+        "scale": [
+          0.0588169,
+          0.0588169
+        ],
+        "sortingOrder": 41,
+        "contentBox": [
+          722.328,
+          818.0,
+          71.345,
+          41.76
+        ]
+      },
+      {
+        "id": "key-2-07",
+        "asset": "typewriter-key-universal",
+        "position": [
+          788.565,
+          813.648
+        ],
+        "scale": [
+          0.0588169,
+          0.0588169
+        ],
+        "sortingOrder": 41,
+        "contentBox": [
+          807.328,
+          818.0,
+          71.345,
+          41.76
+        ]
+      },
+      {
+        "id": "key-2-08",
+        "asset": "typewriter-key-universal",
+        "position": [
+          873.565,
+          813.648
+        ],
+        "scale": [
+          0.0588169,
+          0.0588169
+        ],
+        "sortingOrder": 41,
+        "contentBox": [
+          892.328,
+          818.0,
+          71.345,
+          41.76
+        ]
+      },
+      {
+        "id": "key-2-09",
+        "asset": "typewriter-key-universal",
+        "position": [
+          958.565,
+          813.648
+        ],
+        "scale": [
+          0.0588169,
+          0.0588169
+        ],
+        "sortingOrder": 41,
+        "contentBox": [
+          977.328,
+          818.0,
+          71.345,
+          41.76
+        ]
+      },
+      {
+        "id": "key-2-10",
+        "asset": "typewriter-key-universal",
+        "position": [
+          1043.565,
+          813.648
+        ],
+        "scale": [
+          0.0588169,
+          0.0588169
+        ],
+        "sortingOrder": 41,
+        "contentBox": [
+          1062.328,
+          818.0,
+          71.345,
+          41.76
+        ]
+      },
+      {
+        "id": "key-2-11",
+        "asset": "typewriter-key-universal",
+        "position": [
+          1128.565,
+          813.648
+        ],
+        "scale": [
+          0.0588169,
+          0.0588169
+        ],
+        "sortingOrder": 41,
+        "contentBox": [
+          1147.328,
+          818.0,
+          71.345,
+          41.76
+        ]
+      },
+      {
+        "id": "key-2-12",
+        "asset": "typewriter-key-universal",
+        "position": [
+          1213.565,
+          813.648
+        ],
+        "scale": [
+          0.0588169,
+          0.0588169
+        ],
+        "sortingOrder": 41,
+        "contentBox": [
+          1232.328,
+          818.0,
+          71.345,
+          41.76
+        ]
+      },
+      {
+        "id": "key-3-01",
+        "asset": "typewriter-key-universal",
+        "position": [
+          274.517,
+          897.164
+        ],
+        "scale": [
+          0.0653521,
+          0.0653521
+        ],
+        "sortingOrder": 42,
+        "contentBox": [
+          295.364,
+          902.0,
+          79.272,
+          46.4
+        ]
+      },
+      {
+        "id": "key-3-02",
+        "asset": "typewriter-key-universal",
+        "position": [
+          367.517,
+          897.164
+        ],
+        "scale": [
+          0.0653521,
+          0.0653521
+        ],
+        "sortingOrder": 42,
+        "contentBox": [
+          388.364,
+          902.0,
+          79.272,
+          46.4
+        ]
+      },
+      {
+        "id": "key-3-03",
+        "asset": "typewriter-key-universal",
+        "position": [
+          460.517,
+          897.164
+        ],
+        "scale": [
+          0.0653521,
+          0.0653521
+        ],
+        "sortingOrder": 42,
+        "contentBox": [
+          481.364,
+          902.0,
+          79.272,
+          46.4
+        ]
+      },
+      {
+        "id": "key-3-04",
+        "asset": "typewriter-key-universal",
+        "position": [
+          553.517,
+          897.164
+        ],
+        "scale": [
+          0.0653521,
+          0.0653521
+        ],
+        "sortingOrder": 42,
+        "contentBox": [
+          574.364,
+          902.0,
+          79.272,
+          46.4
+        ]
+      },
+      {
+        "id": "key-3-05",
+        "asset": "typewriter-key-universal",
+        "position": [
+          646.517,
+          897.164
+        ],
+        "scale": [
+          0.0653521,
+          0.0653521
+        ],
+        "sortingOrder": 42,
+        "contentBox": [
+          667.364,
+          902.0,
+          79.272,
+          46.4
+        ]
+      },
+      {
+        "id": "key-3-06",
+        "asset": "typewriter-key-universal",
+        "position": [
+          739.517,
+          897.164
+        ],
+        "scale": [
+          0.0653521,
+          0.0653521
+        ],
+        "sortingOrder": 42,
+        "contentBox": [
+          760.364,
+          902.0,
+          79.272,
+          46.4
+        ]
+      },
+      {
+        "id": "key-3-07",
+        "asset": "typewriter-key-universal",
+        "position": [
+          832.517,
+          897.164
+        ],
+        "scale": [
+          0.0653521,
+          0.0653521
+        ],
+        "sortingOrder": 42,
+        "contentBox": [
+          853.364,
+          902.0,
+          79.272,
+          46.4
+        ]
+      },
+      {
+        "id": "key-3-08",
+        "asset": "typewriter-key-universal",
+        "position": [
+          925.517,
+          897.164
+        ],
+        "scale": [
+          0.0653521,
+          0.0653521
+        ],
+        "sortingOrder": 42,
+        "contentBox": [
+          946.364,
+          902.0,
+          79.272,
+          46.4
+        ]
+      },
+      {
+        "id": "key-3-09",
+        "asset": "typewriter-key-universal",
+        "position": [
+          1018.517,
+          897.164
+        ],
+        "scale": [
+          0.0653521,
+          0.0653521
+        ],
+        "sortingOrder": 42,
+        "contentBox": [
+          1039.364,
+          902.0,
+          79.272,
+          46.4
+        ]
+      },
+      {
+        "id": "key-3-10",
+        "asset": "typewriter-key-universal",
+        "position": [
+          1111.517,
+          897.164
+        ],
+        "scale": [
+          0.0653521,
+          0.0653521
+        ],
+        "sortingOrder": 42,
+        "contentBox": [
+          1132.364,
+          902.0,
+          79.272,
+          46.4
+        ]
+      },
+      {
+        "id": "key-3-11",
+        "asset": "typewriter-key-universal",
+        "position": [
+          1204.517,
+          897.164
+        ],
+        "scale": [
+          0.0653521,
+          0.0653521
+        ],
+        "sortingOrder": 42,
+        "contentBox": [
+          1225.364,
+          902.0,
+          79.272,
+          46.4
+        ]
+      },
+      {
+        "id": "typewriter-spacebar",
+        "asset": "typewriter-spacebar",
+        "position": [
+          570.172,
+          907.742
+        ],
+        "scale": [
+          0.2119205,
+          0.2119205
+        ],
+        "sortingOrder": 50,
+        "contentBox": [
+          585.642,
+          955.0,
+          428.715,
+          64.0
+        ]
+      },
+      {
+        "id": "typewriter-return-lever",
+        "asset": "typewriter-return-lever",
+        "position": [
+          140.48,
+          149.324
+        ],
+        "scale": [
+          0.1367188,
+          0.1367188
+        ],
+        "sortingOrder": 6,
+        "contentBox": [
+          148.0,
+          163.406,
+          280.0,
+          72.188
+        ]
+      }
+    ],
+    "animation": {
+      "keyPress": "Move a key instance 5 design pixels downward; then restore.",
+      "carriage": "Move carriage, paper and return lever as one parent group.",
+      "paper": "Place printed glyphs in a separate clipped overlay on the blank sheet."
+    }
+  }
+}

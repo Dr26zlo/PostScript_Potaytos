@@ -1,0 +1,2003 @@
+{
+  "scope": "Сборник существовавших файлов. Новые изображения для архива не генерировались.",
+  "items": [
+    {
+      "file": "PNG/Current/lamp/lamp-cord.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Standalone-Parts-v2/PNG/lamp/lamp-cord.png",
+      "edition": "Новые самостоятельные генерации",
+      "kind": "object",
+      "size": [
+        724,
+        2172
+      ],
+      "alpha": true,
+      "sha256": "df53841e03b35d970a814dfeaadf6dd776249ed96da3ee28ef9cd99d83b1788a"
+    },
+    {
+      "file": "PNG/Current/lamp/lamp-fixture-on.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Standalone-Parts-v2/PNG/lamp/lamp-fixture-on.png",
+      "edition": "Новые самостоятельные генерации",
+      "kind": "object",
+      "size": [
+        1199,
+        1312
+      ],
+      "alpha": true,
+      "sha256": "755852ef01f05b7b06ea0f932c0424dadf00c21349c2586899ab1cccc0e3ba9f"
+    },
+    {
+      "file": "PNG/Current/shelves/shelf-left-sill.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Standalone-Parts-v2/PNG/shelves/shelf-left-sill.png",
+      "edition": "Новые самостоятельные генерации",
+      "kind": "object",
+      "size": [
+        2172,
+        724
+      ],
+      "alpha": true,
+      "sha256": "f79f6bbe68190789c9b24ffd4da7137e0cf10918fad75ac9740bb359479f3741"
+    },
+    {
+      "file": "PNG/Current/shelves/shelf-left-small.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Standalone-Parts-v2/PNG/shelves/shelf-left-small.png",
+      "edition": "Новые самостоятельные генерации",
+      "kind": "object",
+      "size": [
+        2172,
+        724
+      ],
+      "alpha": true,
+      "sha256": "7ae987d618e25969c537a6957984de3a80f039e6299820f4cf54864f3bc0ef7f"
+    },
+    {
+      "file": "PNG/Current/shelves/shelf-left-upper.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Standalone-Parts-v2/PNG/shelves/shelf-left-upper.png",
+      "edition": "Новые самостоятельные генерации",
+      "kind": "object",
+      "size": [
+        2172,
+        724
+      ],
+      "alpha": true,
+      "sha256": "19bcad558d690fee5039d1f36d8643070e1b79274df8e572856d80f654a12f65"
+    },
+    {
+      "file": "PNG/Current/shelves/shelf-right-eye-level.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Standalone-Parts-v2/PNG/shelves/shelf-right-eye-level.png",
+      "edition": "Новые самостоятельные генерации",
+      "kind": "object",
+      "size": [
+        2172,
+        724
+      ],
+      "alpha": true,
+      "sha256": "3d61e96df7603220a674965b56159de37e21a44a372aa644a60aa617794daf84"
+    },
+    {
+      "file": "PNG/Current/shelves/shelf-right-lower.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Standalone-Parts-v2/PNG/shelves/shelf-right-lower.png",
+      "edition": "Новые самостоятельные генерации",
+      "kind": "object",
+      "size": [
+        2172,
+        724
+      ],
+      "alpha": true,
+      "sha256": "523fa0811c086290f94c466030b37949e33a3834970750781ee92f249ebf62ed"
+    },
+    {
+      "file": "PNG/Current/shelves/shelf-right-middle.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Standalone-Parts-v2/PNG/shelves/shelf-right-middle.png",
+      "edition": "Новые самостоятельные генерации",
+      "kind": "object",
+      "size": [
+        2172,
+        724
+      ],
+      "alpha": true,
+      "sha256": "e9259e60882bdfbacd4467bfc6fabb1b4afca01a6d21e30dee87c5b4542f82ac"
+    },
+    {
+      "file": "PNG/Current/shelves/shelf-right-upper.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Standalone-Parts-v2/PNG/shelves/shelf-right-upper.png",
+      "edition": "Новые самостоятельные генерации",
+      "kind": "object",
+      "size": [
+        2172,
+        724
+      ],
+      "alpha": true,
+      "sha256": "fd93415a92b341459633dbf5956376a240beab398aa2698e824a107f46cce5c2"
+    },
+    {
+      "file": "PNG/Current/typewriter/typewriter-body.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Standalone-Parts-v2/PNG/typewriter/typewriter-body.png",
+      "edition": "Новые самостоятельные генерации",
+      "kind": "object",
+      "size": [
+        1536,
+        1024
+      ],
+      "alpha": true,
+      "sha256": "a0e4fd05de27535fb924f7ea9710f2f738950178f57cdd3578d67c0523304f42"
+    },
+    {
+      "file": "PNG/Current/typewriter/typewriter-carriage.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Standalone-Parts-v2/PNG/typewriter/typewriter-carriage.png",
+      "edition": "Новые самостоятельные генерации",
+      "kind": "object",
+      "size": [
+        2193,
+        717
+      ],
+      "alpha": true,
+      "sha256": "dd69ad759d3ff1cf8bcd0dcaea1a0667491cb69eaa5bfc8309675b3b17a80791"
+    },
+    {
+      "file": "PNG/Current/typewriter/typewriter-key-universal.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Standalone-Parts-v2/PNG/typewriter/typewriter-key-universal.png",
+      "edition": "Новые самостоятельные генерации",
+      "kind": "object",
+      "size": [
+        1859,
+        846
+      ],
+      "alpha": true,
+      "sha256": "bbf5112cde1a0a45ad324ed7f3b82c7c183cadd039f225e17bc1f24a15072b3c"
+    },
+    {
+      "file": "PNG/Current/typewriter/typewriter-paper.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Standalone-Parts-v2/PNG/typewriter/typewriter-paper.png",
+      "edition": "Новые самостоятельные генерации",
+      "kind": "object",
+      "size": [
+        2022,
+        778
+      ],
+      "alpha": true,
+      "sha256": "151e2ad65556759bc22bc34026f9be0567349ea5793b3e6ffa42600fc53195d3"
+    },
+    {
+      "file": "PNG/Current/typewriter/typewriter-return-lever.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Standalone-Parts-v2/PNG/typewriter/typewriter-return-lever.png",
+      "edition": "Новые самостоятельные генерации",
+      "kind": "object",
+      "size": [
+        2172,
+        724
+      ],
+      "alpha": true,
+      "sha256": "0e7dd6df4f0bb6307da9b9645056430be0c3b7b7933c68e94709a5249404634c"
+    },
+    {
+      "file": "PNG/Current/typewriter/typewriter-spacebar.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Standalone-Parts-v2/PNG/typewriter/typewriter-spacebar.png",
+      "edition": "Новые самостоятельные генерации",
+      "kind": "object",
+      "size": [
+        2170,
+        725
+      ],
+      "alpha": true,
+      "sha256": "3c01968920816cdb6c97dc48fb8e76b1424853384f092fdd531fb21618124784"
+    },
+    {
+      "file": "PNG/Current/textured-bases/clock-textured-base-v2.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Hatching-Practice/clock-textured-base-v2.png",
+      "edition": "Свежая фактурная заготовка под ручную штриховку",
+      "kind": "object",
+      "size": [
+        1086,
+        1448
+      ],
+      "alpha": true,
+      "sha256": "331b4a9d334ae307ef0e4ade9b0f53b76b7a1019b0d19f218df897ea1237f18a"
+    },
+    {
+      "file": "PNG/Current/textured-bases/mug-textured-base-v2.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Hatching-Practice/mug-textured-base-v2.png",
+      "edition": "Свежая фактурная заготовка под ручную штриховку",
+      "kind": "object",
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": true,
+      "sha256": "a292f2948fbf0967a53785d990a11806fc56466fc0ecaf9fcf81b2b2905f8ab9"
+    },
+    {
+      "file": "PNG/Earlier/Furniture/archive-cabinet.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Furniture/archive-cabinet.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        376,
+        459
+      ],
+      "alpha": true,
+      "sha256": "9a11b80b2d31606e0a80af6b75c4ef665854727fd263e29e483504822da2b282"
+    },
+    {
+      "file": "PNG/Earlier/Furniture/archive-drawer-front.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Furniture/archive-drawer-front.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        326,
+        165
+      ],
+      "alpha": true,
+      "sha256": "bd427a0e234622d14f6bc99d4db1fd80eea8779ee776f9e11120964b2bc4d804"
+    },
+    {
+      "file": "PNG/Earlier/Furniture/archive-drawer-open.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Furniture/archive-drawer-open.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        422,
+        300
+      ],
+      "alpha": true,
+      "sha256": "03a15debf2161be47475e6c2bbe514c3fb6ed623dd898bdf7fb379df00f68d46"
+    },
+    {
+      "file": "PNG/Earlier/Furniture/desk.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Furniture/desk.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        1753,
+        315
+      ],
+      "alpha": true,
+      "sha256": "bfaa1eafdefcc801e786b7d08996ff89ddd43bc3e64fe8f72e4ced4c19ad2866"
+    },
+    {
+      "file": "PNG/Earlier/Furniture/radiator.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Furniture/radiator.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        429,
+        402
+      ],
+      "alpha": true,
+      "sha256": "fc0680aebd250524b4c1e0ce4243f1f4f99d2dd729fcfdf19703377f94a4eaba"
+    },
+    {
+      "file": "PNG/Earlier/Furniture/step-ladder.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Furniture/step-ladder.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        317,
+        454
+      ],
+      "alpha": true,
+      "sha256": "6390ee285d95756d876d12a81448d3bf43e72d14d502902f7e46d901c046b302"
+    },
+    {
+      "file": "PNG/Earlier/Furniture/under-desk-bucket.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Furniture/under-desk-bucket.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        296,
+        346
+      ],
+      "alpha": true,
+      "sha256": "255c3257baa03d2963a99cb526261ea135b09407a32a7a3779a7995f283e5ba5"
+    },
+    {
+      "file": "PNG/Earlier/Furniture/visitor-chair.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Furniture/visitor-chair.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        307,
+        481
+      ],
+      "alpha": true,
+      "sha256": "19b16cdaa477e137fb28e19588a7f1e4d1b31e4a2dcac43b5f9cf1a1ba9de102"
+    },
+    {
+      "file": "PNG/Earlier/Props/brass-birdcage.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Props/brass-birdcage.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        219,
+        346
+      ],
+      "alpha": true,
+      "sha256": "0589b6923530a160711d6e14340fb752b6f93c9961d8985eff27cb793dd76620"
+    },
+    {
+      "file": "PNG/Earlier/Props/broken-model-ship.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Props/broken-model-ship.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        344,
+        329
+      ],
+      "alpha": true,
+      "sha256": "f94fcefaebc9f1e334179840c8ea9abcceae0ef38b581c63098311e3f6f01819"
+    },
+    {
+      "file": "PNG/Earlier/Props/button-jar.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Props/button-jar.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        234,
+        318
+      ],
+      "alpha": true,
+      "sha256": "2e537cf5e15ea52cf7debd932dca4786995cfe2ac019f3a9da1e4298d84ffb4d"
+    },
+    {
+      "file": "PNG/Earlier/Props/flower-under-glass.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Props/flower-under-glass.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        237,
+        345
+      ],
+      "alpha": true,
+      "sha256": "ac1dd94f6a5ab1197c3ad920e855445b4d5139fda20507264f58c33ed1429217"
+    },
+    {
+      "file": "PNG/Earlier/Props/folded-umbrella.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Props/folded-umbrella.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        290,
+        360
+      ],
+      "alpha": true,
+      "sha256": "30ae6958aadf64481c107b2e9af0231eeaa671e8ba161c24fe4c5ba402bfa9ce"
+    },
+    {
+      "file": "PNG/Earlier/Props/globe.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Props/globe.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        273,
+        361
+      ],
+      "alpha": true,
+      "sha256": "ac37223bb714b9135b042e5f0b9069b60d912699427d89b468aa7fa2870131db"
+    },
+    {
+      "file": "PNG/Earlier/Props/hourglass.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Props/hourglass.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        202,
+        341
+      ],
+      "alpha": true,
+      "sha256": "c8d4f26b1a304a32bd9ab513e1e1db2860a4ce95cf3bfa1576d458c5588140dd"
+    },
+    {
+      "file": "PNG/Earlier/Props/inkwell.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Props/inkwell.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        249,
+        265
+      ],
+      "alpha": true,
+      "sha256": "b4b79bcbc00198cb8c8964beb5e70e472334298b5681c67401976184c83c7702"
+    },
+    {
+      "file": "PNG/Earlier/Props/mended-teddy.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Props/mended-teddy.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        284,
+        355
+      ],
+      "alpha": true,
+      "sha256": "dfc959623c51cbe968580fe1df875df2529a233e4a1296d49c28a6b6a0d7a81d"
+    },
+    {
+      "file": "PNG/Earlier/Props/old-suitcase.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Props/old-suitcase.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        362,
+        263
+      ],
+      "alpha": true,
+      "sha256": "f75c0954ebe6e71262980844f4477b92309b0f4c81932f5233975e22ea66a2d6"
+    },
+    {
+      "file": "PNG/Earlier/Props/oval-frame.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Props/oval-frame.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        273,
+        362
+      ],
+      "alpha": true,
+      "sha256": "77d60534f227cf304fdf74673f48e21d787bb5723cff4cfbb9047cda51e7cf89"
+    },
+    {
+      "file": "PNG/Earlier/Props/photo-bundle.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Props/photo-bundle.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        351,
+        320
+      ],
+      "alpha": true,
+      "sha256": "74a784afabebe2ece173388db0240d601e79722170a7beb85063d7857dea8c71"
+    },
+    {
+      "file": "PNG/Earlier/Props/quill.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Props/quill.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        338,
+        327
+      ],
+      "alpha": true,
+      "sha256": "a40b3ea59c12bf510fc3d5f4fde42efa66d2294c351b1e205e3ed5e6f7de2378"
+    },
+    {
+      "file": "PNG/Earlier/Props/repaired-jug.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Props/repaired-jug.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        295,
+        317
+      ],
+      "alpha": true,
+      "sha256": "642ac53e4234753fe015c120ff64106596f6ac34299e137abc33a1e9c88105be"
+    },
+    {
+      "file": "PNG/Earlier/Props/ribbon-spool.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Props/ribbon-spool.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        286,
+        226
+      ],
+      "alpha": true,
+      "sha256": "2cfecaae4f7822c0a7476956d0e2b4c2409acf8e3432705e23479b955fe5c8fe"
+    },
+    {
+      "file": "PNG/Earlier/Props/rusted-gear.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Props/rusted-gear.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        294,
+        305
+      ],
+      "alpha": true,
+      "sha256": "5dc01df90c171bb9e94a9f524c99044f418db1c76b8cd9eb7fccc4f12b8a5dd4"
+    },
+    {
+      "file": "PNG/Earlier/Props/scissors.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Props/scissors.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        316,
+        325
+      ],
+      "alpha": true,
+      "sha256": "f9bcf9fd4a668ffc555f7ec475acd03990e74a842b62e0f63bdf28fa65eb5095"
+    },
+    {
+      "file": "PNG/Earlier/Props/stapled-cup.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Props/stapled-cup.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        268,
+        235
+      ],
+      "alpha": true,
+      "sha256": "4469aeb165769c5b66cb7aef14c3a81ed1e287ffa1969a35ddf412aa8ffafbe2"
+    },
+    {
+      "file": "PNG/Earlier/Props/tagged-tin.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Props/tagged-tin.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        338,
+        257
+      ],
+      "alpha": true,
+      "sha256": "db47da371c740a50cc25eb691b5ececa9d95110e6eee6c229719052ce6395bf2"
+    },
+    {
+      "file": "PNG/Earlier/Props/tied-letters.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Props/tied-letters.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        329,
+        279
+      ],
+      "alpha": true,
+      "sha256": "1c94fc1c01c18b2ca9fe6174bafb1db852aea1489aa594a1bf7ad82148b99b29"
+    },
+    {
+      "file": "PNG/Earlier/Props/twine-ball.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Props/twine-ball.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        288,
+        280
+      ],
+      "alpha": true,
+      "sha256": "174a2d4a77e6524bcaf55accaafb4655be66896fe464d58ef7e52c6d42d3ac68"
+    },
+    {
+      "file": "PNG/Earlier/Props/wilting-plant.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Props/wilting-plant.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        284,
+        330
+      ],
+      "alpha": true,
+      "sha256": "fd904e73f9df07ac8f5b4a7ec18bd9203980ce848e9dc97c88dec107a9d555c4"
+    },
+    {
+      "file": "PNG/Earlier/Telephone/body.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Telephone/body.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        732,
+        612
+      ],
+      "alpha": true,
+      "sha256": "193cd847d1cd4691eb29a996af22cd7e879ab969eed7c3d912b37c74f65cc1fa"
+    },
+    {
+      "file": "PNG/Earlier/Telephone/cord.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Telephone/cord.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        379,
+        340
+      ],
+      "alpha": true,
+      "sha256": "fd92f6ea1e88ebe4d672521b3f518138fb58128efd2d69c78e340f559de42723"
+    },
+    {
+      "file": "PNG/Earlier/Telephone/dial.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Telephone/dial.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        421,
+        435
+      ],
+      "alpha": true,
+      "sha256": "0c897602c70ca8c6120de889b28e6794349ef255576ef790b566aca47e5d403a"
+    },
+    {
+      "file": "PNG/Earlier/Telephone/finger-stop.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Telephone/finger-stop.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        153,
+        171
+      ],
+      "alpha": true,
+      "sha256": "78cfd7554407e205b41b66480a82ce9b3c67058b7ed47a151535ad53d2db6496"
+    },
+    {
+      "file": "PNG/Earlier/Telephone/handset.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Telephone/handset.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        648,
+        279
+      ],
+      "alpha": true,
+      "sha256": "b410de5ab9346f864e8416a8b38467b1e53021e4fb36a531d295cc22dbad31b0"
+    },
+    {
+      "file": "PNG/Earlier/Telephone/number-plate.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Telephone/number-plate.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        402,
+        416
+      ],
+      "alpha": true,
+      "sha256": "f488d8a125aaa6576868e3cd23a1ada7b5302825bbe21fe18ada7138e3bfb94a"
+    },
+    {
+      "file": "PNG/Earlier/Clues/anchor-button.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Clues/anchor-button.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        262,
+        274
+      ],
+      "alpha": true,
+      "sha256": "d45e1227495568cfed7da0ab4f9fbd81d353fe8e48950802e8304dd558828840"
+    },
+    {
+      "file": "PNG/Earlier/Clues/blank-letter.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Clues/blank-letter.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        302,
+        384
+      ],
+      "alpha": true,
+      "sha256": "96182a86e41df206a981443013a5eb5073c1219012cdd72ccb65d6b46d1bba0d"
+    },
+    {
+      "file": "PNG/Earlier/Clues/board-card.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Clues/board-card.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        355,
+        232
+      ],
+      "alpha": true,
+      "sha256": "00abf3812cb916a7bdf32fe4bece500ae17b11d4a614e4ff878697e7d312e2cc"
+    },
+    {
+      "file": "PNG/Earlier/Clues/broken-key-bit.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Clues/broken-key-bit.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        135,
+        109
+      ],
+      "alpha": true,
+      "sha256": "609007261b51ed46d6cbafc869a5c83a4ae4ad3e505b23e35cd3fc03af9e0168"
+    },
+    {
+      "file": "PNG/Earlier/Clues/broken-key-bow.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Clues/broken-key-bow.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        258,
+        192
+      ],
+      "alpha": true,
+      "sha256": "baaa0b835ed3eec97cd5f612edeb72589b424b8f224d4f49fa7e1b7ae14d2682"
+    },
+    {
+      "file": "PNG/Earlier/Clues/envelope.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Clues/envelope.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        358,
+        237
+      ],
+      "alpha": true,
+      "sha256": "c610c6a2e2d21c5e43ee472503eb99b8a8a268949ec2016356ef3d56c82cc977"
+    },
+    {
+      "file": "PNG/Earlier/Clues/hour-hand.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Clues/hour-hand.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        48,
+        165
+      ],
+      "alpha": true,
+      "sha256": "bc783644a3b4d23ff075667c87f1ac054e97051e3f2b7422e8ca29776285bcde"
+    },
+    {
+      "file": "PNG/Earlier/Clues/minute-hand.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Clues/minute-hand.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        47,
+        247
+      ],
+      "alpha": true,
+      "sha256": "acf01b054dbf33089c3250d4ce9d964e5691fa5c5b69bc20173ca2f83ab13154"
+    },
+    {
+      "file": "PNG/Earlier/Clues/restored-letter.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Clues/restored-letter.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        310,
+        364
+      ],
+      "alpha": true,
+      "sha256": "c3be85a16ad56ec8547cc38a7c6417b691222565695a58291205f887b11c6df5"
+    },
+    {
+      "file": "PNG/Earlier/Clues/torn-letter-left.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Clues/torn-letter-left.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        171,
+        363
+      ],
+      "alpha": true,
+      "sha256": "49c0aebc9e6082a64161c0c248727746b2fec462a6c907bf5639b0e115a40e04"
+    },
+    {
+      "file": "PNG/Earlier/Clues/torn-letter-right.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Clues/torn-letter-right.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        171,
+        363
+      ],
+      "alpha": true,
+      "sha256": "bf00a3a4837283e3da46cec4cd4b2703027cb2927a0282fe86749dc44806ba3c"
+    },
+    {
+      "file": "PNG/Earlier/Clues/watch-pin.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Clues/watch-pin.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        46,
+        46
+      ],
+      "alpha": true,
+      "sha256": "80a04c56b9554400ed5a14121dbb08424087e949d02c2c234d896455953ebe78"
+    },
+    {
+      "file": "PNG/Earlier/Clues/watch.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Clues/watch.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        306,
+        411
+      ],
+      "alpha": true,
+      "sha256": "607a41ab5ea3c0f7313fc6be22c9922866f6634a009aa4fdc1ee05db2e6ea742"
+    },
+    {
+      "file": "PNG/Earlier/HumanVisitor/boot-a.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/HumanVisitor/boot-a.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        149,
+        145
+      ],
+      "alpha": true,
+      "sha256": "ab36e3c86a2006e31453f07f111e035f01ebd799baf4a0a697208d38d981e0c2"
+    },
+    {
+      "file": "PNG/Earlier/HumanVisitor/boot-b.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/HumanVisitor/boot-b.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        145,
+        146
+      ],
+      "alpha": true,
+      "sha256": "8b815c9ee8b311869725809347c98e7e43d892ca603becee636d22963992c896"
+    },
+    {
+      "file": "PNG/Earlier/HumanVisitor/brow-a.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/HumanVisitor/brow-a.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        70,
+        46
+      ],
+      "alpha": true,
+      "sha256": "510b3c4e37598c7d3b1537062aef73c61986669533f244b3393d21354c5441e2"
+    },
+    {
+      "file": "PNG/Earlier/HumanVisitor/brow-b.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/HumanVisitor/brow-b.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        74,
+        46
+      ],
+      "alpha": true,
+      "sha256": "a4c3536dbafeed3bbab8cd4f23fa4c1dfe358ba2e57aa007942158e623a7a615"
+    },
+    {
+      "file": "PNG/Earlier/HumanVisitor/eye-alert-a.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/HumanVisitor/eye-alert-a.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        71,
+        90
+      ],
+      "alpha": true,
+      "sha256": "f859d04395769ee681bfeed0b16d47474d833fd55902bcc33f882f61c60a948a"
+    },
+    {
+      "file": "PNG/Earlier/HumanVisitor/eye-alert-b.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/HumanVisitor/eye-alert-b.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        74,
+        91
+      ],
+      "alpha": true,
+      "sha256": "d549c74be0b798455335d6a3685416bd7bc9eb3871c218756cc8be14dfac3285"
+    },
+    {
+      "file": "PNG/Earlier/HumanVisitor/eye-blink-a.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/HumanVisitor/eye-blink-a.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        74,
+        72
+      ],
+      "alpha": true,
+      "sha256": "6640bd6652d191014c1fe7207553e8721091dc676ba78fec9a8199eac7551ee4"
+    },
+    {
+      "file": "PNG/Earlier/HumanVisitor/eye-blink-b.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/HumanVisitor/eye-blink-b.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        75,
+        72
+      ],
+      "alpha": true,
+      "sha256": "6a2de180e28e9c3aea8f260cc69201bfc9f2357432d1becd1798b26e97f9291c"
+    },
+    {
+      "file": "PNG/Earlier/HumanVisitor/eye-neutral-a.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/HumanVisitor/eye-neutral-a.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        73,
+        93
+      ],
+      "alpha": true,
+      "sha256": "695ddd5d1dba35cf6ca0deb5886b640e0e9a1ee5304015509e813c59fdb714f0"
+    },
+    {
+      "file": "PNG/Earlier/HumanVisitor/eye-neutral-b.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/HumanVisitor/eye-neutral-b.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        75,
+        93
+      ],
+      "alpha": true,
+      "sha256": "174afcd4042cd11c46b9e2972fa0f6db6259eba0558efab9ee56a2ab194a9283"
+    },
+    {
+      "file": "PNG/Earlier/HumanVisitor/hand-a.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/HumanVisitor/hand-a.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        117,
+        115
+      ],
+      "alpha": true,
+      "sha256": "6ab24940c44c92fb80d28d40508fecaa267035021792091ee72dbb513b658ba3"
+    },
+    {
+      "file": "PNG/Earlier/HumanVisitor/hand-b.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/HumanVisitor/hand-b.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        117,
+        117
+      ],
+      "alpha": true,
+      "sha256": "95d023efabad4be532684292741a19184db53c7a891886155a0a4fd580ef8a97"
+    },
+    {
+      "file": "PNG/Earlier/HumanVisitor/head-neck.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/HumanVisitor/head-neck.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        233,
+        268
+      ],
+      "alpha": true,
+      "sha256": "4dcd5f9c82816fd80d09fb70fe439e39aab323e9d568a37cc5b265b498e7c6fc"
+    },
+    {
+      "file": "PNG/Earlier/HumanVisitor/leg-bent-a.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/HumanVisitor/leg-bent-a.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        182,
+        227
+      ],
+      "alpha": true,
+      "sha256": "64ac1338e59f90ef24e3cabde5f655f3c5501535f9b230d8588cbbe48b6e5774"
+    },
+    {
+      "file": "PNG/Earlier/HumanVisitor/leg-bent-b.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/HumanVisitor/leg-bent-b.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        178,
+        228
+      ],
+      "alpha": true,
+      "sha256": "ff77f23fd1d237120865d0738b4f77e53fc7b3caed8278d6538aad9a0c9fb48e"
+    },
+    {
+      "file": "PNG/Earlier/HumanVisitor/mouth-closed.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/HumanVisitor/mouth-closed.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        80,
+        32
+      ],
+      "alpha": true,
+      "sha256": "2cff87b3270362c4f53be1c184daa0a785ad4273c07c90fff7c90a3b950d731d"
+    },
+    {
+      "file": "PNG/Earlier/HumanVisitor/mouth-open.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/HumanVisitor/mouth-open.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        71,
+        48
+      ],
+      "alpha": true,
+      "sha256": "91cd3041ac50091e228a43a5b48eb497bbaa5cb05d22b02149f9fc2973f47a0d"
+    },
+    {
+      "file": "PNG/Earlier/HumanVisitor/shin-a.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/HumanVisitor/shin-a.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        85,
+        281
+      ],
+      "alpha": true,
+      "sha256": "4efbe6125db62ec6306dea700e68f61b0e0df9dab973260508623d1a1903711f"
+    },
+    {
+      "file": "PNG/Earlier/HumanVisitor/shin-b.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/HumanVisitor/shin-b.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        77,
+        269
+      ],
+      "alpha": true,
+      "sha256": "57fe07ea82ebbc27f2af39b4eec7ca67c9f33ad2248b55cdbf1262207fe9f6fa"
+    },
+    {
+      "file": "PNG/Earlier/HumanVisitor/sleeve-bent-a.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/HumanVisitor/sleeve-bent-a.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        187,
+        199
+      ],
+      "alpha": true,
+      "sha256": "bd589009a780f14484a9f3c3176bf27db8afa0c343d7d859b97ff6cb19cef2b5"
+    },
+    {
+      "file": "PNG/Earlier/HumanVisitor/sleeve-bent-b.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/HumanVisitor/sleeve-bent-b.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        166,
+        196
+      ],
+      "alpha": true,
+      "sha256": "0a8b5df6e3e02c7088181651768fa10725f0c81dd60724d6e18cafaf3d9afe22"
+    },
+    {
+      "file": "PNG/Earlier/HumanVisitor/sleeve-straight-a.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/HumanVisitor/sleeve-straight-a.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        90,
+        257
+      ],
+      "alpha": true,
+      "sha256": "0152d9d463f7bc66fbf6319a232cf10ba79f04f0d14f62f2b4c0819688cbf04f"
+    },
+    {
+      "file": "PNG/Earlier/HumanVisitor/sleeve-straight-b.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/HumanVisitor/sleeve-straight-b.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        82,
+        248
+      ],
+      "alpha": true,
+      "sha256": "a5ed56121f8265787135e612a8dffabb4bee2a3ecc780c2ea55e5d1b503146e0"
+    },
+    {
+      "file": "PNG/Earlier/HumanVisitor/torso.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/HumanVisitor/torso.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        158,
+        305
+      ],
+      "alpha": true,
+      "sha256": "a3a35de3b34b88a78a6f987fb2298f9c2069e600a7e2512460688a544c53bd75"
+    },
+    {
+      "file": "PNG/Earlier/CrowVisitor/bent-sleeve-a.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/CrowVisitor/bent-sleeve-a.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        210,
+        183
+      ],
+      "alpha": true,
+      "sha256": "0877ee90e889e0ac9ffaf1be5d73ad182db0be275af4eb3ccd8aeaf815b8d59b"
+    },
+    {
+      "file": "PNG/Earlier/CrowVisitor/bent-sleeve-b.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/CrowVisitor/bent-sleeve-b.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        197,
+        179
+      ],
+      "alpha": true,
+      "sha256": "b4a3ef5743fd7f4b5c5ddbbeda9e4b4c3acf866c8f7d366f50bd091227013875"
+    },
+    {
+      "file": "PNG/Earlier/CrowVisitor/boot-a.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/CrowVisitor/boot-a.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        155,
+        151
+      ],
+      "alpha": true,
+      "sha256": "dabcfcddd0e620696d4539662b203559015475c44b567c1502f3b13ed850cf4f"
+    },
+    {
+      "file": "PNG/Earlier/CrowVisitor/boot-b.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/CrowVisitor/boot-b.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        153,
+        149
+      ],
+      "alpha": true,
+      "sha256": "21ad5c581dbd7691ad5932d2246a0dc4880e64c55cbe5232fb8297d67426305d"
+    },
+    {
+      "file": "PNG/Earlier/CrowVisitor/brow-a.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/CrowVisitor/brow-a.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        126,
+        65
+      ],
+      "alpha": true,
+      "sha256": "65520c16f0b9cbffcb045cefebd7dff9fa41d1b1544d2fca23ded8669ee265a0"
+    },
+    {
+      "file": "PNG/Earlier/CrowVisitor/brow-b.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/CrowVisitor/brow-b.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        128,
+        62
+      ],
+      "alpha": true,
+      "sha256": "aafdbe936d5f92d7e3bf9b937184d14a043815333561954e4a6eb8302a8b40b5"
+    },
+    {
+      "file": "PNG/Earlier/CrowVisitor/coat-torso.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/CrowVisitor/coat-torso.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        251,
+        383
+      ],
+      "alpha": true,
+      "sha256": "4729c5677e6c482576dddb49a0d59ae420dffb9418156252d1293407c0c30004"
+    },
+    {
+      "file": "PNG/Earlier/CrowVisitor/eye-blink-a.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/CrowVisitor/eye-blink-a.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        103,
+        82
+      ],
+      "alpha": true,
+      "sha256": "f6ec0d83e52d4d7d0ba6e8df93e5122d7934501597b980f6d16323e654420089"
+    },
+    {
+      "file": "PNG/Earlier/CrowVisitor/eye-blink-b.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/CrowVisitor/eye-blink-b.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        107,
+        84
+      ],
+      "alpha": true,
+      "sha256": "cb6c8e7f41ba691eefb02bb60a5afa2a3e14fea1ed754c2e6f9699192c4dc54b"
+    },
+    {
+      "file": "PNG/Earlier/CrowVisitor/eye-neutral-a.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/CrowVisitor/eye-neutral-a.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        97,
+        112
+      ],
+      "alpha": true,
+      "sha256": "c102231d3bee9a9aacf5591b195c59c909ac5021436e4531c7a306d14c24a876"
+    },
+    {
+      "file": "PNG/Earlier/CrowVisitor/eye-neutral-b.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/CrowVisitor/eye-neutral-b.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        99,
+        113
+      ],
+      "alpha": true,
+      "sha256": "c13f2c0032bdf2b8b0995e7220888442c13be7c28696599ad52aafa65e1f238e"
+    },
+    {
+      "file": "PNG/Earlier/CrowVisitor/hand-a.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/CrowVisitor/hand-a.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        131,
+        131
+      ],
+      "alpha": true,
+      "sha256": "2ad769e2582839967a25159565f167d320a4a19838f519eb2a7b389f7692fa37"
+    },
+    {
+      "file": "PNG/Earlier/CrowVisitor/hand-b.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/CrowVisitor/hand-b.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        130,
+        138
+      ],
+      "alpha": true,
+      "sha256": "37fc4ed3149c33ff3f8f1c9ff8d70d36fa0255450ff0cbc03896237a31ebe623"
+    },
+    {
+      "file": "PNG/Earlier/CrowVisitor/head.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/CrowVisitor/head.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        281,
+        249
+      ],
+      "alpha": true,
+      "sha256": "a3be6263d9d2ae53270871247c8aa677c5e0bf47c68df64854c082f8b0e95737"
+    },
+    {
+      "file": "PNG/Earlier/CrowVisitor/leg-bent-a.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/CrowVisitor/leg-bent-a.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        218,
+        220
+      ],
+      "alpha": true,
+      "sha256": "eb0d7d687cd4e50618680df471059eda9f4ae71ca4df9572ab672d476445fd37"
+    },
+    {
+      "file": "PNG/Earlier/CrowVisitor/leg-bent-b.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/CrowVisitor/leg-bent-b.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        218,
+        218
+      ],
+      "alpha": true,
+      "sha256": "5587c2a20e1f4020554009835a88aebe3223cb14cc0929d590039cadab3ce730"
+    },
+    {
+      "file": "PNG/Earlier/CrowVisitor/lower-beak.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/CrowVisitor/lower-beak.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        141,
+        106
+      ],
+      "alpha": true,
+      "sha256": "efdd3a45402fd449634f1364a9369bfef1de8f1551f8bb98847e34256e5111a3"
+    },
+    {
+      "file": "PNG/Earlier/CrowVisitor/scarf.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/CrowVisitor/scarf.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        184,
+        275
+      ],
+      "alpha": true,
+      "sha256": "5b93116e75b51baa7c4e446d366961b405831d831f9d70836046eedeec0eba13"
+    },
+    {
+      "file": "PNG/Earlier/CrowVisitor/shin-a.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/CrowVisitor/shin-a.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        89,
+        231
+      ],
+      "alpha": true,
+      "sha256": "b452d2824cb4aa6b3a683615684bea3b15a1ccb346add4bc2d7dcd0b11212501"
+    },
+    {
+      "file": "PNG/Earlier/CrowVisitor/shin-b.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/CrowVisitor/shin-b.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        90,
+        230
+      ],
+      "alpha": true,
+      "sha256": "dc89017402849ff93bccc04b7cdbf5ddee91de3be5068b25d696e6d5d11cd60d"
+    },
+    {
+      "file": "PNG/Earlier/CrowVisitor/upper-sleeve-a.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/CrowVisitor/upper-sleeve-a.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        118,
+        240
+      ],
+      "alpha": true,
+      "sha256": "dc1475ef4a32dd9c16e2484f36f8b3781e19e5782ca93f279331b06ee001ffaf"
+    },
+    {
+      "file": "PNG/Earlier/CrowVisitor/upper-sleeve-b.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/CrowVisitor/upper-sleeve-b.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        109,
+        235
+      ],
+      "alpha": true,
+      "sha256": "f0ff6369ec5c657017a8d2af0d3481181f229f8573a3e50bf776ab95a0b5bb2a"
+    },
+    {
+      "file": "PNG/Earlier/Lighting/switch-plate.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Lighting/switch-plate.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        283,
+        373
+      ],
+      "alpha": true,
+      "sha256": "7f261f017a9dad630441ec1f3e86bf77436a45ff1a6b6474d7a1dc25a21360c4"
+    },
+    {
+      "file": "PNG/Earlier/Lighting/switch-lever.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Lighting/switch-lever.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        85,
+        218
+      ],
+      "alpha": true,
+      "sha256": "6548550faf5f4d54c0d4b4206cc34b7a218c4431eedd37450ec1321b842dea39"
+    },
+    {
+      "file": "PNG/Earlier/Lighting/bulb.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Lighting/bulb.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        198,
+        327
+      ],
+      "alpha": true,
+      "sha256": "d94b3e79b3cc3dbdb97a6bdeced343a259793fcfe6ce0ba2c4ea3737154bc389"
+    },
+    {
+      "file": "PNG/Earlier/Lighting/ceiling-mount.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Lighting/ceiling-mount.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "object",
+      "size": [
+        500,
+        307
+      ],
+      "alpha": true,
+      "sha256": "c5b80d569a755be2a81a3f4de9045db8f7a33b4330f6de7750d70a216642d503"
+    },
+    {
+      "file": "PNG/Earlier/Lighting/amber-glow.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Lighting/amber-glow.png",
+      "edition": "Ранее подготовленный отдельный PNG",
+      "kind": "effect",
+      "size": [
+        1672,
+        941
+      ],
+      "alpha": true,
+      "sha256": "a56e7dfcdeddde74c2a572c2005f4cbcaf6130fb8515816f4c3e30b3f3222d2f"
+    },
+    {
+      "file": "PNG/Earlier/Board/notice-board-empty.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Room/notice-board.png",
+      "edition": "Ранняя пустая доска",
+      "kind": "object",
+      "size": [
+        1024,
+        1536
+      ],
+      "alpha": true,
+      "sha256": "15bcb29c3500d67630868dba1bcd5403260bd59caddef476b62bf0e98ef50793"
+    },
+    {
+      "file": "PNG/Earlier/Props/enamel-funnel.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Concepts/Sprite-Test/enamel-funnel.png",
+      "edition": "Самостоятельная предметная генерация прежней рисовки",
+      "kind": "object",
+      "size": [
+        1536,
+        1024
+      ],
+      "alpha": true,
+      "sha256": "e5890f6a48bc0908aa4a2144bd235da8db93aca399d32e97341715a8b9620704"
+    },
+    {
+      "file": "PNG/Earlier/Props/desk-tin.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Concepts/Sprite-Test/desk-tin.png",
+      "edition": "Самостоятельная предметная генерация прежней рисовки",
+      "kind": "object",
+      "size": [
+        1536,
+        1024
+      ],
+      "alpha": true,
+      "sha256": "5014e6a68cc77727a9a54e38aedbddb83b2f22d73c93ed64fbf6987e9b3a906e"
+    },
+    {
+      "file": "PNG/Earlier/11-documents/address-card.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Room-Kit/PNG/11-documents/address-card.png",
+      "edition": "Ранее экспортированный отдельный PNG",
+      "kind": "object",
+      "size": [
+        374,
+        229
+      ],
+      "alpha": true,
+      "sha256": "136d8b1f552d33c34a462d66f59a439341625e83e2831595f4813a0ed5caab13"
+    },
+    {
+      "file": "PNG/Earlier/11-documents/address-envelope.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Room-Kit/PNG/11-documents/address-envelope.png",
+      "edition": "Ранее экспортированный отдельный PNG",
+      "kind": "object",
+      "size": [
+        449,
+        299
+      ],
+      "alpha": true,
+      "sha256": "7970ceb3fb305a45448dcdd351dd139f1a9074e8fef18af7311e194e025967ea"
+    },
+    {
+      "file": "PNG/Earlier/11-documents/bell.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Room-Kit/PNG/11-documents/bell.png",
+      "edition": "Ранее экспортированный отдельный PNG",
+      "kind": "object",
+      "size": [
+        178,
+        322
+      ],
+      "alpha": true,
+      "sha256": "5f39634abebb9956c7feae66f4113c9ba6c2b064a0ba080e610389bfbbd0a6b7"
+    },
+    {
+      "file": "PNG/Earlier/11-documents/child-letter.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Room-Kit/PNG/11-documents/child-letter.png",
+      "edition": "Ранее экспортированный отдельный PNG",
+      "kind": "object",
+      "size": [
+        379,
+        453
+      ],
+      "alpha": true,
+      "sha256": "50b7eb37692e92625113be9d0cb3cf84627504c3b80aca45c0fd80628502da18"
+    },
+    {
+      "file": "PNG/Earlier/11-documents/contract-scrap.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Room-Kit/PNG/11-documents/contract-scrap.png",
+      "edition": "Ранее экспортированный отдельный PNG",
+      "kind": "object",
+      "size": [
+        421,
+        467
+      ],
+      "alpha": true,
+      "sha256": "718893feeb79b654ee5c8c50c25fc633dc46a2db9d17c4f90ba66680460285b7"
+    },
+    {
+      "file": "PNG/Earlier/11-documents/lamp-tag.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Room-Kit/PNG/11-documents/lamp-tag.png",
+      "edition": "Ранее экспортированный отдельный PNG",
+      "kind": "object",
+      "size": [
+        334,
+        242
+      ],
+      "alpha": true,
+      "sha256": "b32d528ea56dfe2bed94a8eea2c90fb78dc860e92ae2b0e52d72d4140f2196dc"
+    },
+    {
+      "file": "PNG/Earlier/11-documents/memory-note.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Room-Kit/PNG/11-documents/memory-note.png",
+      "edition": "Ранее экспортированный отдельный PNG",
+      "kind": "object",
+      "size": [
+        323,
+        266
+      ],
+      "alpha": true,
+      "sha256": "0e778caab4991ae7702a222d78b3338148796e88f235afd1974f2eb5c639d02d"
+    },
+    {
+      "file": "PNG/Earlier/11-documents/note-card.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Room-Kit/PNG/11-documents/note-card.png",
+      "edition": "Ранее экспортированный отдельный PNG",
+      "kind": "object",
+      "size": [
+        448,
+        418
+      ],
+      "alpha": true,
+      "sha256": "240af36d94e963d5679ab03b0972952908a58e3e16a818bc0590823db70ceab6"
+    },
+    {
+      "file": "PNG/Earlier/11-documents/notice-paper.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Room-Kit/PNG/11-documents/notice-paper.png",
+      "edition": "Ранее экспортированный отдельный PNG",
+      "kind": "object",
+      "size": [
+        374,
+        294
+      ],
+      "alpha": true,
+      "sha256": "eb48bdd5cc1aea5d1b865e4bc806fb4648e5473c0811460d8fc10b800ddb4cc4"
+    },
+    {
+      "file": "PNG/Earlier/11-documents/phone-transcript.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Room-Kit/PNG/11-documents/phone-transcript.png",
+      "edition": "Ранее экспортированный отдельный PNG",
+      "kind": "object",
+      "size": [
+        360,
+        289
+      ],
+      "alpha": true,
+      "sha256": "bee639adefeb1d974f49dcdaaa6f1f366ec25897fa8d6ef137ee6a32ed909e36"
+    },
+    {
+      "file": "PNG/Earlier/11-documents/rainy-window-photo.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Room-Kit/PNG/11-documents/rainy-window-photo.png",
+      "edition": "Ранее экспортированный отдельный PNG",
+      "kind": "object",
+      "size": [
+        406,
+        392
+      ],
+      "alpha": true,
+      "sha256": "6f87f9fbde66f4e1d6943a99c768f465eca47e3b87fe6bcf86a81c05cd2a05b9"
+    },
+    {
+      "file": "PNG/Earlier/11-documents/registry-slip.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Room-Kit/PNG/11-documents/registry-slip.png",
+      "edition": "Ранее экспортированный отдельный PNG",
+      "kind": "object",
+      "size": [
+        256,
+        468
+      ],
+      "alpha": true,
+      "sha256": "1638fd4a434653747a581ce86ae6294e14dfa1eac9d6fe7c37e66f368da3a3d8"
+    },
+    {
+      "file": "PNG/Earlier/11-documents/restored-child-letter.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Room-Kit/PNG/11-documents/restored-child-letter.png",
+      "edition": "Ранее экспортированный отдельный PNG",
+      "kind": "object",
+      "size": [
+        395,
+        336
+      ],
+      "alpha": true,
+      "sha256": "d108d5f03e0ba63983c1e9fdfca6ab6e9e8f47808f595e8140a9e4eaa53ef6a2"
+    },
+    {
+      "file": "PNG/Earlier/11-documents/wet-child-letter.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Room-Kit/PNG/11-documents/wet-child-letter.png",
+      "edition": "Ранее экспортированный отдельный PNG",
+      "kind": "object",
+      "size": [
+        247,
+        357
+      ],
+      "alpha": true,
+      "sha256": "ed1f446a4a00e074782c9e05a309c0abbe6ed653a3e876eff2541812737ec942"
+    },
+    {
+      "file": "PNG/Earlier/12-memory/memory-button.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Room-Kit/PNG/12-memory/memory-button.png",
+      "edition": "Ранее экспортированный отдельный PNG",
+      "kind": "object",
+      "size": [
+        354,
+        368
+      ],
+      "alpha": true,
+      "sha256": "637d06b93383867691e966b627397422070e88db3c5ebff0019e569cfd4d7005"
+    },
+    {
+      "file": "PNG/Earlier/12-memory/memory-frame.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Room-Kit/PNG/12-memory/memory-frame.png",
+      "edition": "Ранее экспортированный отдельный PNG",
+      "kind": "object",
+      "size": [
+        396,
+        411
+      ],
+      "alpha": true,
+      "sha256": "21c25c2503fa2ea972ead60a1a8e4720a1835409a4be800014a99be94866ca0a"
+    },
+    {
+      "file": "PNG/Earlier/12-memory/memory-graphite-rim.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Room-Kit/PNG/12-memory/memory-graphite-rim.png",
+      "edition": "Ранее экспортированный отдельный PNG",
+      "kind": "overlay",
+      "size": [
+        1672,
+        941
+      ],
+      "alpha": true,
+      "sha256": "8c411f76b6295d8e1a5ed8b5dfcb52d7b85236ba1b793f51dda9164679f636da"
+    },
+    {
+      "file": "PNG/Earlier/12-memory/memory-gray-oval.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Room-Kit/PNG/12-memory/memory-gray-oval.png",
+      "edition": "Ранее экспортированный отдельный PNG",
+      "kind": "overlay",
+      "size": [
+        1672,
+        941
+      ],
+      "alpha": true,
+      "sha256": "a1e9d5f59198d7ab4a3e5d254280d27219104b6019d3583320b362110087497a"
+    },
+    {
+      "file": "PNG/Earlier/12-memory/memory-junk-blue-paper.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Room-Kit/PNG/12-memory/memory-junk-blue-paper.png",
+      "edition": "Ранее экспортированный отдельный PNG",
+      "kind": "object",
+      "size": [
+        271,
+        244
+      ],
+      "alpha": true,
+      "sha256": "23f836f8827cca82a40aa73bef73871be11a796f1ad20c681de5c86c6e241152"
+    },
+    {
+      "file": "PNG/Earlier/12-memory/memory-junk-comb.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Room-Kit/PNG/12-memory/memory-junk-comb.png",
+      "edition": "Ранее экспортированный отдельный PNG",
+      "kind": "object",
+      "size": [
+        294,
+        251
+      ],
+      "alpha": true,
+      "sha256": "603545993cfbd1510be496a9caa08af3093323273a83477208932b2720a0ad5b"
+    },
+    {
+      "file": "PNG/Earlier/12-memory/memory-junk-domino.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Room-Kit/PNG/12-memory/memory-junk-domino.png",
+      "edition": "Ранее экспортированный отдельный PNG",
+      "kind": "object",
+      "size": [
+        315,
+        243
+      ],
+      "alpha": true,
+      "sha256": "e04adc118e74c5b7530122d02e5f452f6719cf69c2cb5b654be1135c0e1bcca6"
+    },
+    {
+      "file": "PNG/Earlier/12-memory/memory-junk-fabric.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Room-Kit/PNG/12-memory/memory-junk-fabric.png",
+      "edition": "Ранее экспортированный отдельный PNG",
+      "kind": "object",
+      "size": [
+        309,
+        279
+      ],
+      "alpha": true,
+      "sha256": "963332c69f1d53f7512059c06dae42b66f895b9f45053c56af56c08dbbd825cd"
+    },
+    {
+      "file": "PNG/Earlier/12-memory/memory-junk-paperclip.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Room-Kit/PNG/12-memory/memory-junk-paperclip.png",
+      "edition": "Ранее экспортированный отдельный PNG",
+      "kind": "object",
+      "size": [
+        241,
+        268
+      ],
+      "alpha": true,
+      "sha256": "1bd95260c4ac8750839217b217cae5f93a0f1f62b35ad31a3d9390db649702c5"
+    },
+    {
+      "file": "PNG/Earlier/12-memory/memory-junk-pen-nib.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Room-Kit/PNG/12-memory/memory-junk-pen-nib.png",
+      "edition": "Ранее экспортированный отдельный PNG",
+      "kind": "object",
+      "size": [
+        262,
+        281
+      ],
+      "alpha": true,
+      "sha256": "111fcb325f40ee03be95f80d32c40d66d1bee1989537d70289b08bd8f1070006"
+    },
+    {
+      "file": "PNG/Earlier/12-memory/memory-junk-thimble.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Room-Kit/PNG/12-memory/memory-junk-thimble.png",
+      "edition": "Ранее экспортированный отдельный PNG",
+      "kind": "object",
+      "size": [
+        244,
+        263
+      ],
+      "alpha": true,
+      "sha256": "af16d24b206d91b0a5b3d33f82f5cc7cb3e1fdfe87b5963f7845c60686a6f67e"
+    },
+    {
+      "file": "PNG/Earlier/12-memory/memory-junk-thread-spool.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Room-Kit/PNG/12-memory/memory-junk-thread-spool.png",
+      "edition": "Ранее экспортированный отдельный PNG",
+      "kind": "object",
+      "size": [
+        257,
+        280
+      ],
+      "alpha": true,
+      "sha256": "c2e014ef26ab4132c127a5b58c983b8bf550937c4c54dec5fdf57e436421663a"
+    },
+    {
+      "file": "PNG/Earlier/12-memory/memory-junk-ticket.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Room-Kit/PNG/12-memory/memory-junk-ticket.png",
+      "edition": "Ранее экспортированный отдельный PNG",
+      "kind": "object",
+      "size": [
+        333,
+        222
+      ],
+      "alpha": true,
+      "sha256": "874ae8f545cc692ed70ecbe855a6366b9989d598fee5b9235d95e3e144ed4f73"
+    },
+    {
+      "file": "PNG/Earlier/12-memory/memory-junk-torn-stamp.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Room-Kit/PNG/12-memory/memory-junk-torn-stamp.png",
+      "edition": "Ранее экспортированный отдельный PNG",
+      "kind": "object",
+      "size": [
+        297,
+        286
+      ],
+      "alpha": true,
+      "sha256": "d8f62af01c05bca110a7b16fbb74120f9da8cdf47c74aa00a0084f0b967e816f"
+    },
+    {
+      "file": "PNG/Earlier/12-memory/memory-junk-washer.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Room-Kit/PNG/12-memory/memory-junk-washer.png",
+      "edition": "Ранее экспортированный отдельный PNG",
+      "kind": "object",
+      "size": [
+        259,
+        258
+      ],
+      "alpha": true,
+      "sha256": "560dfd79a57a00d72be9522cc6028312f50c06927713ac356185cafd14213ec6"
+    },
+    {
+      "file": "PNG/Earlier/12-memory/memory-junk-wax-stub.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Room-Kit/PNG/12-memory/memory-junk-wax-stub.png",
+      "edition": "Ранее экспортированный отдельный PNG",
+      "kind": "object",
+      "size": [
+        241,
+        261
+      ],
+      "alpha": true,
+      "sha256": "46a69b3c3e9875cb00f7ed57d2229c7a5c697e34494bdef3d47900064089a036"
+    },
+    {
+      "file": "PNG/Earlier/12-memory/memory-key.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Room-Kit/PNG/12-memory/memory-key.png",
+      "edition": "Ранее экспортированный отдельный PNG",
+      "kind": "object",
+      "size": [
+        372,
+        401
+      ],
+      "alpha": true,
+      "sha256": "34cfe3390c0766580f19a9a67a3f4f1819080790691e3ebde48cb43ba1792952"
+    },
+    {
+      "file": "PNG/Earlier/12-memory/memory-lit-window.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Room-Kit/PNG/12-memory/memory-lit-window.png",
+      "edition": "Ранее экспортированный отдельный PNG",
+      "kind": "object",
+      "size": [
+        436,
+        403
+      ],
+      "alpha": true,
+      "sha256": "babe122663d47ca5b98f054335735911017176df8703ea8506a31cde9182cfc9"
+    },
+    {
+      "file": "PNG/Earlier/12-memory/memory-postage-stamp.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Room-Kit/PNG/12-memory/memory-postage-stamp.png",
+      "edition": "Ранее экспортированный отдельный PNG",
+      "kind": "object",
+      "size": [
+        451,
+        411
+      ],
+      "alpha": true,
+      "sha256": "9f1513ee68606156086465416e88dbc5cff30885e56290a1d41abc4b5e439ed9"
+    },
+    {
+      "file": "PNG/Earlier/12-memory/memory-ribbon.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Room-Kit/PNG/12-memory/memory-ribbon.png",
+      "edition": "Ранее экспортированный отдельный PNG",
+      "kind": "object",
+      "size": [
+        499,
+        247
+      ],
+      "alpha": true,
+      "sha256": "6de6c8ef6813751febe7b2c440abaf49980bcf9646b468fc3d8fa4535af62135"
+    },
+    {
+      "file": "PNG/Earlier/12-memory/memory-word-papa.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Room-Kit/PNG/12-memory/memory-word-papa.png",
+      "edition": "Ранее экспортированный отдельный PNG",
+      "kind": "object",
+      "size": [
+        534,
+        277
+      ],
+      "alpha": true,
+      "sha256": "d0c0079cbc35b9e4cd16b5d618c9c6439715790a91c952d1ccfbd48314a0286b"
+    },
+    {
+      "file": "PNG/Earlier/12-memory/memory-word-u-okna.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Room-Kit/PNG/12-memory/memory-word-u-okna.png",
+      "edition": "Ранее экспортированный отдельный PNG",
+      "kind": "object",
+      "size": [
+        538,
+        273
+      ],
+      "alpha": true,
+      "sha256": "7bee691de33d22b34d034ad33e7dc4f224bd03453b0e55afc4183660ef9e976d"
+    },
+    {
+      "file": "PNG/Earlier/12-memory/memory-word-zhdala.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Room-Kit/PNG/12-memory/memory-word-zhdala.png",
+      "edition": "Ранее экспортированный отдельный PNG",
+      "kind": "object",
+      "size": [
+        565,
+        324
+      ],
+      "alpha": true,
+      "sha256": "12c13ca2eaf5a3df74ecfd089f0c4824841b2e3a8d6702d963448ee88956610f"
+    },
+    {
+      "file": "PNG/Earlier/Imp/imp-blink.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Room-Kit/PNG/13-hires/source-imp-blink.png",
+      "edition": "Крупная сменная поза Импа",
+      "kind": "object",
+      "size": [
+        567,
+        780
+      ],
+      "alpha": true,
+      "sha256": "7cdf9786264935a2cb5d09c4f883903063a8b7f19be9e986782ad8f85abd658f"
+    },
+    {
+      "file": "PNG/Earlier/Imp/imp-talk.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Room-Kit/PNG/13-hires/source-imp-talk.png",
+      "edition": "Крупная сменная поза Импа",
+      "kind": "object",
+      "size": [
+        562,
+        781
+      ],
+      "alpha": true,
+      "sha256": "130fcc80a8eea238b8ff5897e8bcd42bdd8008279d6911b699b234511ff58b35"
+    },
+    {
+      "file": "PNG/Earlier/Visitors/visitor-lamplighter.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Room-Kit/PNG/03-visitor/visitor-lamplighter.png",
+      "edition": "Ранее экспортированная цельная поза",
+      "kind": "object",
+      "size": [
+        181,
+        306
+      ],
+      "alpha": true,
+      "sha256": "de7de0c198a3a28ac887ca08554db3f5e5f20bfca4920b1ad398edfd64455b54"
+    },
+    {
+      "file": "PNG/Earlier/Visitors/visitor-door-keeper.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Room-Kit/PNG/03-visitor/visitor-door-keeper.png",
+      "edition": "Ранее экспортированная цельная поза",
+      "kind": "object",
+      "size": [
+        181,
+        307
+      ],
+      "alpha": true,
+      "sha256": "9d9d1152555602643fef1c8076a34e23a028e26338d51a65a61027205e0638c9"
+    },
+    {
+      "file": "PNG/Earlier/Visitors/visitor-letter-restorer.png",
+      "source": "/Users/user/Documents/ChatGPT/Нто игры/InkRoom/Production-Art/Room-Kit/PNG/03-visitor/visitor-letter-restorer.png",
+      "edition": "Ранее экспортированная цельная поза",
+      "kind": "object",
+      "size": [
+        181,
+        318
+      ],
+      "alpha": true,
+      "sha256": "60c5266929b7c26c8f79a38a304706845e7ee796e18f40aaf2ce963a29a726fa"
+    },
+    {
+      "file": "Backgrounds/empty-architecture.png",
+      "source": "/Users/user/.codex/generated_images/01a1e4c1-0638-76e1-8d95-e4fdfed84ed2/exec-00bcdc46-bb9a-4a0a-b53b-263fe4037f48.png",
+      "edition": "Ранее созданный самостоятельный исходник",
+      "kind": "background",
+      "size": [
+        1672,
+        941
+      ],
+      "alpha": false,
+      "sha256": "878f7063e67f7a74f5bb3f18f3dc13624627661179ed7f18b810d8bac207829b"
+    },
+    {
+      "file": "Backgrounds/rainy-street.png",
+      "source": "/Users/user/.codex/generated_images/01a1e4c1-0638-76e1-8d95-e4fdfed84ed2/exec-4cfc6536-ecfd-4699-835a-8b3eadbc7ae1.png",
+      "edition": "Ранее созданный самостоятельный исходник",
+      "kind": "background",
+      "size": [
+        1536,
+        1024
+      ],
+      "alpha": false,
+      "sha256": "24270338f440e54c326addef3e0bb4a586912c3e69628a6422a4dc486df6144b"
+    },
+    {
+      "file": "PNG/Current/furniture/desk-empty.png",
+      "source": "/Users/user/.codex/generated_images/01a1e4c1-0638-76e1-8d95-e4fdfed84ed2/exec-4a533247-1fca-4034-bb12-3e837cf74021.png",
+      "edition": "Ранее созданный самостоятельный исходник",
+      "kind": "object",
+      "size": [
+        2172,
+        724
+      ],
+      "alpha": true,
+      "sha256": "3652029b94dc87f721025c5cf48631643a9a013d8defb8af77b51205315fa601"
+    }
+  ],
+  "missingSeparateParts": [
+    "Левая стена",
+    "Правая стена",
+    "Задняя стена",
+    "Потолок",
+    "Пол",
+    "Отдельная оконная рама новой комнаты",
+    "Отдельное дверное полотно новой комнаты"
+  ],
+  "compositionVerified": false,
+  "notes": [
+    "Стены, пол и потолок представлены одним общим чистым фоном.",
+    "Current и Earlier различаются рисовкой и уровнем готовой штриховки.",
+    "Метаданные сборки относятся только к новым полкам, лампе и машинке.",
+    "Групповые листы, общие превью, нарезанные фрагменты комнаты и старые отдельные клавиши исключены.",
+    "Связанные предметы вроде пачки перевязанных писем считаются одним игровым реквизитом.",
+    "Ранние отдельные PNG могли быть ранее экспортированы из предметных листов. В этой упаковке изображения не обрезались."
+  ]
+}
