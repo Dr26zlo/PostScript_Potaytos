@@ -15,20 +15,16 @@ public class CameraMovement : MonoBehaviour
     [Range(0f, 1f)]
     public float mouseFollowStrength = 1f;
 
+    [Header("Zoom Settings")]
+    public float defaultZoom = 5f;
+    public float zoomedInSize = 2.5f;
+    public float zoomSpeed = 3f;
+
     [Header("Blur Settings")]
-    [Tooltip("Включить/выключить блюр при движении")]
     public bool enableBlur = true;
-
-    [Tooltip("Перетащите сюда RawImage с BlurMaterial")]
     public RawImage blurOverlay;
-
-    [Tooltip("Максимальный размер блюра (в пикселях)")]
     public float maxBlurSize = 3f;
-
-    [Tooltip("Скорость камеры, при которой блюр достигает максимума")]
     public float blurSpeedThreshold = 5f;
-
-    [Tooltip("Скорость затухания блюра (чем больше, тем быстрее исчезает)")]
     public float blurDecaySpeed = 5f;
 
     private Camera cam;
@@ -40,9 +36,15 @@ public class CameraMovement : MonoBehaviour
     private float currentBlur = 0f;
     private Vector3 lastCameraPos;
 
+    private Transform zoomTarget = null;
+    private float targetOrthoSize;
+    private bool isZooming = false;
+
     void Start()
     {
         cam = GetComponent<Camera>();
+        targetOrthoSize = defaultZoom;
+        cam.orthographicSize = defaultZoom;
 
         if (backgroundSprite == null)
         {
@@ -58,10 +60,6 @@ public class CameraMovement : MonoBehaviour
         {
             blurMaterial = blurOverlay.material;
             blurMaterial.SetFloat("_BlurSize", 0f);
-        }
-        else if (enableBlur && blurOverlay == null)
-        {
-            Debug.LogWarning("Blur включен, но RawImage не назначен. Блюр работать не будет.");
         }
     }
 
@@ -85,19 +83,61 @@ public class CameraMovement : MonoBehaviour
 
     void LateUpdate()
     {
-        Vector3 mousePos = cam.ScreenToWorldPoint(Input.mousePosition);
-        mousePos.z = 0f;
 
-        Vector3 center = backgroundSprite.position;
-        Vector3 desiredPosition = Vector3.Lerp(center, mousePos, mouseFollowStrength);
+        cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, targetOrthoSize, Time.deltaTime * zoomSpeed);
 
-        targetPosition.x = Mathf.Clamp(desiredPosition.x, minX, maxX);
-        targetPosition.y = Mathf.Clamp(desiredPosition.y, minY, maxY);
-        targetPosition.z = transform.position.z;
+        Vector3 finalTargetPos;
 
-        transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime, maxSpeed);
+        if (isZooming && zoomTarget != null)
+        {
+            finalTargetPos = new Vector3(zoomTarget.position.x, zoomTarget.position.y, transform.position.z);
+        }
+        else
+        {
+            Vector3 mousePos = cam.ScreenToWorldPoint(Input.mousePosition);
+            mousePos.z = 0f;
+            Vector3 center = backgroundSprite.position;
+            Vector3 desiredPosition = Vector3.Lerp(center, mousePos, mouseFollowStrength);
 
+            finalTargetPos.x = Mathf.Clamp(desiredPosition.x, minX, maxX);
+            finalTargetPos.y = Mathf.Clamp(desiredPosition.y, minY, maxY);
+            finalTargetPos.z = transform.position.z;
+        }
+
+        transform.position = Vector3.SmoothDamp(transform.position, finalTargetPos, ref velocity, smoothTime, maxSpeed);
         UpdateBlur();
+    }
+
+    public void FocusOn(Transform target)
+    {
+        FocusOn(target, 0f);
+    }
+
+    public void FocusOn(Transform target, float minimumZoomSize)
+    {
+        if (target == null) return;
+        zoomTarget = target;
+        isZooming = true;
+        targetOrthoSize = Mathf.Max(zoomedInSize, minimumZoomSize);
+    }
+
+    public bool HasReachedFocus(Transform target)
+    {
+        if (!isActiveAndEnabled || cam == null || !isZooming || target == null || zoomTarget != target)
+            return false;
+
+        const float tolerance = 0.02f;
+        Vector2 offset = (Vector2)transform.position - (Vector2)target.position;
+        return offset.sqrMagnitude <= tolerance * tolerance &&
+            Mathf.Abs(cam.orthographicSize - targetOrthoSize) <= tolerance;
+    }
+
+    public void ResetZoom()
+    {
+        isZooming = false;
+        zoomTarget = null;
+        targetOrthoSize = defaultZoom;
+        Invoke(nameof(CalculateBounds), 0.5f);
     }
 
     void UpdateBlur()
@@ -126,23 +166,6 @@ public class CameraMovement : MonoBehaviour
         {
             currentBlur = 0f;
             blurMaterial.SetFloat("_BlurSize", 0f);
-        }
-    }
-
-    void OnDrawGizmosSelected()
-    {
-        if (backgroundSprite == null) return;
-        SpriteRenderer sr = backgroundSprite.GetComponent<SpriteRenderer>();
-        if (sr != null)
-        {
-            Gizmos.color = Color.yellow;
-            Gizmos.DrawWireCube(sr.bounds.center, sr.bounds.size);
-            if (Application.isPlaying)
-            {
-                Gizmos.color = Color.green;
-                Gizmos.DrawWireCube(new Vector3((minX + maxX) / 2, (minY + maxY) / 2, 0),
-                                    new Vector3(maxX - minX, maxY - minY, 0));
-            }
         }
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 [CreateAssetMenu(fileName = "Dialogue", menuName = "Scriptables/Dialogues", order = 52)]
 public class DialogueObject : ScriptableObject
@@ -15,6 +16,7 @@ public class DialogueObject : ScriptableObject
     public List<DialogueChoice> choices = new List<DialogueChoice>();
 
     public DialogueObject nextNode;
+
 }
 
 [System.Serializable]

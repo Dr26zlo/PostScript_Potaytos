@@ -82,7 +82,9 @@ public class DialogueRunner : MonoBehaviour
         if (currentNode != null && currentNode.choices.Count > 0) return;
 
         if (currentNode != null && currentNode.nextNode != null)
+        {
             ShowNode(currentNode.nextNode);
+        }
         else
             EndDialogue();
     }
