@@ -77,6 +77,9 @@ public sealed class TaskCycle : MonoBehaviour
                 guest.gameObject.SetActive(true);
 
                 yield return new WaitUntil(() => guest == null);
+                var phone = GetComponent<RoomPhoneCall>();
+                if (phone == null) phone = gameObject.AddComponent<RoomPhoneCall>();
+                yield return phone.RingAndWait();
                 if (task.DelayToNextTask > 0f)
                     yield return new WaitForSeconds(task.DelayToNextTask);
             }

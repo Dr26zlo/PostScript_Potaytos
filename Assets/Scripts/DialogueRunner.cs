@@ -49,6 +49,8 @@ public class DialogueRunner : MonoBehaviour
         ShowNode(dialogue);
     }
 
+    public event System.Action<DialogueObject> NodeShown;
+
     private void ShowNode(DialogueObject node)
     {
         choicesContainer.gameObject.SetActive(true);
@@ -81,6 +83,7 @@ public class DialogueRunner : MonoBehaviour
             choicesContainer.gameObject.SetActive(false);
         }
         RoomReadableUi.FitContent(this);
+        NodeShown?.Invoke(node);
         hiddenPosition = new Vector2(shownPosition.x, -panelRect.rect.height - 32f);
     }
 
