@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -14,12 +13,17 @@ public interface ITypewriterSheetRecipient
 [DisallowMultipleComponent]
 public sealed class TypewriterStation : MonoBehaviour
 {
+    private const string TutorialKey = "Typewriter.TutorialV2Completed";
     private const int Columns = 28;
     private const int Lines = 8;
     private const float LineFeed = 0.29f;
     private const float InkScale = 0.01f;
     private static readonly string[] KeyRows = { "ЙЦУКЕНГШЩЗХ", "ФЫВАПРОЛДЖЭЁ", "ЯЧСМИТЬБЮ.," };
     private static readonly Regex KeyName = new Regex(@"^Клавиша — ряд ([1-3]) — (\d+)$");
+
+    [SerializeField] private Sprite orderNote;
+    [SerializeField] private Sprite tutorialPaper;
+    [SerializeField] private DialogueRunner dialogueRunner;
 
     private readonly List<TypewriterKey> keys = new List<TypewriterKey>();
     private readonly Queue<string> finishedSheets = new Queue<string>();
@@ -39,6 +43,33 @@ public sealed class TypewriterStation : MonoBehaviour
     private int column, line;
     private bool hasSheet, dragging, handingOff;
     private float dragPointerStart;
+
+    private Guest activeGuest;
+    private float noteProgress;
+    private string orderMessage;
+    private float messageUntil;
+    private bool tutorialComplete;
+
+    public Guest ActiveGuest => activeGuest;
+    public bool IsFocused => zoomArea != null && zoomArea.IsFocused;
+
+    public void TakeOrder(Guest guest)
+    {
+        if (activeGuest != null || guest == null) return;
+        activeGuest = guest;
+        ShowOrderMessage("Заказ принят. Подойдите к печатной машинке.");
+    }
+
+    public void ReleaseOrder(Guest guest)
+    {
+        if (activeGuest == guest) activeGuest = null;
+    }
+
+    public void ShowOrderMessage(string message)
+    {
+        orderMessage = message;
+        messageUntil = Time.unscaledTime + 5f;
+    }
 
     public int FinishedSheetCount => finishedSheets.Count;
 
@@ -63,6 +94,8 @@ public sealed class TypewriterStation : MonoBehaviour
 
     private void Awake()
     {
+        tutorialComplete = PlayerPrefs.GetInt(TutorialKey) != 0;
+        if (dialogueRunner == null) dialogueRunner = FindObjectOfType<DialogueRunner>();
         carriage = transform.Find("Каретка");
         body = FindSprite(transform, "Машинка — корпус");
         paper = FindSprite(carriage, "Машинка — бумага");
@@ -170,6 +203,11 @@ public sealed class TypewriterStation : MonoBehaviour
     private void Update()
     {
         if (!zoomArea.CanType) CancelDrag();
+        if (IsFocused && dialogueRunner != null && dialogueRunner.IsDialogueActive)
+            zoomArea.ExitTypewriterMode();
+
+        noteProgress = Mathf.MoveTowards(noteProgress, IsFocused && activeGuest != null ? 1f : 0f,
+            Time.unscaledDeltaTime * 4f);
     }
 
     private void HandleMouse(Event input)
@@ -181,7 +219,8 @@ public sealed class TypewriterStation : MonoBehaviour
         Vector3 pointer = PointerOnMachine(input.mousePosition);
         if (!zoomArea.CanType)
         {
-            if (!zoomArea.IsFocused && type == EventType.MouseDown && PointerIsOnMachine(pointer))
+            if (!IsFocused && type == EventType.MouseDown &&
+                (dialogueRunner == null || !dialogueRunner.IsDialogueActive) && PointerIsOnMachine(pointer))
                 zoomArea.EnterTypewriterMode();
             return;
         }
@@ -200,7 +239,9 @@ public sealed class TypewriterStation : MonoBehaviour
             return;
         }
 
-        if (type != EventType.MouseDown || Toolbar.Contains(input.mousePosition)) return;
+        if (type != EventType.MouseDown || Toolbar.Contains(input.mousePosition) ||
+            (noteProgress > 0f && activeGuest != null && NoteRect.Contains(input.mousePosition)) ||
+            (!tutorialComplete && TutorialRect.Contains(input.mousePosition))) return;
         if (hasSheet && column > 0 && line + 1 < Lines && (Hits(lever, pointer) || Hits(roller, pointer)))
         {
             dragging = true;
@@ -321,7 +362,16 @@ public sealed class TypewriterStation : MonoBehaviour
     {
         if (!isActiveAndEnabled || !zoomArea.CanType || !hasSheet || dragging) return false;
         string contents = text.ToString().TrimEnd();
-        if (contents.Length > 0) finishedSheets.Enqueue(contents);
+        if (contents.Length > 0)
+        {
+            finishedSheets.Enqueue(contents);
+            if (!tutorialComplete)
+            {
+                tutorialComplete = true;
+                PlayerPrefs.SetInt(TutorialKey, 1);
+                PlayerPrefs.Save();
+            }
+        }
         hasSheet = false;
         paper.enabled = false;
         foreach (GameObject stamp in ink)
@@ -340,6 +390,7 @@ public sealed class TypewriterStation : MonoBehaviour
     public bool TryGiveNextSheet(ITypewriterSheetRecipient recipient)
     {
         if (recipient == null || finishedSheets.Count == 0 || handingOff) return false;
+
         handingOff = true;
         try
         {
@@ -353,12 +404,190 @@ public sealed class TypewriterStation : MonoBehaviour
         }
     }
 
-    private static Rect Toolbar => new Rect(8f, Screen.height - 66f, Mathf.Min(450f, Screen.width - 16f), 58f);
+    private static Rect Toolbar => new Rect(12f, Screen.height - 88f, Mathf.Min(450f, Screen.width - 24f), 80f);
+    private Rect NoteRect
+    {
+        get
+        {
+            float width = Mathf.Min(380f, Screen.width * 0.42f);
+            float shownX = Screen.width - width - 12f;
+            float slide = Mathf.SmoothStep(0f, 1f, noteProgress);
+            return new Rect(Mathf.Lerp(Screen.width, shownX, slide), 18f, width, width * 0.42f);
+        }
+    }
+
+    private void DrawOrderNote()
+    {
+        if (noteProgress <= 0f || activeGuest == null) return;
+        Rect rect = NoteRect;
+        DrawPaper(orderNote, rect);
+
+        var style = new GUIStyle(GUI.skin.label)
+        {
+            alignment = TextAnchor.MiddleCenter,
+            fontSize = Mathf.Clamp(Mathf.RoundToInt(rect.width / 22f), 10, 18),
+            wordWrap = true
+        };
+        if (orderNote != null) style.normal.textColor = new Color(0.18f, 0.12f, 0.09f);
+        float inset = rect.width * 0.065f;
+        GUI.Label(new Rect(rect.x + inset, rect.y, rect.width - 2f * inset, rect.height),
+            activeGuest.RequestedText, style);
+    }
+
+    private static void DrawPaper(Sprite sprite, Rect rect)
+    {
+        if (sprite == null)
+        {
+            GUI.Box(rect, GUIContent.none);
+            return;
+        }
+
+        Texture2D texture = sprite.texture;
+        Rect source = sprite.rect;
+        GUI.DrawTextureWithTexCoords(rect, texture, new Rect(source.x / texture.width, source.y / texture.height,
+            source.width / texture.width, source.height / texture.height));
+    }
+
+    private static readonly Color PaperInk = new Color(0.20f, 0.12f, 0.08f);
+    private static readonly Color Burgundy = new Color(0.36f, 0.15f, 0.12f);
+
+    private static Rect TutorialRect
+    {
+        get
+        {
+            float width = Mathf.Min(290f, Screen.width * 0.46f);
+            return new Rect(12f, 12f, width, width * 0.59f);
+        }
+    }
+
+    private static GUIStyle PaperLabel(Color color, int size, FontStyle fontStyle = FontStyle.Normal)
+    {
+        var style = new GUIStyle(GUI.skin.label) { fontSize = size, fontStyle = fontStyle };
+        style.normal.textColor = color;
+        return style;
+    }
+
+    private void DrawTutorial()
+    {
+        if (tutorialComplete) return;
+
+        int step;
+        string title;
+        string instruction;
+        if (!hasSheet)
+        {
+            step = 1;
+            title = "Вставьте бумагу";
+            instruction = "Нажмите «Вставить лист» на нижней панели.";
+        }
+        else if (text.Length == 0)
+        {
+            step = 2;
+            title = "Напечатайте текст";
+            instruction = "Печатайте с клавиатуры или нажимайте клавиши машинки мышью.";
+        }
+        else
+        {
+            step = 3;
+            title = "Подготовьте лист";
+            instruction = "Для новой строки потяните рычаг вправо. Готовый лист снимите и отдайте гостю.";
+        }
+
+        Rect card = TutorialRect;
+        DrawPaper(tutorialPaper, card);
+        float inset = card.width * 0.1f;
+        float width = card.width - inset * 2f;
+        float left = card.x + inset;
+        float scale = card.width / 290f;
+        Color ink = tutorialPaper != null ? PaperInk : GUI.skin.label.normal.textColor;
+        Color accent = tutorialPaper != null ? Burgundy : ink;
+
+        var caption = PaperLabel(accent, Mathf.Max(9, Mathf.RoundToInt(13 * scale)), FontStyle.Bold);
+        GUI.Label(new Rect(left, card.y + card.height * 0.13f, width, card.height * 0.16f),
+            $"ПЕРВАЯ ПЕЧАТЬ  ·  {step} / 3", caption);
+        var heading = PaperLabel(ink, Mathf.Max(11, Mathf.RoundToInt(22 * scale)), FontStyle.Bold);
+        GUI.Label(new Rect(left, card.y + card.height * 0.31f, width, card.height * 0.23f), title, heading);
+        var body = PaperLabel(ink, Mathf.Max(9, Mathf.RoundToInt(16 * scale)));
+        body.wordWrap = true;
+        GUI.Label(new Rect(left, card.y + card.height * 0.54f, width, card.height * 0.38f), instruction, body);
+    }
+
+    private void DrawToolbar()
+    {
+        Rect area = Toolbar;
+        DrawPaper(orderNote, area);
+
+        float inset = Mathf.Min(22f, area.width * 0.06f);
+        float left = area.x + inset;
+        float buttonWidth = Mathf.Min(148f, area.width * 0.45f);
+        var buttonRect = new Rect(left, area.y + 14f, buttonWidth, 28f);
+        Color previousColor = GUI.color;
+        bool hovered = buttonRect.Contains(Event.current.mousePosition);
+        bool pressed = hovered && Input.GetMouseButton(0);
+        float offset = pressed ? 1f : hovered ? -1f : 0f;
+        var face = new Rect(buttonRect.x, buttonRect.y + offset, buttonRect.width, buttonRect.height);
+        if (orderNote != null)
+        {
+            var shadow = new Rect(buttonRect.x, buttonRect.y + 2f, buttonRect.width, buttonRect.height);
+            GUI.color = previousColor * new Color(0.29f, 0.18f, 0.11f, 0.62f);
+            DrawPaper(orderNote, shadow);
+            GUI.color = previousColor * (hovered ? new Color(1f, 0.95f, 0.77f) : new Color(0.96f, 0.83f, 0.64f));
+            DrawPaper(orderNote, face);
+            GUI.color = previousColor;
+        }
+
+        var button = orderNote != null
+            ? PaperLabel(PaperInk, 13, FontStyle.Bold)
+            : new GUIStyle(GUI.skin.button);
+        button.alignment = TextAnchor.MiddleCenter;
+        button.contentOffset = new Vector2(0f, offset);
+        button.hover.textColor = orderNote != null ? Burgundy : button.normal.textColor;
+        button.active.textColor = button.hover.textColor;
+        if (GUI.Button(buttonRect, hasSheet ? "Снять лист" : "Вставить лист", button))
+        {
+            if (hasSheet) TryRemoveSheet();
+            else TryInsertSheet();
+        }
+
+        Color ink = orderNote != null ? PaperInk : GUI.skin.label.normal.textColor;
+        float counterX = buttonRect.xMax + 8f;
+        var counter = PaperLabel(ink, 12, FontStyle.Bold);
+        GUI.Label(new Rect(counterX, buttonRect.y + 3f, area.xMax - inset - counterX, 22f),
+            $"Готовых листов: {finishedSheets.Count}", counter);
+
+        string hint = "Esc — выйти из режима печати.";
+        if (hasSheet && line + 1 == Lines)
+            hint = "Последняя строка. Снимите лист, когда закончите.";
+        else if (hasSheet)
+            hint = column == Columns ? "Строка заполнена. Потяните рычаг вправо." :
+                "Рычаг вправо — новая строка. Esc — выйти.";
+
+        var hintStyle = PaperLabel(ink, 12);
+        hintStyle.wordWrap = true;
+        GUI.Label(new Rect(left, area.y + 44f, area.width - inset * 2f, 30f), hint, hintStyle);
+    }
+
     private void OnGUI()
     {
         Event input = Event.current;
         HandleMouse(input);
+        DrawOrderNote();
+        if (!IsFocused && Time.unscaledTime < messageUntil &&
+            (dialogueRunner == null || !dialogueRunner.IsDialogueActive))
+        {
+            float width = Mathf.Min(520f, Screen.width - 24f);
+            var messageArea = new Rect((Screen.width - width) / 2f, 14f, width, 60f);
+            DrawPaper(orderNote, messageArea);
+            Color ink = orderNote != null ? PaperInk : GUI.skin.label.normal.textColor;
+            var message = PaperLabel(ink, 15, FontStyle.Bold);
+            message.wordWrap = true;
+            message.alignment = TextAnchor.MiddleCenter;
+            float inset = Mathf.Min(24f, width * 0.09f);
+            GUI.Label(new Rect(messageArea.x + inset, messageArea.y + 8f, width - inset * 2f, 44f),
+                orderMessage, message);
+        }
         if (!zoomArea.CanType) return;
+        DrawTutorial();
         char symbol = input.character;
         if (input.type == EventType.KeyDown && !input.control && !input.alt && !input.command &&
             (char.IsLetterOrDigit(symbol) || symbol == ' ' || char.IsPunctuation(symbol)))
@@ -367,22 +596,6 @@ public sealed class TypewriterStation : MonoBehaviour
             input.Use();
         }
 
-        Rect area = Toolbar;
-        GUI.Box(area, GUIContent.none);
-        if (GUI.Button(new Rect(area.x + 8f, area.y + 7f, 130f, 22f), hasSheet ? "Снять лист" : "Вставить лист"))
-        {
-            if (hasSheet) TryRemoveSheet();
-            else TryInsertSheet();
-        }
-
-        GUI.Label(new Rect(area.x + 146f, area.y + 7f, area.width - 154f, 22f),
-            $"Листов к передаче: {finishedSheets.Count}");
-        string hint = "Вставьте чистый лист для печати.";
-        if (hasSheet && line + 1 == Lines)
-            hint = "Последняя строка. Снимите лист, когда закончите.";
-        else if (hasSheet)
-            hint = column == Columns ? "Строка заполнена. Перетащите каретку вправо." :
-                "Для новой строки перетащите каретку или рычаг вправо.";
-        GUI.Label(new Rect(area.x + 8f, area.y + 30f, area.width - 16f, 22f), hint);
+        DrawToolbar();
     }
 }
