@@ -8,6 +8,7 @@ public sealed class RoomStationsController : MonoBehaviour
     public static RoomStationsController Instance { get; private set; }
     public bool IsOpen => panel != null;
     private Camera cam;
+    private DialogueRunner dialogue;
     private CameraMovement movement;
     private Transform room, focus;
     private GameObject panel, shade;
@@ -36,6 +37,7 @@ public sealed class RoomStationsController : MonoBehaviour
     {
         Instance = this;
         cam = GetComponent<Camera>();
+        dialogue = FindObjectOfType<DialogueRunner>();
         movement = GetComponent<CameraMovement>();
         foreach (GameObject root in gameObject.scene.GetRootGameObjects())
             if (root.transform.Find("Освещение") != null) { room = root.transform; break; }
@@ -61,14 +63,14 @@ public sealed class RoomStationsController : MonoBehaviour
             if (Time.unscaledTime - openedAt > 0.3f && Input.GetMouseButtonDown(0) && !BoundsOf(panel).Contains(world)) Close();
             return;
         }
-        if (movement.HasFocus || !Input.GetMouseButtonDown(0)) return;
+        if (movement.HasFocus || (dialogue != null && dialogue.IsDialogueActive) || !Input.GetMouseButtonDown(0)) return;
         Vector3 at = room.InverseTransformPoint(world);
         if (at.x > 13.6f && at.x < 20f && at.y > -4f && at.y < 6.5f) Open(1);
         else if (at.x > 6f && at.x < 16.5f && at.y < -2.8f && at.y > -11f) Open(2);
     }
     public void Open(int station)
     {
-        if (IsOpen || movement.HasFocus || station < 1 || station > 2) return;
+        if (IsOpen || movement.HasFocus || (dialogue != null && dialogue.IsDialogueActive) || station < 1 || station > 2) return;
         GameObject prefab = Resources.Load<GameObject>(station == 1 ? "RoomStations/Board" : "RoomStations/Archive");
         if (prefab == null) return;
         kind = station;

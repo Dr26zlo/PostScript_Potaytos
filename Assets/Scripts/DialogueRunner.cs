@@ -20,6 +20,7 @@ public class DialogueRunner : MonoBehaviour
     private Coroutine animationCoroutine;
 
     private bool isDialogueActive = false;
+    public bool IsDialogueActive => isDialogueActive;
     private DialogueObject currentNode;
     private Dictionary<string, int> choiceHistory = new Dictionary<string, int>();
 

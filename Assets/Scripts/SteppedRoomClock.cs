@@ -20,7 +20,7 @@ public sealed class SteppedRoomClock : MonoBehaviour
     {
         if (Camera.main == null || Camera.main.gameObject.scene != scene || Camera.main.GetComponent<CameraMovement>() == null) return;
         foreach (GameObject root in scene.GetRootGameObjects())
-            foreach (SpriteRenderer sprite in root.GetComponentsInChildren<SpriteRenderer>())
+            foreach (SpriteRenderer sprite in root.GetComponentsInChildren<SpriteRenderer>(true))
                 if (sprite.sprite != null && sprite.sprite.name == "Кривые часы" && sprite.GetComponent<SteppedRoomClock>() == null)
                     sprite.gameObject.AddComponent<SteppedRoomClock>();
     }

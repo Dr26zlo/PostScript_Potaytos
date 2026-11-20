@@ -47,6 +47,9 @@ TagManager:
   - name: Items
     uniqueID: 3579352277
     locked: 0
+  - name: Guest
+    uniqueID: 2702677821
+    locked: 0
   - name: FG
     uniqueID: 702198097
     locked: 0
