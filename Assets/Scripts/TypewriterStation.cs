@@ -116,7 +116,8 @@ public sealed class TypewriterStation : MonoBehaviour
         float paperLift = Mathf.Max(0f, strikeHeight + 0.23f - paperBounds.max.y);
         paperRest.y += paperLift;
         strikeHeight -= paperLift;
-        inkFont = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+        inkFont = Resources.Load<Font>("Typewriter/Ink-Bold");
+        if (inkFont == null) inkFont = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
         var inkObject = new GameObject("Текст на бумаге", typeof(RectTransform), typeof(Canvas));
         inkCanvas = (RectTransform)inkObject.transform;
         inkCanvas.SetParent(paper.transform, false);
@@ -274,8 +275,11 @@ public sealed class TypewriterStation : MonoBehaviour
             glyph.verticalOverflow = VerticalWrapMode.Overflow;
             glyph.raycastTarget = false;
             glyph.supportRichText = false;
-            glyph.color = new Color(0.15f, 0.11f, 0.09f);
+            glyph.color = new Color(0.055f, 0.04f, 0.03f);
             glyph.text = symbol.ToString();
+            // Fit the new typeface into the existing typewriter cell without changing carriage spacing.
+            float cellWidth = pitch / InkScale;
+            rect.localScale = new Vector3(Mathf.Min(1f, cellWidth * 0.94f / Mathf.Max(1f, glyph.preferredWidth)), 1f, 1f);
             ink.Add(stamp);
         }
 
