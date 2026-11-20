@@ -30,6 +30,7 @@ public class TypewriterZoomArea : MonoBehaviour
 
     void Update()
     {
+        if (isFocused && cameraScript.CurrentFocus != focusPoint) isFocused = false;
         if (isFocused && (Input.GetKeyDown(KeyCode.Escape) || Input.GetMouseButtonDown(1)))
         {
             ExitTypewriterMode();
@@ -39,6 +40,7 @@ public class TypewriterZoomArea : MonoBehaviour
     public void EnterTypewriterMode()
     {
         if (isFocused || cameraScript == null || !cameraScript.isActiveAndEnabled) return;
+        if (cameraScript.HasFocus && cameraScript.CurrentFocus != focusPoint) return;
         isFocused = true;
 
         cameraScript.FocusOn(focusPoint, minimumZoomSize);

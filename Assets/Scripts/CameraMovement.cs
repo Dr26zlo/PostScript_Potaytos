@@ -39,6 +39,8 @@ public class CameraMovement : MonoBehaviour
     private Transform zoomTarget = null;
     private float targetOrthoSize;
     private bool isZooming = false;
+    public Transform CurrentFocus => zoomTarget;
+    public bool HasFocus => isZooming && zoomTarget != null;
 
     void Start()
     {
@@ -58,7 +60,8 @@ public class CameraMovement : MonoBehaviour
 
         if (enableBlur && blurOverlay != null && blurOverlay.material != null)
         {
-            blurMaterial = blurOverlay.material;
+            blurMaterial = new Material(blurOverlay.material);
+            blurOverlay.material = blurMaterial;
             blurMaterial.SetFloat("_BlurSize", 0f);
         }
     }
@@ -86,6 +89,7 @@ public class CameraMovement : MonoBehaviour
 
         cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, targetOrthoSize, Time.deltaTime * zoomSpeed);
 
+        CalculateBounds();
         Vector3 finalTargetPos;
 
         if (isZooming && zoomTarget != null)
@@ -94,7 +98,7 @@ public class CameraMovement : MonoBehaviour
         }
         else
         {
-            Vector3 mousePos = cam.ScreenToWorldPoint(Input.mousePosition);
+            Vector3 mousePos = cam.ViewportToWorldPoint(new Vector3(Input.mousePosition.x / Screen.width, Input.mousePosition.y / Screen.height, -transform.position.z));
             mousePos.z = 0f;
             Vector3 center = backgroundSprite.position;
             Vector3 desiredPosition = Vector3.Lerp(center, mousePos, mouseFollowStrength);
@@ -137,7 +141,12 @@ public class CameraMovement : MonoBehaviour
         isZooming = false;
         zoomTarget = null;
         targetOrthoSize = defaultZoom;
-        Invoke(nameof(CalculateBounds), 0.5f);
+        CalculateBounds();
+    }
+
+    void OnDestroy()
+    {
+        if (blurMaterial != null) Destroy(blurMaterial);
     }
 
     void UpdateBlur()

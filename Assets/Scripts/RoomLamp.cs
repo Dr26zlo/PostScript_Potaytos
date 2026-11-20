@@ -6,7 +6,9 @@ using UnityEngine.SceneManagement;
 [DisallowMultipleComponent]
 public sealed class RoomLamp : MonoBehaviour
 {
-    private SpriteRenderer lamp;
+    private SpriteRenderer lamp, wallSwitch;
+    private CameraMovement cameraMovement;
+    public bool IsOn => isOn;
     private Sprite litSprite, unlitSprite;
     private Light2D roomLight, shadeLight;
     private InteractiveObject interaction;
@@ -55,10 +57,18 @@ public sealed class RoomLamp : MonoBehaviour
         unlit.gameObject.SetActive(false);
         lit.gameObject.SetActive(true);
 
-        if (lamp.GetComponent<Collider2D>() == null)
-            lamp.gameObject.AddComponent<BoxCollider2D>();
-        interaction = lamp.GetComponent<InteractiveObject>();
-        if (interaction == null) interaction = lamp.gameObject.AddComponent<InteractiveObject>();
+        cameraMovement = camera.GetComponent<CameraMovement>();
+        Sprite switchSprite = Resources.Load<Sprite>("RoomStations/WallSwitch");
+        var switchObject = new GameObject("Выключатель на стене");
+        switchObject.transform.SetParent(room.transform, false);
+        switchObject.transform.localPosition = new Vector3(-2.25f, -.45f, 0);
+        wallSwitch = switchObject.AddComponent<SpriteRenderer>();
+        wallSwitch.sprite = switchSprite;
+        wallSwitch.sortingLayerID = lamp.sortingLayerID;
+        wallSwitch.sortingOrder = 60;
+        if (switchSprite != null) switchObject.transform.localScale = Vector3.one * (0.62f / switchSprite.bounds.size.x);
+        switchObject.AddComponent<BoxCollider2D>();
+        interaction = switchObject.AddComponent<InteractiveObject>();
         interaction.UseAutomaticMouseClicks = false;
         if (interaction.onClick == null) interaction.onClick = new UnityEvent();
         interaction.onClick.AddListener(Toggle);
@@ -108,14 +118,14 @@ public sealed class RoomLamp : MonoBehaviour
 
     private void Update()
     {
-        if (!Input.GetMouseButtonDown(0)) return;
+        if (!Input.GetMouseButtonDown(0) || wallSwitch == null || cameraMovement.HasFocus) return;
         Vector3 mouse = Input.mousePosition;
         // The room camera renders to the full-screen RawImage through a RenderTexture.
         Ray ray = roomCamera.ViewportPointToRay(new Vector3(mouse.x / Screen.width, mouse.y / Screen.height));
-        var plane = new Plane(lamp.transform.forward, lamp.transform.position);
+        var plane = new Plane(wallSwitch.transform.forward, wallSwitch.transform.position);
         if (!plane.Raycast(ray, out float distance)) return;
         Vector3 point = ray.GetPoint(distance);
-        Bounds bounds = lamp.bounds;
+        Bounds bounds = wallSwitch.bounds;
         if (point.x >= bounds.min.x && point.x <= bounds.max.x && point.y >= bounds.min.y && point.y <= bounds.max.y)
             interaction.Click();
     }
@@ -134,6 +144,7 @@ public sealed class RoomLamp : MonoBehaviour
     private void ApplyState()
     {
         lamp.sprite = isOn ? litSprite : unlitSprite;
+        if (wallSwitch != null) wallSwitch.flipY = !isOn;
         roomLight.enabled = isOn;
         shadeLight.enabled = isOn;
     }

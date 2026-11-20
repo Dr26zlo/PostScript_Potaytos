@@ -30,8 +30,9 @@ public class DialogueRunner : MonoBehaviour
     {
         panelRect = GetComponent<RectTransform>();
 
+        RoomReadableUi.Configure(this);
         shownPosition = panelRect.anchoredPosition;
-        hiddenPosition = new Vector2(shownPosition.x, shownPosition.y - panelRect.rect.height);
+        hiddenPosition = new Vector2(shownPosition.x, -panelRect.rect.height - 32f);
 
         panelRect.anchoredPosition = hiddenPosition;
     }
@@ -62,6 +63,7 @@ public class DialogueRunner : MonoBehaviour
             foreach (var choice in node.choices)
             {
                 GameObject btnObj = Instantiate(choiceButtonPrefab, choicesContainer);
+                RoomReadableUi.ConfigureChoice(btnObj);
                 var btnText = btnObj.GetComponentInChildren<Text>();
                 if (btnText != null) btnText.text = choice.choiceText;
 

@@ -176,6 +176,8 @@ public sealed class TypewriterStation : MonoBehaviour
     private void HandleMouse(Event input)
     {
         EventType type = input.type;
+        if (RoomStationsController.Instance != null && RoomStationsController.Instance.IsOpen) return;
+        if (RoomStationsController.BackButton.Contains(input.mousePosition)) return;
         if (input.button != 0 || (type != EventType.MouseDown && type != EventType.MouseDrag && type != EventType.MouseUp))
             return;
 
@@ -357,7 +359,8 @@ public sealed class TypewriterStation : MonoBehaviour
         }
     }
 
-    private static Rect Toolbar => new Rect(8f, Screen.height - 66f, Mathf.Min(450f, Screen.width - 16f), 58f);
+    private static float UiScale => Mathf.Clamp(Screen.height / 720f, 0.85f, 2f);
+    private static Rect Toolbar => new Rect(16f, Screen.height - 108f * UiScale, Mathf.Min(760f * UiScale, Screen.width - 32f), 92f * UiScale);
     private void OnGUI()
     {
         Event input = Event.current;
@@ -370,23 +373,21 @@ public sealed class TypewriterStation : MonoBehaviour
             TryPrint(char.ToUpperInvariant(symbol));
             input.Use();
         }
-
+        float scale = UiScale;
+        var button = new GUIStyle(GUI.skin.button) { fontSize = Mathf.RoundToInt(20 * scale) };
+        var label = new GUIStyle(GUI.skin.label) { fontSize = Mathf.RoundToInt(19 * scale), wordWrap = true };
+        if (GUI.Button(RoomStationsController.BackButton, "Назад · Esc", button)) zoomArea.ExitTypewriterMode();
         Rect area = Toolbar;
         GUI.Box(area, GUIContent.none);
-        if (GUI.Button(new Rect(area.x + 8f, area.y + 7f, 130f, 22f), hasSheet ? "Снять лист" : "Вставить лист"))
+        if (GUI.Button(new Rect(area.x + 12 * scale, area.y + 10 * scale, 180 * scale, 38 * scale), hasSheet ? "Снять лист" : "Вставить лист", button))
         {
-            if (hasSheet) TryRemoveSheet();
-            else TryInsertSheet();
+            if (hasSheet) TryRemoveSheet(); else TryInsertSheet();
         }
-
-        GUI.Label(new Rect(area.x + 146f, area.y + 7f, area.width - 154f, 22f),
-            $"Листов к передаче: {finishedSheets.Count}");
-        string hint = "Вставьте чистый лист для печати.";
-        if (hasSheet && line + 1 == Lines)
-            hint = "Последняя строка. Снимите лист, когда закончите.";
-        else if (hasSheet)
-            hint = column == Columns ? "Строка заполнена. Перетащите каретку вправо." :
-                "Для новой строки перетащите каретку или рычаг вправо.";
-        GUI.Label(new Rect(area.x + 8f, area.y + 30f, area.width - 16f, 22f), hint);
+        GUI.Label(new Rect(area.x + 210 * scale, area.y + 13 * scale, area.width - 220 * scale, 32 * scale),
+            $"Листов к передаче: {finishedSheets.Count}", label);
+        string hint = !hasSheet ? "Вставьте чистый лист для печати." :
+            line + 1 == Lines ? "Последняя строка. Снимите готовый лист." :
+            column == Columns ? "Строка заполнена. Перетащите каретку вправо." : "Новая строка — перетащите каретку или рычаг вправо.";
+        GUI.Label(new Rect(area.x + 12 * scale, area.y + 53 * scale, area.width - 24 * scale, 36 * scale), hint, label);
     }
 }
