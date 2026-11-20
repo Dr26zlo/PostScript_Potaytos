@@ -106,7 +106,7 @@ public sealed class RoomLamp : MonoBehaviour
         shadeLight = CreateLight("Свет абажура", center, new Color(1f, 0.90f, 0.71f),
             1.05f, .35f, 1.9f);
         FitDoor(room.transform);
-        AddAccent("Свет на персонаже", FindCentre(room.transform, "Сидящий имп", new Vector3(2.55f, .5f, 0)) + Vector3.up * .65f,
+        AddAccent("Свет в зоне клиента", new Vector3(.54f, -.7f, 0),
             new Color(1f, .82f, .66f), .66f, .45f, 2.6f);
         AddAccent("Свет на двери", FindCentre(room.transform, "Закрытая дверь", Vector3.zero),
             new Color(1f, .86f, .72f), .38f, .5f, 2.8f);

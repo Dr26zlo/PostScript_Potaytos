@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 // Adapts the board and four-card archive from the small Postcript build to this room camera.
 public sealed class RoomStationsController : MonoBehaviour
@@ -18,8 +19,8 @@ public sealed class RoomStationsController : MonoBehaviour
     private AudioClip paperSound;
     private int selected = -1, kind;
     private float openedAt;
-    private float Scale => Mathf.Clamp(Screen.height / 720f, 0.85f, 2f);
-    public static Rect BackButton => new Rect(16, 16, 190 * Mathf.Clamp(Screen.height / 720f, 0.85f, 2f), 46 * Mathf.Clamp(Screen.height / 720f, 0.85f, 2f));
+    private float Scale => RoomReadableUi.Scale;
+    public static Rect BackButton => new Rect(16, 16, 150 * RoomReadableUi.Scale, 42 * RoomReadableUi.Scale);
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     private static void Register()
@@ -170,10 +171,16 @@ public sealed class RoomStationsController : MonoBehaviour
     private void OnGUI()
     {
         if (!IsOpen) return;
-        var button = new GUIStyle(GUI.skin.button) { fontSize = Mathf.RoundToInt(20 * Scale) };
+        Sprite paper = dialogue != null ? dialogue.choiceButtonPrefab.GetComponent<Image>().sprite : null;
+        RoomReadableUi.DrawPaper(paper, BackButton);
+        var button = RoomReadableUi.PaperLabel(Mathf.RoundToInt(17 * Scale));
+        button.alignment = TextAnchor.MiddleCenter;
         if (GUI.Button(BackButton, "Назад · Esc", button)) Close();
-        var label = new GUIStyle(GUI.skin.box) { fontSize = Mathf.RoundToInt(19 * Scale), alignment = TextAnchor.MiddleCenter };
+        var label = RoomReadableUi.PaperLabel(Mathf.RoundToInt(16 * Scale));
+        label.alignment = TextAnchor.MiddleCenter;
         string title = kind == 1 ? "Доска заметок" : "Архив · наведите на верхний край карточки";
-        GUI.Box(new Rect(16, Screen.height - 56 * Scale, Mathf.Min(Screen.width - 32, 660 * Scale), 42 * Scale), title, label);
+        Rect caption = new Rect(16, Screen.height - 56 * Scale, Mathf.Min(Screen.width - 32, 580 * Scale), 42 * Scale);
+        RoomReadableUi.DrawPaper(paper, caption);
+        GUI.Label(caption, title, label);
     }
 }

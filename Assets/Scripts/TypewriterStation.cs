@@ -410,13 +410,14 @@ public sealed class TypewriterStation : MonoBehaviour
         }
     }
 
-    private static float UiScale => Mathf.Clamp(Screen.height / 720f, .85f, 2f);
-    private static Rect Toolbar => new Rect(16f, Screen.height - 108f * UiScale, Mathf.Min(760f * UiScale, Screen.width - 32f), 92f * UiScale);
+    private static float UiScale => RoomReadableUi.Scale;
+    private static Rect Toolbar => new Rect((Screen.width - Mathf.Min(560f * UiScale, Screen.width - 32f)) / 2f,
+        Screen.height - 104f * UiScale, Mathf.Min(560f * UiScale, Screen.width - 32f), 86f * UiScale);
     private Rect NoteRect
     {
         get
         {
-            float width = Mathf.Min(480f * UiScale, Screen.width * 0.42f);
+            float width = Mathf.Min(370f * UiScale, Screen.width * .36f);
             float shownX = Screen.width - width - 12f;
             float slide = Mathf.SmoothStep(0f, 1f, noteProgress);
             return new Rect(Mathf.Lerp(Screen.width, shownX, slide), 18f, width, width * 0.42f);
@@ -462,16 +463,14 @@ public sealed class TypewriterStation : MonoBehaviour
     {
         get
         {
-            float width = Mathf.Min(350f * UiScale, Screen.width * 0.42f);
+            float width = Mathf.Min(290f * UiScale, Screen.width * .34f);
             return new Rect(16f, RoomStationsController.BackButton.yMax + 14f, width, width * 0.59f);
         }
     }
 
     private static GUIStyle PaperLabel(Color color, int size, FontStyle fontStyle = FontStyle.Normal)
     {
-        var style = new GUIStyle(GUI.skin.label) { fontSize = size, fontStyle = fontStyle };
-        style.normal.textColor = color;
-        return style;
+        return RoomReadableUi.PaperLabel(size, fontStyle);
     }
 
     private void DrawTutorial()
@@ -524,55 +523,33 @@ public sealed class TypewriterStation : MonoBehaviour
         float scale = UiScale;
         Rect area = Toolbar;
         DrawPaper(orderNote, area);
-
-        float inset = Mathf.Min(22f * scale, area.width * 0.06f);
+        float inset = 30f * scale;
         float left = area.x + inset;
-        float buttonWidth = Mathf.Min(200f * scale, area.width * 0.45f);
-        var buttonRect = new Rect(left, area.y + 10f * scale, buttonWidth, 38f * scale);
-        Color previousColor = GUI.color;
-        bool hovered = buttonRect.Contains(Event.current.mousePosition);
-        bool pressed = hovered && Input.GetMouseButton(0);
-        float offset = pressed ? 1f : hovered ? -1f : 0f;
-        var face = new Rect(buttonRect.x, buttonRect.y + offset, buttonRect.width, buttonRect.height);
-        if (orderNote != null)
+        var action = new Rect(left, area.y + 17f * scale, 195f * scale, 30f * scale);
+        var button = RoomReadableUi.PaperLabel(Mathf.RoundToInt(18 * scale), FontStyle.Bold);
+        button.alignment = TextAnchor.MiddleLeft;
+        if (GUI.Button(action, hasSheet ? "−  Снять лист" : "+  Вставить лист", button))
         {
-            var shadow = new Rect(buttonRect.x, buttonRect.y + 2f, buttonRect.width, buttonRect.height);
-            GUI.color = previousColor * new Color(0.29f, 0.18f, 0.11f, 0.62f);
-            DrawPaper(orderNote, shadow);
-            GUI.color = previousColor * (hovered ? new Color(1f, 0.95f, 0.77f) : new Color(0.96f, 0.83f, 0.64f));
-            DrawPaper(orderNote, face);
-            GUI.color = previousColor;
+            if (hasSheet) TryRemoveSheet(); else TryInsertSheet();
         }
-
-        var button = orderNote != null
-            ? PaperLabel(PaperInk, Mathf.RoundToInt(20 * scale), FontStyle.Bold)
-            : new GUIStyle(GUI.skin.button);
-        button.alignment = TextAnchor.MiddleCenter;
-        button.contentOffset = new Vector2(0f, offset);
-        button.hover.textColor = orderNote != null ? Burgundy : button.normal.textColor;
-        button.active.textColor = button.hover.textColor;
-        if (GUI.Button(buttonRect, hasSheet ? "Снять лист" : "Вставить лист", button))
+        if (action.Contains(Event.current.mousePosition))
         {
-            if (hasSheet) TryRemoveSheet();
-            else TryInsertSheet();
+            Color previous = GUI.color;
+            GUI.color = RoomReadableUi.Ink;
+            GUI.DrawTexture(new Rect(action.x, action.yMax - 2f * scale, action.width - 12f * scale, scale), Texture2D.whiteTexture);
+            GUI.color = previous;
         }
-
-        Color ink = orderNote != null ? PaperInk : GUI.skin.label.normal.textColor;
-        float counterX = buttonRect.xMax + 8f;
-        var counter = PaperLabel(ink, Mathf.RoundToInt(19 * scale), FontStyle.Bold);
-        GUI.Label(new Rect(counterX, buttonRect.y + 3f * scale, area.xMax - inset - counterX, 32f * scale),
+        var counter = PaperLabel(PaperInk, Mathf.RoundToInt(16 * scale));
+        counter.alignment = TextAnchor.MiddleRight;
+        GUI.Label(new Rect(action.xMax + 8f * scale, action.y, area.xMax - inset - action.xMax - 8f * scale, action.height),
             $"Готовых листов: {finishedSheets.Count}", counter);
-
-        string hint = "Esc — выйти из режима печати.";
-        if (hasSheet && line + 1 == Lines)
-            hint = "Последняя строка. Снимите лист, когда закончите.";
-        else if (hasSheet)
-            hint = column == Columns ? "Строка заполнена. Потяните рычаг вправо." :
-                "Рычаг вправо — новая строка. Esc — выйти.";
-
-        var hintStyle = PaperLabel(ink, Mathf.RoundToInt(18 * scale));
+        string hint = !hasSheet ? "Вставьте лист, чтобы начать печать." :
+            line + 1 == Lines ? "Последняя строка · снимите готовый лист." :
+            column == Columns ? "Строка заполнена · потяните рычаг вправо." :
+            "Рычаг вправо — новая строка · Esc — назад";
+        var hintStyle = PaperLabel(PaperInk, Mathf.RoundToInt(14 * scale));
         hintStyle.wordWrap = true;
-        GUI.Label(new Rect(left, area.y + 53f * scale, area.width - inset * 2f, 36f * scale), hint, hintStyle);
+        GUI.Label(new Rect(left, area.y + 50f * scale, area.width - inset * 2f, 25f * scale), hint, hintStyle);
     }
 
     private void OnGUI()
@@ -583,15 +560,15 @@ public sealed class TypewriterStation : MonoBehaviour
         if (!IsFocused && Time.unscaledTime < messageUntil &&
             (dialogueRunner == null || !dialogueRunner.IsDialogueActive))
         {
-            float width = Mathf.Min(520f, Screen.width - 24f);
-            var messageArea = new Rect((Screen.width - width) / 2f, 14f, width, 60f);
+            float width = Mathf.Min(420f * UiScale, Screen.width - 32f);
+            var messageArea = new Rect((Screen.width - width) / 2f, 16f, width, 60f * UiScale);
             DrawPaper(orderNote, messageArea);
             Color ink = orderNote != null ? PaperInk : GUI.skin.label.normal.textColor;
-            var message = PaperLabel(ink, 15, FontStyle.Bold);
+            var message = PaperLabel(ink, Mathf.RoundToInt(15 * UiScale), FontStyle.Bold);
             message.wordWrap = true;
             message.alignment = TextAnchor.MiddleCenter;
             float inset = Mathf.Min(24f, width * 0.09f);
-            GUI.Label(new Rect(messageArea.x + inset, messageArea.y + 8f, width - inset * 2f, 44f),
+            GUI.Label(new Rect(messageArea.x + inset, messageArea.y + 12f * UiScale, width - inset * 2f, 36f * UiScale),
                 orderMessage, message);
         }
         if (!zoomArea.CanType) return;
@@ -604,7 +581,9 @@ public sealed class TypewriterStation : MonoBehaviour
             input.Use();
         }
 
-        var backStyle = new GUIStyle(GUI.skin.button) { fontSize = Mathf.RoundToInt(20 * UiScale) };
+        DrawPaper(orderNote, RoomStationsController.BackButton);
+        var backStyle = RoomReadableUi.PaperLabel(Mathf.RoundToInt(17 * UiScale));
+        backStyle.alignment = TextAnchor.MiddleCenter;
         if (GUI.Button(RoomStationsController.BackButton, "Назад · Esc", backStyle)) zoomArea.ExitTypewriterMode();
         DrawToolbar();
     }

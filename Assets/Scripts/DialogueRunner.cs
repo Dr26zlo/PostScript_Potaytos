@@ -57,7 +57,11 @@ public class DialogueRunner : MonoBehaviour
         if (nameText != null) nameText.text = node.speakerName;
         if (dialogueText != null) dialogueText.text = node.dialogueText;
 
-        foreach (Transform child in choicesContainer) Destroy(child.gameObject);
+        foreach (Transform child in choicesContainer)
+        {
+            child.gameObject.SetActive(false);
+            Destroy(child.gameObject);
+        }
 
         if (node.choices.Count > 0)
         {
@@ -112,6 +116,7 @@ public class DialogueRunner : MonoBehaviour
     private void EndDialogue()
     {
         isDialogueActive = false;
+        choicesContainer.gameObject.SetActive(false);
         onDialogueEnd?.Invoke();
 
         MovePanel(hiddenPosition);
