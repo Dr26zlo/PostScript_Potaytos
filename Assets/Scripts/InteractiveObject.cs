@@ -57,7 +57,8 @@ public class InteractiveObject : MonoBehaviour
 
     public void Click()
     {
-        if (isActiveAndEnabled) onClick?.Invoke();
+        if (isActiveAndEnabled && TypewriterZoomArea.AllowsClick(transform))
+            onClick?.Invoke();
     }
     public void ResetHighlight()
     {

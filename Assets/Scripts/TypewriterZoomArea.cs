@@ -9,11 +9,19 @@ public class TypewriterZoomArea : MonoBehaviour
 
     internal TypewriterStation station;
     internal float minimumZoomSize;
-    private bool isFocused = false;
+    private static TypewriterZoomArea focusedArea;
 
-    internal bool IsFocused => isFocused;
+    internal bool IsFocused => focusedArea == this;
 
-    public bool CanType => isActiveAndEnabled && isFocused &&
+    internal static bool AllowsClick(Transform target)
+    {
+        if (focusedArea == null) return true;
+        Transform machine = focusedArea.station != null ? focusedArea.station.transform : focusedArea.transform;
+        return target.IsChildOf(machine) ||
+            (focusedArea.station == null && target.GetComponent<TypewriterKey>() != null);
+    }
+
+    public bool CanType => isActiveAndEnabled && IsFocused &&
         cameraScript != null && cameraScript.HasReachedFocus(focusPoint);
 
     void Start()
@@ -30,7 +38,7 @@ public class TypewriterZoomArea : MonoBehaviour
 
     void Update()
     {
-        if (isFocused && (Input.GetKeyDown(KeyCode.Escape) || Input.GetMouseButtonDown(1)))
+        if (IsFocused && (Input.GetKeyDown(KeyCode.Escape) || Input.GetMouseButtonDown(1)))
         {
             ExitTypewriterMode();
         }
@@ -38,8 +46,8 @@ public class TypewriterZoomArea : MonoBehaviour
 
     public void EnterTypewriterMode()
     {
-        if (isFocused || cameraScript == null || !cameraScript.isActiveAndEnabled) return;
-        isFocused = true;
+        if (!isActiveAndEnabled || focusedArea != null || cameraScript == null || !cameraScript.isActiveAndEnabled) return;
+        focusedArea = this;
 
         cameraScript.FocusOn(focusPoint, minimumZoomSize);
 
@@ -47,10 +55,11 @@ public class TypewriterZoomArea : MonoBehaviour
 
     public void ExitTypewriterMode()
     {
-        if (!isFocused) return;
-        isFocused = false;
-
-        cameraScript.ResetZoom();
-
+        if (!IsFocused) return;
+        focusedArea = null;
+        if (cameraScript != null && cameraScript.isActiveAndEnabled)
+            cameraScript.ResetZoom();
     }
+
+    private void OnDisable() => ExitTypewriterMode();
 }
