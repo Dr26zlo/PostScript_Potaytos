@@ -113,8 +113,6 @@ public static class RoomReadableUi
         rect.localScale = Vector3.one;
     }
 
-    private static Graphic textGraphic(GameObject button) => button.GetComponentInChildren<Text>();
-
     public static void ConfigureChoice(GameObject button)
     {
         var layout = button.GetComponent<LayoutElement>();
@@ -124,15 +122,16 @@ public static class RoomReadableUi
         Button control = button.GetComponent<Button>();
         if (control != null && paper != null)
         {
-            paper.enabled = false;
-            paper.color = Color.clear;
-            control.targetGraphic = textGraphic(button);
+            paper.enabled = true;
+            paper.color = Color.white;
+            paper.raycastTarget = true;
+            control.targetGraphic = paper;
             control.transition = Selectable.Transition.ColorTint;
             var colors = control.colors;
-            colors.normalColor = new Color(.94f, .88f, .74f);
-            colors.highlightedColor = colors.normalColor;
+            colors.normalColor = new Color(1f, .97f, .9f);
+            colors.highlightedColor = new Color(.9f, .8f, .62f);
             colors.selectedColor = colors.highlightedColor;
-            colors.pressedColor = colors.normalColor;
+            colors.pressedColor = new Color(.79f, .68f, .51f);
             colors.colorMultiplier = 1;
             control.colors = colors;
         }
@@ -143,12 +142,10 @@ public static class RoomReadableUi
             text.resizeTextMinSize = 21; text.resizeTextMaxSize = 23;
             text.horizontalOverflow = HorizontalWrapMode.Wrap;
             text.alignment = TextAnchor.MiddleLeft;
-            text.color = new Color(.94f, .88f, .74f);
+            text.color = Ink;
             var shadow = text.GetComponent<Shadow>();
-            if (shadow == null) shadow = text.gameObject.AddComponent<Shadow>();
-            shadow.effectColor = new Color(0, 0, 0, .9f);
-            shadow.effectDistance = new Vector2(1, -1);
-            text.raycastTarget = true;
+            if (shadow != null) shadow.enabled = false;
+            text.raycastTarget = false;
             text.rectTransform.anchorMin = Vector2.zero; text.rectTransform.anchorMax = Vector2.one;
             text.rectTransform.offsetMin = new Vector2(38, 10); text.rectTransform.offsetMax = new Vector2(-38, -10);
         }
