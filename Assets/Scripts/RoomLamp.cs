@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Rendering.Universal;
@@ -16,6 +17,7 @@ public sealed class RoomLamp : MonoBehaviour
     private AudioSource audioSource;
     private AudioClip switchSound;
     private bool isOn;
+    private readonly List<Light2D> accentLights = new List<Light2D>();
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     private static void RegisterSceneHook()
@@ -83,7 +85,7 @@ public sealed class RoomLamp : MonoBehaviour
             foreach (SpriteRenderer sprite in room.GetComponentsInChildren<SpriteRenderer>(true))
             {
                 Material material = sprite.sharedMaterial;
-                if (material == null || material.shader.name == "Sprites/Default")
+                if (material == null || material.shader.name == "Sprites/Default" || material.shader.name.Contains("Sprite-Unlit"))
                     sprite.sharedMaterial = litMaterial;
             }
         }
@@ -91,15 +93,58 @@ public sealed class RoomLamp : MonoBehaviour
         foreach (Light2D ambient in FindObjectsOfType<Light2D>())
         {
             if (ambient.gameObject.scene == gameObject.scene && ambient.lightType == Light2D.LightType.Global)
-                ambient.intensity = 0.42f;
+            {
+                ambient.intensity = .23f;
+                ambient.color = new Color(.64f, .75f, 1f);
+            }
+            else if (ambient.gameObject.scene == gameObject.scene) ambient.intensity *= .25f;
         }
 
         Vector3 center = lamp.bounds.center;
         roomLight = CreateLight("Тёплый свет комнаты", center + new Vector3(0.7f, -3.7f, 0f),
-            new Color(1f, 0.81f, 0.58f), 0.83f, 2.1f, 7.1f);
+            new Color(1f, .83f, .64f), .45f, 1.5f, 6.4f);
         shadeLight = CreateLight("Свет абажура", center, new Color(1f, 0.90f, 0.71f),
-            0.72f, 0.65f, 2.1f);
+            1.05f, .35f, 1.9f);
+        FitDoor(room.transform);
+        AddAccent("Свет на персонаже", FindCentre(room.transform, "Сидящий имп", new Vector3(2.55f, .5f, 0)) + Vector3.up * .65f,
+            new Color(1f, .82f, .66f), .66f, .45f, 2.6f);
+        AddAccent("Свет на двери", FindCentre(room.transform, "Закрытая дверь", Vector3.zero),
+            new Color(1f, .86f, .72f), .38f, .5f, 2.8f);
+        AddAccent("Свет на доске", room.transform.TransformPoint(new Vector3(15.6f, .4f, 0)),
+            new Color(1f, .87f, .71f), .65f, .65f, 3.3f);
+        AddAccent("Свет на рабочем столе", room.transform.TransformPoint(new Vector3(-.2f, -7.2f, 0)),
+            new Color(1f, .86f, .69f), .64f, 1f, 4.4f);
+        // Window light remains when the lamp is off, keeping the scene legible.
+        CreateLight("Холодный свет окна", room.transform.TransformPoint(new Vector3(-10.4f, 1.1f, 0)),
+            new Color(.46f, .65f, 1f), .32f, .8f, 5.5f);
         ApplyState();
+    }
+
+    private void AddAccent(string name, Vector3 position, Color color, float intensity, float inner, float outer)
+    {
+        accentLights.Add(CreateLight(name, position, color, intensity, inner, outer));
+    }
+    private static Vector3 FindCentre(Transform room, string name, Vector3 fallback)
+    {
+        foreach (Transform part in room.GetComponentsInChildren<Transform>(true))
+        {
+            if (part.name != name) continue;
+            var sprite = part.GetComponent<SpriteRenderer>();
+            if (sprite != null) return sprite.bounds.center;
+        }
+        return fallback;
+    }
+    private static void FitDoor(Transform room)
+    {
+        Transform door = room.Find("Дверь");
+        if (door == null) return;
+        SpriteRenderer closed = null;
+        foreach (var sprite in door.GetComponentsInChildren<SpriteRenderer>(true))
+            if (sprite.name == "Закрытая дверь") closed = sprite;
+        if (closed == null) return;
+        float bottom = closed.bounds.min.y;
+        door.localScale = Vector3.Scale(door.localScale, new Vector3(1.07f, 1.035f, 1));
+        door.position += Vector3.up * (bottom - closed.bounds.min.y);
     }
 
     private Light2D CreateLight(string label, Vector3 position, Color color, float intensity, float innerRadius, float outerRadius)
@@ -147,5 +192,6 @@ public sealed class RoomLamp : MonoBehaviour
         if (wallSwitch != null) wallSwitch.flipY = !isOn;
         roomLight.enabled = isOn;
         shadeLight.enabled = isOn;
+        foreach (Light2D light in accentLights) if (light != null) light.enabled = isOn;
     }
 }

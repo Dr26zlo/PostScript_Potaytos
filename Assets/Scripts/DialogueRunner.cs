@@ -63,9 +63,9 @@ public class DialogueRunner : MonoBehaviour
             foreach (var choice in node.choices)
             {
                 GameObject btnObj = Instantiate(choiceButtonPrefab, choicesContainer);
-                RoomReadableUi.ConfigureChoice(btnObj);
                 var btnText = btnObj.GetComponentInChildren<Text>();
                 if (btnText != null) btnText.text = choice.choiceText;
+                RoomReadableUi.ConfigureChoice(btnObj);
 
                 var button = btnObj.GetComponent<Button>();
                 var capturedChoice = choice;
@@ -75,6 +75,8 @@ public class DialogueRunner : MonoBehaviour
         {
             choicesContainer.gameObject.SetActive(false);
         }
+        RoomReadableUi.FitContent(this);
+        hiddenPosition = new Vector2(shownPosition.x, -panelRect.rect.height - 32f);
     }
 
     public void OnScreenClicked()
