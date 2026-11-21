@@ -28,8 +28,10 @@ public sealed class TaskCycle : MonoBehaviour
         public float DelayToNextTask => delayToNextTask;
     }
 
+    [Header("Tasks")]
     [SerializeField] private Entry[] tasks = Array.Empty<Entry>();
 
+    [Header("Other")]
     [SerializeField] private bool repeat = false;
     [SerializeField] private GuestDoor guestDoor;
 

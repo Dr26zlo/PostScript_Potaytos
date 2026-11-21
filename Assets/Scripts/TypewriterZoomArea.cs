@@ -3,6 +3,7 @@ using UnityEngine;
 [RequireComponent(typeof(InteractiveObject))]
 public class TypewriterZoomArea : MonoBehaviour
 {
+    [Header("Zoom")]
     public CameraMovement cameraScript;
     public Transform focusPoint;
     public Transform backgroundTransform;
