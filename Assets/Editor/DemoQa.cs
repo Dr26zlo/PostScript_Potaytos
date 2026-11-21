@@ -55,6 +55,7 @@ public static class DemoQa
    if(d.Mode=="journal"||d.Mode=="archive"){if(d.Mode=="archive"){var move=d.GetComponent<CameraMovement>();if(move.CurrentFocus!=null&&!move.HasReachedFocus(move.CurrentFocus))return;}string key=d.Mode+":"+route+":"+d.Step;if(captures.Add(key)){ScreenCapture.CaptureScreenshot("/tmp/postcript-"+d.Mode+"-"+route+"-"+d.Step+".png");holdUntil=last+.6;return;}if(d.Mode=="archive")
     {
      Assert(d.Content.documents.First(x=>x.id=="archive_rules").storage=="archive","Rules missing archive storage");
+     var rules=d.Content.documents.First(x=>x.id=="archive_rules").text;Assert(rules.StartsWith("1. ")&&rules.Contains("7. "),"Rules not numbered");
      var stations=RoomStationsController.Instance;Assert(stations.IsOpen,"Physical archive not open");
      if(verified.Add("archive-cards:"+route+":"+d.Step))
      {
@@ -135,7 +136,20 @@ public static class DemoQa
    }
    if(!printed)
    {
+    if(!machine.IsFocused&&verified.Add("overview-hover:"+route+current))
+    {
+     var body=(SpriteRenderer)Get(machine,"body");Call(machine,"UpdateMachineHover",OpaquePoint(body),true);
+     var colors=(Dictionary<SpriteRenderer,Color>)Get(machine,"machineColors");foreach(var pair in colors)Assert(pair.Key.color.r<=pair.Value.r*.87f+.001f,"Overview hover fails to shade whole machine");
+     Log("Overview hover shades the whole machine");
+    }
     zoom.EnterTypewriterMode();if(!zoom.CanType)return;
+    if(verified.Add("focused-hover:"+route+current))
+    {
+     var body=(SpriteRenderer)Get(machine,"body");var lever=(SpriteRenderer)Get(machine,"lever");var colors=(Dictionary<SpriteRenderer,Color>)Get(machine,"machineColors");
+     Call(machine,"UpdateMachineHover",OpaquePoint(lever),true);Assert(body.color==colors[body]&&lever.color==colors[lever],"Non-key machine parts darken during typing");
+     var keys=(List<TypewriterKey>)Get(machine,"keys");var key=keys.First(k=>k.isActiveAndEnabled).GetComponent<SpriteRenderer>();var point=OpaquePoint(key);var hit=(TypewriterKey)Call(machine,"FindClickedKey",point);Assert(hit!=null,"No active key hit at "+key.name);key=hit.GetComponent<SpriteRenderer>();Call(machine,"UpdateMachineHover",point,true);Assert(key.color.r<colors[key].r,"Focused key hover absent: "+key.name+" actual="+key.color+" baseline="+colors[key]+" focus="+machine.IsFocused+" canType="+zoom.CanType);Assert(body.color==colors[body],"Key hover shades body during typing");
+     Log("Focused hover shades keys only");
+    }
     if(!printing){Assert(machine.TryInsertSheet(),"Cannot insert paper");printing=true;printRow=0;}
     string text=route==3?"Ошибка":selected.text;
     if(selected.requiresLineBreak){Assert(!guest.MatchesOrder(selected.text.Replace('\n',' ')),"Flattened multiline accepted");Assert(guest.MatchesOrder("  "+selected.text.ToUpperInvariant().Replace('ё','е').Replace(" ","  ")+"  "),"Normalized multiline rejected");}
@@ -153,11 +167,18 @@ public static class DemoQa
      if(row==0&&rows.Length>1){Assert(machine.HasLineBreakHint,"Missing required manual-return reminder");ScreenCapture.CaptureScreenshot("/tmp/postcript-linebreak-"+route+"-"+current+".png");}
      printRow++;holdUntil=last+.65;return;
     }
-    Assert(machine.TryRemoveSheet(),"Cannot remove sheet");printed=true;printing=false;zoom.ExitTypewriterMode();Log("Printed and removed actual order sheet "+current);return;
+    var sheets=(Queue<string>)Get(machine,"finishedSheets");sheets.Enqueue("СТАРЫЙ ЛИСТ");
+    Assert(machine.TryRemoveSheet(),"Cannot remove sheet");Assert(machine.FinishedSheetCount==1&&sheets.Peek()!="СТАРЫЙ ЛИСТ","Removing new sheet retains older sheet");Log("New removed sheet replaces the previous sheet");printed=true;printing=false;zoom.ExitTypewriterMode();Log("Printed and removed actual order sheet "+current);return;
    }
    guest.Interact();
   }
   catch(Exception ex){File.AppendAllText("/tmp/postcript-qa.txt","FAIL "+ex+"\n");SessionState.SetBool("Postcript.Qa",false);SessionState.SetBool("Postcript.QaQuit",true);SessionState.SetInt("Postcript.QaExit",1);EditorApplication.ExitPlaymode();}
+ }
+ static Vector3 OpaquePoint(SpriteRenderer sprite)
+ {
+  var bounds=sprite.bounds;for(int y=1;y<20;y++)for(int x=1;x<20;x++)
+  {Vector3 point=new Vector3(Mathf.Lerp(bounds.min.x,bounds.max.x,x/20f),Mathf.Lerp(bounds.min.y,bounds.max.y,y/20f),sprite.transform.position.z);if(SpriteHit.Contains(sprite,point))return point;}
+  throw new Exception("No opaque point on "+sprite.name);
  }
  static void SetView(int width,int height)
  {

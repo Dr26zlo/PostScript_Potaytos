@@ -46,6 +46,7 @@ public sealed class TypewriterStation : MonoBehaviour
 
     private Guest activeGuest;
     private float noteProgress;
+    private readonly Dictionary<SpriteRenderer,Color> machineColors=new Dictionary<SpriteRenderer,Color>();
     private string orderMessage;
     private float messageUntil;
     private bool tutorialComplete;
@@ -210,8 +211,35 @@ public sealed class TypewriterStation : MonoBehaviour
         if (IsFocused && dialogueRunner != null && dialogueRunner.IsDialogueActive)
             zoomArea.ExitTypewriterMode();
 
-        noteProgress = Mathf.MoveTowards(noteProgress, IsFocused && activeGuest != null ? 1f : 0f,
+        noteProgress = Mathf.MoveTowards(noteProgress, IsFocused ? 1f : 0f,
             Time.unscaledDeltaTime * 4f);
+    }
+
+    private void LateUpdate()
+    {
+        if(worldCamera==null||zoomArea==null)return;
+        bool available=(DemoDirector.Instance==null||DemoDirector.Instance.Mode=="room")&&
+            (dialogueRunner==null||!dialogueRunner.IsDialogueActive)&&
+            (RoomStationsController.Instance==null||!RoomStationsController.Instance.IsOpen);
+        UpdateMachineHover(PointerOnMachine(new Vector2(Input.mousePosition.x,Screen.height-Input.mousePosition.y)),available);
+    }
+
+    private void UpdateMachineHover(Vector3 pointer,bool available)
+    {
+        if(machineColors.Count==0)foreach(var sprite in GetComponentsInChildren<SpriteRenderer>(true))
+        {
+            var interaction=sprite.GetComponent<InteractiveObject>();
+            machineColors[sprite]=interaction!=null?interaction.normalColor:sprite.color;
+        }
+        bool overview=available&&!IsFocused&&!zoomArea.cameraScript.HasFocus&&PointerIsOnMachine(pointer);
+        var key=available&&IsFocused&&zoomArea.CanType?FindClickedKey(pointer):null;
+        foreach(var pair in machineColors)
+        {
+            if(pair.Key==null)continue;
+            bool dark=overview||(key!=null&&key.KeySprite==pair.Key);
+            Color color=pair.Value;if(dark){color.r*=.86f;color.g*=.86f;color.b*=.86f;}
+            pair.Key.color=color;
+        }
     }
 
     private void HandleMouse(Event input)
@@ -370,6 +398,7 @@ public sealed class TypewriterStation : MonoBehaviour
     {
         if (!isActiveAndEnabled || !zoomArea.CanType || !hasSheet || dragging) return false;
         string contents = text.ToString().TrimEnd();
+        finishedSheets.Clear();
         if (contents.Length > 0)
         {
             finishedSheets.Enqueue(contents);
@@ -418,8 +447,8 @@ public sealed class TypewriterStation : MonoBehaviour
     }
 
     private static float UiScale => RoomReadableUi.Scale;
-    private static Rect Toolbar => new Rect((Screen.width - Mathf.Min(560f * UiScale, Screen.width - 32f)) / 2f,
-        Screen.height - 104f * UiScale, Mathf.Min(560f * UiScale, Screen.width - 32f), 86f * UiScale);
+    private Rect Toolbar => new Rect((Screen.width - Mathf.Min(560f * UiScale, Screen.width - 32f)) / 2f,
+        Mathf.Lerp(Screen.height + 4f, Screen.height - 104f * UiScale, Mathf.SmoothStep(0f,1f,noteProgress)), Mathf.Min(560f * UiScale, Screen.width - 32f), 86f * UiScale);
     private Rect NoteRect
     {
         get
@@ -521,10 +550,6 @@ public sealed class TypewriterStation : MonoBehaviour
             GUI.DrawTexture(new Rect(action.x, action.yMax - 2f * scale, action.width - 12f * scale, scale), Texture2D.whiteTexture);
             GUI.color = previous;
         }
-        var counter = PaperLabel(PaperInk, Mathf.RoundToInt(16 * scale));
-        counter.alignment = TextAnchor.MiddleRight;
-        GUI.Label(new Rect(action.xMax + 8f * scale, action.y, area.xMax - inset - action.xMax - 8f * scale, action.height),
-            $"Готовых листов: {finishedSheets.Count}", counter);
         string hint = !hasSheet ? "Вставьте лист, чтобы начать печать." :
             line + 1 == Lines ? "Последняя строка · снимите готовый лист." :
             column == Columns ? "Строка заполнена · потяните рычаг вправо." :
@@ -601,6 +626,10 @@ public sealed class TypewriterStation : MonoBehaviour
             GUI.Label(new Rect(messageArea.x + inset, messageArea.y + 12f * UiScale, width - inset * 2f, 36f * UiScale),
                 orderMessage, message);
         }
+        if(noteProgress>0)
+        {
+            bool enabled=GUI.enabled;GUI.enabled=zoomArea.CanType;DrawToolbar();GUI.enabled=enabled;
+        }
         if (!zoomArea.CanType) return;
         DrawTutorial();
         if (input.type == EventType.KeyDown && !input.control && !input.alt && !input.command &&
@@ -610,7 +639,6 @@ public sealed class TypewriterStation : MonoBehaviour
         var backStyle = RoomReadableUi.PaperLabel(Mathf.RoundToInt(17 * UiScale));
         backStyle.alignment = TextAnchor.MiddleCenter;
         if (GUI.Button(RoomStationsController.BackButton, "Назад · Esc", backStyle)) zoomArea.ExitTypewriterMode();
-        DrawToolbar();
         DrawLineBreakHint();
     }
 }

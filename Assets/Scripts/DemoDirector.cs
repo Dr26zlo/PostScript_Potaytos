@@ -234,7 +234,16 @@ public sealed class DemoDirector : MonoBehaviour
   if(inspected!=null)
   {
    var doc=docs.First(d=>d.id==inspected);var image=Resources.Load<Texture2D>("Demo/Documents/"+doc.id);
-   if(image!=null)GUI.DrawTexture(new Rect(Screen.width*.22f,50*s,Screen.width*.56f,Screen.height-130*s),image,ScaleMode.ScaleToFit);
+   if(doc.id=="archive_rules")
+   {
+    var sheet=new Rect(Screen.width*.22f,35*s,Screen.width*.56f,Screen.height-75*s);
+    GUI.DrawTexture(sheet,Resources.Load<Texture2D>("Demo/UI/rules-paper"),ScaleMode.StretchToFill);
+    var title=RoomReadableUi.PaperLabel(Mathf.RoundToInt(25*s),FontStyle.Bold);title.alignment=TextAnchor.MiddleCenter;
+    GUI.Label(new Rect(sheet.x+30*s,sheet.y+30*s,sheet.width-60*s,55*s),doc.title,title);
+    var rules=RoomReadableUi.PaperLabel(Mathf.RoundToInt(20*s));rules.wordWrap=true;
+    GUI.Label(new Rect(sheet.x+90*s,sheet.y+95*s,sheet.width-180*s,sheet.height-130*s),doc.text,rules);
+   }
+   else if(image!=null)GUI.DrawTexture(new Rect(Screen.width*.22f,50*s,Screen.width*.56f,Screen.height-130*s),image,ScaleMode.ScaleToFit);
    else
    {
     var sheet=new Rect(Screen.width*.2f,70*s,Screen.width*.6f,Screen.height-150*s);

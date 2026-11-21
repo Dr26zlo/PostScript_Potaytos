@@ -218,18 +218,14 @@ public sealed class RoomStationsController : MonoBehaviour
         GUI.Label(caption, title, label);
         if(documents!=null)
         {
-            var textStyle=RoomReadableUi.PaperLabel(Mathf.RoundToInt(19*Scale));textStyle.alignment=TextAnchor.MiddleCenter;textStyle.wordWrap=true;
+            var textStyle=RoomReadableUi.PaperLabel(Mathf.RoundToInt(21*Scale),FontStyle.Bold);textStyle.alignment=TextAnchor.MiddleCenter;textStyle.wordWrap=true;
             for(int i=0;i<cards.Count;i++)
             {
                 var card=cards[i];var bounds=card.GetComponent<SpriteRenderer>().sprite.bounds;
                 Vector3 top=cam.WorldToViewportPoint(card.TransformPoint(new Vector3(bounds.center.x,bounds.max.y-.22f,0)));
                 string text=documents[page*4+i].title;
                 GUI.Label(new Rect(top.x*Screen.width-210*Scale,(1-top.y)*Screen.height,420*Scale,55*Scale),text,textStyle);
-                if(i==selected||cards.Count==1)
-                {
-                    string excerpt=documents[page*4+i].text??"";if(excerpt.Length>180)excerpt=excerpt.Substring(0,180)+"…";
-                    GUI.Label(new Rect(top.x*Screen.width-210*Scale,(1-top.y)*Screen.height+65*Scale,420*Scale,130*Scale),excerpt,textStyle);
-                }
+
             }
         }
         if(documents!=null&&documents.Length>4)

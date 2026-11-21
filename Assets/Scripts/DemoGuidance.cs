@@ -33,7 +33,7 @@ public sealed class DemoGuidance : MonoBehaviour
   highlight.enabled=director.Mode=="room"&&!string.IsNullOrEmpty(target);
   if(highlight.enabled)
   {
-   highlight.transform.position=at;highlight.intensity=.8f*RoomReadableUi.HintAlpha;
+   highlight.transform.position=at;highlight.intensity=.08f+2.6f*Mathf.Pow(RoomReadableUi.HintAlpha,2);
   }
   if(director.Mode=="room"&&string.IsNullOrEmpty(target)&&(dialogue==null||!dialogue.IsDialogueActive)&&(machine==null||!machine.IsFocused))
   {
