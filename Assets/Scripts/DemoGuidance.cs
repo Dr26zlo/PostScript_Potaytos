@@ -14,7 +14,7 @@ public sealed class DemoGuidance : MonoBehaviour
   while(opening<1){opening+=Time.unscaledDeltaTime/1.3f;yield return null;}
   opening=-1;
  }
- public void SetStage(string stage){Stage=stage;GetComponent<CameraMovement>().TutorialOverview=!string.IsNullOrEmpty(stage);}
+ public void SetStage(string stage){Stage=stage;GetComponent<CameraMovement>().TutorialOverview=false;}
  public void Notify(string storage){string text=storage=="archive"?"Новый документ в архиве":"Новая запись на доске";if(toast!=text&&!notifications.Contains(text))notifications.Enqueue(text);}
  private void Start()
  {
@@ -33,7 +33,7 @@ public sealed class DemoGuidance : MonoBehaviour
   highlight.enabled=director.Mode=="room"&&!string.IsNullOrEmpty(target);
   if(highlight.enabled)
   {
-   highlight.transform.position=at;highlight.intensity=.18f+.18f*(.5f+.5f*Mathf.Sin(Time.unscaledTime*2.6f));
+   highlight.transform.position=at;highlight.intensity=.8f*RoomReadableUi.HintAlpha;
   }
   if(director.Mode=="room"&&string.IsNullOrEmpty(target)&&(dialogue==null||!dialogue.IsDialogueActive)&&(machine==null||!machine.IsFocused))
   {
@@ -57,8 +57,8 @@ public sealed class DemoGuidance : MonoBehaviour
   if(machine!=null&&machine.HasLineBreakHint)return;
   float s=RoomReadableUi.Scale;var style=new GUIStyle(GUI.skin.label){font=RoomReadableUi.Font,fontSize=Mathf.RoundToInt(26*s),alignment=TextAnchor.MiddleCenter,wordWrap=true};
   var rect=new Rect(Screen.width*.15f,Screen.height*.39f,Screen.width*.7f,90*s);
-  style.normal.textColor=new Color(0,0,0,.75f);GUI.Label(new Rect(rect.x+2,rect.y+2,rect.width,rect.height),text,style);
-  style.normal.textColor=new Color(1,1,1,.8f+.2f*Mathf.Sin(Time.unscaledTime*2));GUI.Label(rect,text,style);
+  style.normal.textColor=new Color(0,0,0,.75f*RoomReadableUi.HintAlpha);GUI.Label(new Rect(rect.x+2,rect.y+2,rect.width,rect.height),text,style);
+  style.normal.textColor=new Color(1,1,1,RoomReadableUi.HintAlpha);GUI.Label(rect,text,style);
  }
  private void OnDestroy(){if(highlight!=null)Destroy(highlight.gameObject);}
 }

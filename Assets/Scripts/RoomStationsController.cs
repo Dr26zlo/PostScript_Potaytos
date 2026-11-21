@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System.Linq;
 
 // Adapts the board and four-card archive from the small Postcript build to this room camera.
 public sealed class RoomStationsController : MonoBehaviour
@@ -19,6 +20,8 @@ public sealed class RoomStationsController : MonoBehaviour
     private AudioClip paperSound;
     private int selected = -1, kind;
     private float openedAt;
+    private DemoDocument[] documents;private int page;
+    public bool IsReading => DemoDirector.Instance != null && DemoDirector.Instance.IsReadingArchive;
     private float Scale => RoomReadableUi.Scale;
     public static Rect BackButton => new Rect(16, 16, 150 * RoomReadableUi.Scale, 42 * RoomReadableUi.Scale);
 
@@ -55,25 +58,43 @@ public sealed class RoomStationsController : MonoBehaviour
     }
     private void Update()
     {
-        if (DemoDirector.Instance != null && DemoDirector.Instance.Mode != "room") return;
+        if (DemoDirector.Instance != null && DemoDirector.Instance.Mode != "room" && !(DemoDirector.Instance.Mode == "archive" && IsOpen)) return;
+        if(IsReading)return;
         if (room == null) return;
         Vector3 world = PointerWorld();
         if (IsOpen)
         {
             if (Input.GetKeyDown(KeyCode.Escape) || Input.GetMouseButtonDown(1)) { Close(); return; }
-            if (kind == 2) HoverCards(world);
-            if (Time.unscaledTime - openedAt > 0.3f && Input.GetMouseButtonDown(0) && !BoundsOf(panel).Contains(world)) Close();
+            if (kind == 2) {HoverCards(world);if(selected>=0&&Input.GetMouseButtonDown(0)&&documents!=null){int index=page*4+selected;if(index<documents.Length)DemoDirector.Instance.ReadArchive(documents[index].id);return;}}
+            if (DemoDirector.Instance==null && Time.unscaledTime - openedAt > 0.3f && Input.GetMouseButtonDown(0) && !BoundsOf(panel).Contains(world)) Close();
             return;
         }
         if (movement.HasFocus || (dialogue != null && dialogue.IsDialogueActive) || !Input.GetMouseButtonDown(0)) return;
         Vector3 at = room.InverseTransformPoint(world);
         if (at.x > 13.6f && at.x < 20f && at.y > -4f && at.y < 6.5f) Open(1);
-        else if (at.x > 6f && at.x < 16.5f && at.y < -2.8f && at.y > -11f) Open(2);
+        else if (HitsArchive(world)) Open(2);
+    }
+    // The archive is painted into the room background; use its tray silhouette, not a neighbouring prop.
+    private static readonly Vector2[] ArchiveOutline={new Vector2(7.4f,-6.0f),new Vector2(13.4f,-4.6f),new Vector2(15.0f,-6.4f),new Vector2(13.9f,-10.4f),new Vector2(7.2f,-9.2f)};
+    public bool HitsArchive(Vector3 world)
+    {
+        if(room==null)return false;Vector2 p=room.InverseTransformPoint(world);bool inside=false;
+        for(int i=0,j=ArchiveOutline.Length-1;i<ArchiveOutline.Length;j=i++)
+        {Vector2 a=ArchiveOutline[i],b=ArchiveOutline[j];if((a.y>p.y)!=(b.y>p.y)&&p.x<(b.x-a.x)*(p.y-a.y)/(b.y-a.y)+a.x)inside=!inside;}
+        return inside;
+    }
+    public void ShowArchive(DemoDocument[] available)
+    {
+        documents=available;page=0;Show(2);
     }
     public void Open(int station)
     {
         if (DemoDirector.Instance != null) { if(station==1)DemoDirector.Instance.OpenJournal();else if(station==2)DemoDirector.Instance.OpenArchive();return; }
-        if (IsOpen || movement.HasFocus || (dialogue != null && dialogue.IsDialogueActive) || station < 1 || station > 2) return;
+        Show(station);
+    }
+    private void Show(int station)
+    {
+        if (IsOpen || (DemoDirector.Instance==null && movement.HasFocus) || (dialogue != null && dialogue.IsDialogueActive) || station < 1 || station > 2) return;
         GameObject prefab = Resources.Load<GameObject>(station == 1 ? "RoomStations/Board" : "RoomStations/Archive");
         if (prefab == null) return;
         kind = station;
@@ -99,7 +120,7 @@ public sealed class RoomStationsController : MonoBehaviour
         bounds = BoundsOf(panel);
         focus = new GameObject("Фокус крупного плана").transform;
         focus.position = bounds.center;
-        movement.FocusOn(focus, size);
+        movement.enabled=true;movement.FocusOn(focus, size);
         MakeShade(bounds.center, size);
         openedAt = Time.unscaledTime;
     }
@@ -126,13 +147,14 @@ public sealed class RoomStationsController : MonoBehaviour
         sample.gameObject.SetActive(false);
         foreach (SpriteRenderer sprite in panel.GetComponentsInChildren<SpriteRenderer>())
             if (sprite.name.Contains("разделитель") || sprite.name == "Архив — задняя карточка") sprite.gameObject.SetActive(false);
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < (documents!=null?Mathf.Min(4,documents.Length-page*4):4); i++)
         {
             Transform card = Instantiate(sample.gameObject, sample.parent).transform;
             card.name = "Карточка " + (i + 1); card.gameObject.SetActive(true);
             card.localPosition = sample.localPosition + new Vector3((i % 3 - 1) * .055f, i * .38f, 0);
             card.GetComponent<SpriteRenderer>().sortingOrder = 105 - i;
             cards.Add(card); rests.Add(card.localPosition);
+            if(documents!=null)card.name+=" — "+documents[page*4+i].title;
         }
         Transform front = Find("Архив — передняя стенка");
         if (front != null) front.GetComponent<SpriteRenderer>().sortingOrder = 150;
@@ -163,6 +185,11 @@ public sealed class RoomStationsController : MonoBehaviour
     }
     public void Close()
     {
+        bool notify=DemoDirector.Instance!=null&&DemoDirector.Instance.Mode=="archive";
+        Hide();if(notify)DemoDirector.Instance.CloseJournal();
+    }
+    public void Hide()
+    {
         if (!IsOpen) return;
         Destroy(panel); panel = null;
         if (shade != null) { Sprite sprite = shade.GetComponent<SpriteRenderer>().sprite; Destroy(sprite.texture); Destroy(sprite); Destroy(shade); }
@@ -170,9 +197,14 @@ public sealed class RoomStationsController : MonoBehaviour
         if (focus != null) Destroy(focus.gameObject);
         cards.Clear(); rests.Clear(); selected = -1;
     }
+    private void ChangePage(int delta)
+    {
+        int next=Mathf.Clamp(page+delta,0,(documents.Length-1)/4);if(next==page)return;
+        var saved=documents;Hide();documents=saved;page=next;Show(2);
+    }
     private void OnGUI()
     {
-        if (!IsOpen) return;
+        if (!IsOpen || IsReading) return;
         Sprite paper = dialogue != null ? dialogue.choiceButtonPrefab.GetComponent<Image>().sprite : null;
         RoomReadableUi.DrawPaper(paper, BackButton);
         var button = RoomReadableUi.PaperLabel(Mathf.RoundToInt(17 * Scale));
@@ -184,5 +216,26 @@ public sealed class RoomStationsController : MonoBehaviour
         Rect caption = new Rect(16, Screen.height - 56 * Scale, Mathf.Min(Screen.width - 32, 580 * Scale), 42 * Scale);
         RoomReadableUi.DrawPaper(paper, caption);
         GUI.Label(caption, title, label);
+        if(documents!=null)
+        {
+            var textStyle=RoomReadableUi.PaperLabel(Mathf.RoundToInt(19*Scale));textStyle.alignment=TextAnchor.MiddleCenter;textStyle.wordWrap=true;
+            for(int i=0;i<cards.Count;i++)
+            {
+                var card=cards[i];var bounds=card.GetComponent<SpriteRenderer>().sprite.bounds;
+                Vector3 top=cam.WorldToViewportPoint(card.TransformPoint(new Vector3(bounds.center.x,bounds.max.y-.22f,0)));
+                string text=documents[page*4+i].title;
+                GUI.Label(new Rect(top.x*Screen.width-210*Scale,(1-top.y)*Screen.height,420*Scale,55*Scale),text,textStyle);
+                if(i==selected||cards.Count==1)
+                {
+                    string excerpt=documents[page*4+i].text??"";if(excerpt.Length>180)excerpt=excerpt.Substring(0,180)+"…";
+                    GUI.Label(new Rect(top.x*Screen.width-210*Scale,(1-top.y)*Screen.height+65*Scale,420*Scale,130*Scale),excerpt,textStyle);
+                }
+            }
+        }
+        if(documents!=null&&documents.Length>4)
+        {
+            if(RoomReadableUi.PaperButton(new Rect(Screen.width-300*Scale,20,130*Scale,42*Scale),"← Назад"))ChangePage(-1);
+            if(RoomReadableUi.PaperButton(new Rect(Screen.width-155*Scale,20,135*Scale,42*Scale),"Далее →"))ChangePage(1);
+        }
     }
 }

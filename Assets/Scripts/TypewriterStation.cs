@@ -494,9 +494,9 @@ public sealed class TypewriterStation : MonoBehaviour
         var style = new GUIStyle(GUI.skin.label) { font = RoomReadableUi.Font,
             fontSize = Mathf.RoundToInt(24 * UiScale), alignment = TextAnchor.MiddleCenter, wordWrap = true };
         var area = new Rect(Screen.width * .16f, Screen.height * .32f, Screen.width * .68f, 80 * UiScale);
-        style.normal.textColor = new Color(0, 0, 0, .75f);
+        style.normal.textColor = new Color(0, 0, 0, .75f * RoomReadableUi.HintAlpha);
         GUI.Label(new Rect(area.x + 2, area.y + 2, area.width, area.height), instruction, style);
-        style.normal.textColor = Color.white;
+        style.normal.textColor = new Color(1,1,1,RoomReadableUi.HintAlpha);
         GUI.Label(area, instruction, style);
     }
 
@@ -570,10 +570,10 @@ public sealed class TypewriterStation : MonoBehaviour
         if(!HasLineBreakHint)return;
         float s=UiScale;var text=DemoDirector.Instance!=null?DemoDirector.Instance.Content.tutorial.lineBreak:"Потяните вправо, чтобы перейти на новую строку";
         var style=new GUIStyle(GUI.skin.label){font=RoomReadableUi.Font,fontSize=Mathf.RoundToInt(25*s),alignment=TextAnchor.MiddleCenter,wordWrap=true};
-        style.normal.textColor=Color.white;
+        style.normal.textColor=new Color(1,1,1,RoomReadableUi.HintAlpha);
         GUI.Label(new Rect(Screen.width*.16f,Screen.height*.32f,Screen.width*.68f,80*s),text,style);
         Vector3 target=worldCamera.WorldToViewportPoint(lever.bounds.center);Vector2 point=new Vector2(target.x*Screen.width,(1-target.y)*Screen.height);
-        Color previous=GUI.color;GUI.color=new Color(1,1,1,.8f+.2f*Mathf.Sin(Time.unscaledTime*4));
+        Color previous=GUI.color;GUI.color=new Color(1,1,1,RoomReadableUi.HintAlpha);
         GUI.DrawTexture(new Rect(point.x-34*s,point.y-2*s,68*s,4*s),Texture2D.whiteTexture);
         Matrix4x4 matrix=GUI.matrix;Vector2 tip=new Vector2(point.x+34*s,point.y);
         GUIUtility.RotateAroundPivot(40,tip);GUI.DrawTexture(new Rect(tip.x-20*s,tip.y-2*s,20*s,4*s),Texture2D.whiteTexture);GUI.matrix=matrix;

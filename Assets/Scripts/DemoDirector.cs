@@ -177,8 +177,11 @@ public sealed class DemoDirector : MonoBehaviour
  }
  public void CompletePuzzle(DemoPuzzle puzzle){Flags.Add(puzzle.id+"_complete");AddDocument(puzzle.onCompleteDocument);}
  private void InspectDocument(string id){dialogue.EndDialogue();movement.ResetZoom();Mode="room";OpenStorage(Content.documents.First(d=>d.id==id).storage);inspected=id;journalReturn=()=>{movement.FocusOn(PortraitFocus.For(guest.transform));Menu();};}
+ public bool IsReadingArchive => Mode=="archive"&&inspected!=null;
+ public void ReadArchive(string id){if(Mode=="archive")inspected=id;}
  public void CloseJournal()
  {
+  if(storage=="archive"&&RoomStationsController.Instance!=null)RoomStationsController.Instance.Hide();
   if(storage=="board"&&Flags.Contains("tutorial_board_opened"))Flags.Add("tutorial_board_done");
   if(storage=="archive"&&Flags.Contains("tutorial_archive_opened"))Flags.Add("tutorial_archive_done");
   if(journalReturn!=null){var callback=journalReturn;journalReturn=null;Mode="room";movement.enabled=true;callback();return;}
@@ -192,10 +195,11 @@ public sealed class DemoDirector : MonoBehaviour
   if(guidance!=null&&guidance.Stage=="board"&&place!="board")return;
   if(guidance!=null&&guidance.Stage=="archive"&&place!="archive")return;
   storage=place=="archive"?"archive":"board";Mode=storage=="archive"?"archive":"journal";inspected=null;movement.enabled=false;
+  if(storage=="archive"&&RoomStationsController.Instance!=null)RoomStationsController.Instance.ShowArchive(Content.documents.Where(d=>Flags.Contains(d.id)&&d.storage=="archive").OrderBy(d=>d.id=="archive_rules"?0:1).ToArray());
   Flags.Add(storage=="archive"?"tutorial_archive_opened":"tutorial_board_opened");
  }
- public void CloseReward(){Mode="room";movement.enabled=true;inspectedReward=null;}
- public void InspectReward(DemoReward reward){if(Mode!="room"||dialogue.IsDialogueActive)return;inspectedReward=reward;Mode="reward";movement.enabled=false;}
+ public void CloseReward(){dialogue.EndDialogue();Mode="room";movement.enabled=true;inspectedReward=null;}
+ public void InspectReward(DemoReward reward){if(Mode!="room"||dialogue.IsDialogueActive)return;inspectedReward=reward;Mode="reward";movement.enabled=false;Say("Вы",new[]{reward.Description},null);}
  private void OnGUI()
  {
   float s=RoomReadableUi.Scale;var label=RoomReadableUi.PaperLabel(Mathf.RoundToInt(19*s));label.wordWrap=true;
@@ -220,11 +224,11 @@ public sealed class DemoDirector : MonoBehaviour
     var area=new Rect(Screen.width*.2f,Screen.height*.1f,Screen.width*.6f,Screen.height*.6f);float fit=Mathf.Min(area.width/total.size.x,area.height/total.size.y);
     foreach(var r in renderers){Vector3 centre=r.transform.TransformPoint(r.sprite.bounds.center);Vector2 at=area.center+new Vector2(centre.x-total.center.x,total.center.y-centre.y)*fit;var size=Vector2.Scale(r.sprite.bounds.size,r.transform.lossyScale)*fit;Matrix4x4 matrix=GUI.matrix;GUIUtility.RotateAroundPivot(-r.transform.eulerAngles.z,at);RoomReadableUi.DrawPaper(r.sprite,new Rect(at-size*.5f,size));GUI.matrix=matrix;}
    }
-   var white=new GUIStyle(label){alignment=TextAnchor.MiddleCenter};white.normal.textColor=Color.white;
-   GUI.Label(new Rect(Screen.width*.2f,Screen.height*.74f,Screen.width*.6f,120*s),inspectedReward.Title+"\n\n"+inspectedReward.Description,white);
+
    if(RoomReadableUi.PaperButton(new Rect(20,20,170*s,42*s),"Назад в комнату"))CloseReward();return;
   }
   if(Mode!="journal"&&Mode!="archive")return;
+  if(Mode=="archive"&&inspected==null&&RoomStationsController.Instance!=null&&RoomStationsController.Instance.IsOpen)return;
   GUI.color=Color.black;GUI.DrawTexture(new Rect(0,0,Screen.width,Screen.height),Texture2D.whiteTexture);GUI.color=Color.white;
   var docs=Content.documents.Where(d=>Flags.Contains(d.id)&&(d.storage=="archive"?"archive":"board")==storage).OrderBy(d=>d.id=="archive_rules"?0:1).ToArray();
   if(inspected!=null)

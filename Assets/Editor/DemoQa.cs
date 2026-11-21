@@ -16,8 +16,9 @@ public static class DemoQa
  static double start,last,ringAt,endingCaptureAt;static HashSet<string> captures=new HashSet<string>();static string report="";static int screenshots;static double holdUntil;static HashSet<string> verified=new HashSet<string>();
  static DemoQa(){EditorApplication.update+=Tick;}
  public static void IntroCapture(){Run();SessionState.SetBool("Postcript.IntroOnly",true);}
+ public static void ArchiveCapture(){Run();SessionState.SetBool("Postcript.ArchiveOnly",true);}
  public static void Capture(){Run();SessionState.SetBool("Postcript.CaptureOnly",true);}
- public static void Run(){SessionState.SetBool("Postcript.IntroOnly",false);SetView(1280,720);SessionState.SetBool("Postcript.CaptureOnly",false);File.WriteAllText("/tmp/postcript-qa.txt", "Revision 21-11: runtime QA (method-driven, physical gestures checked separately)\n");SessionState.SetBool("Postcript.QaQuit",false);PlayerSettings.runInBackground=true;Application.runInBackground=true;Environment.SetEnvironmentVariable("POSTCRIPT_QA","1");SessionState.SetBool("Postcript.Qa",true);route=0;start=EditorApplication.timeSinceStartup;EditorSceneManager.OpenScene("Assets/Scenes/SampleScene.unity");EditorApplication.EnterPlaymode();}
+ public static void Run(){SessionState.SetBool("Postcript.ArchiveOnly",false);SessionState.SetBool("Postcript.IntroOnly",false);SetView(1280,720);SessionState.SetBool("Postcript.CaptureOnly",false);File.WriteAllText("/tmp/postcript-qa.txt", "Revision 21-11: runtime QA (method-driven, physical gestures checked separately)\n");SessionState.SetBool("Postcript.QaQuit",false);PlayerSettings.runInBackground=true;Application.runInBackground=true;Environment.SetEnvironmentVariable("POSTCRIPT_QA","1");SessionState.SetBool("Postcript.Qa",true);route=0;start=EditorApplication.timeSinceStartup;EditorSceneManager.OpenScene("Assets/Scenes/SampleScene.unity");EditorApplication.EnterPlaymode();}
  static object Get(object o,string name)=>o.GetType().GetField(name,BindingFlags.Instance|BindingFlags.NonPublic|BindingFlags.Public).GetValue(o);
  static object Call(object o,string name,params object[] args)=>o.GetType().GetMethod(name,BindingFlags.Instance|BindingFlags.NonPublic|BindingFlags.Public).Invoke(o,args);
  static void Assert(bool test,string why){if(!test)throw new Exception(why);}
@@ -34,8 +35,12 @@ public static class DemoQa
    if(last<holdUntil)return;
    if(start==0)start=last;if(last-start>600)throw new Exception("Route timed out "+route+" mode="+d.Mode+" step="+d.Step);
    var runner=UnityEngine.Object.FindObjectOfType<DialogueRunner>();
-   if(d.Mode=="welcome"){d.Begin(false);return;}
+   if(d.Mode=="welcome"){
+    var stations=RoomStationsController.Instance;var room=(Transform)Get(stations,"room");if(room==null)return;
+    File.WriteAllLines("/tmp/postcript-room-sprites.txt",room.GetComponentsInChildren<SpriteRenderer>().Select(r=>r.name+" | "+(r.sprite!=null?r.sprite.name:"")+" | "+room.InverseTransformPoint(r.bounds.center)+" | "+r.bounds.size));
+    d.Begin(false);return;}
    var guidance=UnityEngine.Object.FindObjectOfType<DemoGuidance>();
+   if(guidance!=null&&!string.IsNullOrEmpty(guidance.Stage))Assert(!d.GetComponent<CameraMovement>().TutorialOverview,"Tutorial camera still locked");
    if(d.Mode=="room"&&guidance!=null&&(guidance.Stage=="board"||guidance.Stage=="archive"))
    {
     Assert(UnityEngine.Object.FindObjectsOfType<Guest>().Length==0,"Guest before tutorial completion");
@@ -47,14 +52,29 @@ public static class DemoQa
     else{d.OpenJournal();Assert(d.Mode=="room","Board bypasses archive tutorial");d.OpenArchive();Assert(d.Mode=="archive","Archive not opened");}
     Log("Tutorial "+stage+" waits for world interaction, no guest before close");return;
    }
-   if(d.Mode=="journal"||d.Mode=="archive"){string key=d.Mode+":"+route+":"+d.Step;if(captures.Add(key)){ScreenCapture.CaptureScreenshot("/tmp/postcript-"+d.Mode+"-"+route+"-"+d.Step+".png");holdUntil=last+.6;return;}if(d.Mode=="archive")Assert(d.Content.documents.First(x=>x.id=="archive_rules").storage=="archive","Rules missing archive storage");d.CloseJournal();return;}
+   if(d.Mode=="journal"||d.Mode=="archive"){if(d.Mode=="archive"){var move=d.GetComponent<CameraMovement>();if(move.CurrentFocus!=null&&!move.HasReachedFocus(move.CurrentFocus))return;}string key=d.Mode+":"+route+":"+d.Step;if(captures.Add(key)){ScreenCapture.CaptureScreenshot("/tmp/postcript-"+d.Mode+"-"+route+"-"+d.Step+".png");holdUntil=last+.6;return;}if(d.Mode=="archive")
+    {
+     Assert(d.Content.documents.First(x=>x.id=="archive_rules").storage=="archive","Rules missing archive storage");
+     var stations=RoomStationsController.Instance;Assert(stations.IsOpen,"Physical archive not open");
+     if(verified.Add("archive-cards:"+route+":"+d.Step))
+     {
+      var cards=(IList)Get(stations,"cards");Assert(cards.Count>0,"No liftable documents");
+      var card=(Transform)cards[0];Assert(card.name.Contains("Правила")||card.name.Contains(" — "),"Card title absent");
+      var room=(Transform)Get(stations,"room");Assert(stations.HitsArchive(room.TransformPoint(new Vector3(11,-7,0))),"Archive silhouette misses tray");Assert(!stations.HitsArchive(room.TransformPoint(new Vector3(5.85f,-8.74f,0))),"Archive hit steals shell");Assert(!stations.HitsArchive(room.TransformPoint(new Vector3(6.2f,-3,0))),"Archive hit still oversized");Log("Archive silhouette excludes neighbouring shell and empty surroundings");
+      var rest=card.localPosition;var cardBounds=card.GetComponent<SpriteRenderer>().sprite.bounds;
+      Vector3 pointer=card.TransformPoint(new Vector3(cardBounds.center.x,cardBounds.max.y-.1f,0));Call(stations,"HoverCards",pointer);Assert((int)Get(stations,"selected")==0,"Archive tab hover not selected");Assert(card.localPosition.y>rest.y,"Archive card did not rise");
+      Log("Archive tab raises paper; visible title and full document reader available");
+      d.ReadArchive("archive_rules");Assert(d.IsReadingArchive,"Archive click not opening full reader");ScreenCapture.CaptureScreenshot("/tmp/postcript-archive-reader.png");holdUntil=last+.7;return;
+     }
+    }d.CloseJournal();
+    if(SessionState.GetBool("Postcript.ArchiveOnly",false)&&d.Flags.Contains("tutorial_archive_done")){Log("Archive update targeted verification complete");SessionState.SetBool("Postcript.Qa",false);SessionState.SetBool("Postcript.QaQuit",true);SessionState.SetInt("Postcript.QaExit",0);EditorApplication.ExitPlaymode();}return;}
    if(d.Mode=="ending")
    {
     if(endingCaptureAt==0){endingCaptureAt=last;ScreenCapture.CaptureScreenshot("/tmp/postcript-ending-"+route+".png");return;}if(last-endingCaptureAt<1)return;
     Assert(d.Results.Count==4,"Four orders not completed");
     if(route==3){foreach(var o in d.Content.orders){Assert(d.Results[o.id]=="typo","Typo result wrong");Assert(d.Flags.Contains("error_"+o.id),"Missing factual typo document");}}
     foreach(var order in d.Content.orders){var result=d.Results[order.id];bool expect=order.options.Any(o=>o.id==result&&o.reward);var reward=UnityEngine.Object.FindObjectsOfType<DemoReward>(true).FirstOrDefault(r=>r.Key==order.reward);Assert(reward!=null && reward.gameObject.activeInHierarchy==expect,"Actual reward state wrong: "+order.reward);
-     if(expect){typeof(DemoDirector).GetProperty("Mode").GetSetMethod(true).Invoke(d,new object[]{"room"});d.InspectReward(reward);Assert(d.Mode=="reward","Reward inspector did not open");d.CloseReward();typeof(DemoDirector).GetProperty("Mode").GetSetMethod(true).Invoke(d,new object[]{"ending"});}}
+     if(expect){typeof(DemoDirector).GetProperty("Mode").GetSetMethod(true).Invoke(d,new object[]{"room"});d.InspectReward(reward);Assert(d.Mode=="reward","Reward inspector did not open");Assert(runner.IsDialogueActive,"Hero does not comment on inspected reward");var spoken=(DialogueObject)Get(runner,"currentNode");Assert(spoken.speakerName=="Вы"&&spoken.dialogueText==reward.Description,"Wrong inspection speaker/text");d.CloseReward();typeof(DemoDirector).GetProperty("Mode").GetSetMethod(true).Invoke(d,new object[]{"ending"});}}
     Log("Route "+route+" reached ending: "+string.Join(",",d.Results.Select(x=>x.Key+"="+x.Value)));
     route++;endingCaptureAt=0;
     if(route>=Routes.Length || SessionState.GetBool("Postcript.CaptureOnly",false)){SessionState.SetBool("Postcript.Qa",false);SessionState.SetBool("Postcript.QaQuit",true);SessionState.SetInt("Postcript.QaExit",0);EditorApplication.ExitPlaymode();return;}

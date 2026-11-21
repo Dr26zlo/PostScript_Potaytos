@@ -115,6 +115,7 @@ public sealed class DemoMemoryView : MonoBehaviour
    v.rect.anchoredPosition=new Vector2(lifted.x,-lifted.y);v.rect.sizeDelta=area.size;v.rect.localScale=Vector3.one*(1+.018f*v.lift);
    v.shadow.rectTransform.anchoredPosition=new Vector2(local.x+3+3*v.lift,-local.y-4-3*v.lift);v.shadow.rectTransform.sizeDelta=area.size;v.shadow.color=new Color(0,0,0,.12f+.15f*v.lift);
   }
+  if(status!=null)status.color=new Color(1,1,1,RoomReadableUi.HintAlpha);
   if(status!=null)status.text=state.complete?(puzzle.id=="letter_daughter"?"Но здесь она ждёт… Строка восстановлена.":"Строки восстановлены. Вернитесь к клиенту."):puzzle.hint;
  }
  private Vector2 Pointer(PointerEventData e){RectTransformUtility.ScreenPointToLocalPointInRectangle(container,e.position,null,out Vector2 local);return new Vector2(local.x+640,360-local.y);}

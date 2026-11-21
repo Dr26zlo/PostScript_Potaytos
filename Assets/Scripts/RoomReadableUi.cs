@@ -6,6 +6,7 @@ public static class RoomReadableUi
     public static Font Font { get; private set; }
     private static Sprite buttonPaper;
     public static readonly Color Ink = new Color(.16f, .115f, .085f);
+    public static float HintAlpha => .12f+.88f*(.5f+.5f*Mathf.Sin(Time.unscaledTime*3.2f));
     public static float Scale => Mathf.Clamp(Screen.height / 900f, .9f, 1.7f);
 
     public static GUIStyle PaperLabel(int size, FontStyle weight = FontStyle.Normal)
