@@ -22,6 +22,7 @@ public class DialogueObject : ScriptableObject
 [System.Serializable]
 public class DialogueChoice
 {
+    [System.NonSerialized] public System.Action action;
     public string choiceText; 
     public DialogueObject nextNode;
 

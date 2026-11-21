@@ -55,6 +55,7 @@ public sealed class RoomStationsController : MonoBehaviour
     }
     private void Update()
     {
+        if (DemoDirector.Instance != null && DemoDirector.Instance.Mode != "room") return;
         if (room == null) return;
         Vector3 world = PointerWorld();
         if (IsOpen)
@@ -71,6 +72,7 @@ public sealed class RoomStationsController : MonoBehaviour
     }
     public void Open(int station)
     {
+        if (station == 1 && DemoDirector.Instance != null) { DemoDirector.Instance.OpenJournal(); return; }
         if (IsOpen || movement.HasFocus || (dialogue != null && dialogue.IsDialogueActive) || station < 1 || station > 2) return;
         GameObject prefab = Resources.Load<GameObject>(station == 1 ? "RoomStations/Board" : "RoomStations/Archive");
         if (prefab == null) return;

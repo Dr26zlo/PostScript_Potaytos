@@ -20,6 +20,7 @@ public class InteractiveObject : MonoBehaviour
 
     void Start()
     {
+        dialogueRunner = FindObjectOfType<DialogueRunner>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         if (spriteRenderer != null)
         {
@@ -27,8 +28,15 @@ public class InteractiveObject : MonoBehaviour
         }
     }
 
+    private DialogueRunner dialogueRunner;
+    private bool WorldBlocked => DemoDirector.Instance != null &&
+        (DemoDirector.Instance.Mode != "room" || (dialogueRunner != null && dialogueRunner.IsDialogueActive) || (RoomStationsController.Instance != null && RoomStationsController.Instance.IsOpen));
+
+    void Update() { if (isHovered && WorldBlocked) ResetHighlight(); }
+
     void OnMouseEnter()
     {
+        if (WorldBlocked) return;
         isHovered = true;
         if (spriteRenderer != null)
         {
@@ -57,7 +65,7 @@ public class InteractiveObject : MonoBehaviour
 
     public void Click()
     {
-        if (isActiveAndEnabled && TypewriterZoomArea.AllowsClick(transform))
+        if (!WorldBlocked && isActiveAndEnabled && TypewriterZoomArea.AllowsClick(transform))
             onClick?.Invoke();
     }
     public void ResetHighlight()

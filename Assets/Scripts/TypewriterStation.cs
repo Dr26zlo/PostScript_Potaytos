@@ -49,6 +49,8 @@ public sealed class TypewriterStation : MonoBehaviour
     private string orderMessage;
     private float messageUntil;
     private bool tutorialComplete;
+    private ITypewriterSheetRecipient pendingRecipient;
+    private bool confirmedDelivery;
 
     public Guest ActiveGuest => activeGuest;
     public bool IsFocused => zoomArea != null && zoomArea.IsFocused;
@@ -213,6 +215,7 @@ public sealed class TypewriterStation : MonoBehaviour
 
     private void HandleMouse(Event input)
     {
+        if (DemoDirector.Instance != null && DemoDirector.Instance.Mode != "room") return;
         EventType type = input.type;
         if (RoomStationsController.Instance != null && RoomStationsController.Instance.IsOpen) return;
         if (RoomStationsController.BackButton.Contains(input.mousePosition)) return;
@@ -301,7 +304,7 @@ public sealed class TypewriterStation : MonoBehaviour
 
     internal bool TryPrint(char symbol)
     {
-        if (!zoomArea.CanType || !hasSheet || dragging || column >= Columns) return false;
+        if ((!char.IsLetter(symbol) && symbol != ' ') || !zoomArea.CanType || !hasSheet || dragging || column >= Columns) return false;
 
         if (symbol != ' ')
         {
@@ -397,6 +400,11 @@ public sealed class TypewriterStation : MonoBehaviour
     {
         if (recipient == null || finishedSheets.Count == 0 || handingOff) return false;
 
+        if (!confirmedDelivery && recipient is Guest guest && !guest.MatchesOrder(finishedSheets.Peek()))
+        {
+            pendingRecipient = recipient;
+            return false;
+        }
         handingOff = true;
         try
         {
@@ -490,7 +498,7 @@ public sealed class TypewriterStation : MonoBehaviour
         {
             step = 2;
             title = "Напечатайте текст";
-            instruction = "Печатайте с клавиатуры или нажимайте клавиши машинки мышью.";
+            instruction = "Нажимайте буквы мышью или на клавиатуре. Пробел — длинная клавиша.";
         }
         else
         {
@@ -552,8 +560,41 @@ public sealed class TypewriterStation : MonoBehaviour
         GUI.Label(new Rect(left, area.y + 50f * scale, area.width - inset * 2f, 25f * scale), hint, hintStyle);
     }
 
+    public bool HasDeliveryWarning => pendingRecipient != null;
+    public void ResolveDeliveryWarning(bool deliverAnyway)
+    {
+        var recipient = pendingRecipient;
+        pendingRecipient = null;
+        if (recipient == null) return;
+        if (!deliverAnyway)
+        {
+            if (finishedSheets.Count > 0) finishedSheets.Dequeue();
+            ShowOrderMessage("Испорченный лист выброшен. Вставьте новый лист в машинку.");
+            return;
+        }
+        confirmedDelivery = true;
+        try { TryGiveNextSheet(recipient); }
+        finally { confirmedDelivery = false; }
+    }
+    private bool DrawDeliveryWarning()
+    {
+        if (pendingRecipient == null) return false;
+        float s = UiScale;
+        var card = new Rect((Screen.width - 570 * s) / 2, (Screen.height - 210 * s) / 2, 570 * s, 210 * s);
+        DrawPaper(tutorialPaper, card);
+        var style = RoomReadableUi.PaperLabel(Mathf.RoundToInt(19 * s));
+        style.wordWrap = true;
+        GUI.Label(new Rect(card.x + 45*s, card.y + 35*s, card.width - 90*s, 85*s),
+            "В тексте есть опечатка. Можно выбросить этот лист и напечатать заново или всё равно отдать его клиенту.", style);
+        if (GUI.Button(new Rect(card.x + 45*s, card.y + 135*s, 230*s, 44*s), "Заменить лист", style)) ResolveDeliveryWarning(false);
+        if (GUI.Button(new Rect(card.x + 300*s, card.y + 135*s, 230*s, 44*s), "Всё равно отдать", style)) ResolveDeliveryWarning(true);
+        return true;
+    }
+
     private void OnGUI()
     {
+        if (DemoDirector.Instance != null && DemoDirector.Instance.Mode != "room") return;
+        if (DrawDeliveryWarning()) return;
         Event input = Event.current;
         HandleMouse(input);
         DrawOrderNote();
@@ -573,14 +614,9 @@ public sealed class TypewriterStation : MonoBehaviour
         }
         if (!zoomArea.CanType) return;
         DrawTutorial();
-        char symbol = input.character;
         if (input.type == EventType.KeyDown && !input.control && !input.alt && !input.command &&
-            (char.IsLetterOrDigit(symbol) || symbol == ' ' || char.IsPunctuation(symbol)))
-        {
-            TryPrint(char.ToUpperInvariant(symbol));
-            input.Use();
-        }
-
+            (char.IsLetter(input.character) || input.character == ' '))
+        { TryPrint(char.ToUpperInvariant(input.character)); input.Use(); }
         DrawPaper(orderNote, RoomStationsController.BackButton);
         var backStyle = RoomReadableUi.PaperLabel(Mathf.RoundToInt(17 * UiScale));
         backStyle.alignment = TextAnchor.MiddleCenter;

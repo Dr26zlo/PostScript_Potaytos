@@ -31,6 +31,15 @@ public sealed class RoomPhoneCall : MonoBehaviour
         reply.nextNode = thanks;
         dialogue.NodeShown += Speak;
     }
+    public void SetConversation(string[] lines)
+    {
+        question.choices.Clear(); question.nextNode = null;
+        question.dialogueText = lines != null && lines.Length > 0 ? lines[0] : "Алло…";
+        var tail = question;
+        if (lines != null) for (int i = 1; i < lines.Length; i++) { var n = Node("Голос в трубке", lines[i]); tail.nextNode = n; tail = n; }
+        thanks.dialogueText = "Спасибо за звонок. До свидания.";
+        tail.choices.Add(new DialogueChoice { choiceText = "Спасибо. До свидания.", nextNode = thanks });
+    }
     private static DialogueObject Node(string who, string text)
     {
         var node = ScriptableObject.CreateInstance<DialogueObject>();
@@ -80,7 +89,7 @@ public sealed class RoomPhoneCall : MonoBehaviour
     {
         if (!IsTalking) return;
         audioSource.Stop();
-        string clip = node == question ? "VoiceQuestion" : node == reply ? "VoiceReply" : null;
+        string clip = node.speakerName == "Голос в трубке" ? (node == question ? "VoiceQuestion" : "VoiceReply") : null;
         if (clip != null) audioSource.PlayOneShot(Resources.Load<AudioClip>("PhoneAudio/" + clip));
     }
     private void Finish()

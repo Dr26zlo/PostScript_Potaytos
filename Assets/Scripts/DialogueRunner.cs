@@ -103,6 +103,7 @@ public class DialogueRunner : MonoBehaviour
 
     private void OnChoiceClicked(DialogueChoice choice)
     {
+        if (choice.action != null) { choice.action(); return; }
         string id = string.IsNullOrEmpty(choice.choiceID) ? choice.choiceText : choice.choiceID;
 
         if (choiceHistory.ContainsKey(id)) choiceHistory[id]++;
@@ -116,13 +117,12 @@ public class DialogueRunner : MonoBehaviour
             EndDialogue();
     }
 
-    private void EndDialogue()
+    public void EndDialogue()
     {
         isDialogueActive = false;
         choicesContainer.gameObject.SetActive(false);
-        onDialogueEnd?.Invoke();
-
         MovePanel(hiddenPosition);
+        onDialogueEnd?.Invoke();
     }
 
     private void MovePanel(Vector2 targetPos)

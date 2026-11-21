@@ -28,6 +28,11 @@ public sealed class Guest : MonoBehaviour, ITypewriterSheetRecipient
     private GuestDoor guestDoor;
     private bool doorOpen;
 
+    public System.Action DemoInteraction;
+    public System.Func<string, bool> DemoSubmission;
+    public void SetExpectedText(string value) { requestedText = value; }
+    public void CompleteDemo(DialogueObject response, bool success) { StartConversation(response, () => BeginDeparture(success)); }
+
     internal bool HasOrder => dialogue != null && !string.IsNullOrWhiteSpace(requestedText);
 
     public string RequestedText => requestedText;
@@ -64,6 +69,7 @@ public sealed class Guest : MonoBehaviour, ITypewriterSheetRecipient
         Color color = portrait.color;
         color.a = 0f;
         portrait.color = color;
+        portrait.enabled = false;
     }
 
     private Vector3 DoorwayPosition(SpriteRenderer portrait, Vector3 standingPosition)
@@ -88,6 +94,8 @@ public sealed class Guest : MonoBehaviour, ITypewriterSheetRecipient
         Vector3 entrance = DoorwayPosition(portrait, destination);
         Vector3 standingScale = transform.localScale;
         Vector3 entranceScale = guestDoor != null ? standingScale * guestDoor.GuestScale : standingScale;
+        if (guestDoor != null) yield return guestDoor.WaitForPlayer();
+        portrait.enabled = true;
         SetDoorOpen(true);
         Color portraitColor = interaction.normalColor;
         float duration = Mathf.Max(0.1f, departureDuration);
@@ -125,7 +133,11 @@ public sealed class Guest : MonoBehaviour, ITypewriterSheetRecipient
 
     public void Interact()
     {
-        if (arriving || completed || conversationEnded != null || !HasOrder) return;
+        if (arriving || completed || conversationEnded != null) return;
+        if (dialogueRunner == null) dialogueRunner = FindObjectOfType<DialogueRunner>();
+        if (typewriter == null) typewriter = FindObjectOfType<TypewriterStation>();
+        if (DemoInteraction != null) { DemoInteraction(); return; }
+        if (!HasOrder) return;
         if (RoomStationsController.Instance != null && RoomStationsController.Instance.IsOpen) return;
         if (dialogueRunner == null) dialogueRunner = FindObjectOfType<DialogueRunner>();
         if (typewriter == null) typewriter = FindObjectOfType<TypewriterStation>();
@@ -177,7 +189,8 @@ public sealed class Guest : MonoBehaviour, ITypewriterSheetRecipient
         if (completed || typewriter == null || typewriter.ActiveGuest != this ||
             dialogueRunner == null || dialogueRunner.IsDialogueActive || string.IsNullOrWhiteSpace(text)) return false;
 
-        bool correct = string.Equals(Normalize(text), Normalize(requestedText), StringComparison.OrdinalIgnoreCase);
+        if (DemoSubmission != null) return DemoSubmission(text);
+        bool correct = MatchesOrder(text);
         completed = true;
         typewriter.ReleaseOrder(this);
 
@@ -248,5 +261,6 @@ public sealed class Guest : MonoBehaviour, ITypewriterSheetRecipient
         Destroy(gameObject);
     }
 
-    private static string Normalize(string text) => Regex.Replace(text.Trim(), @"\s+", " ");
+    public bool MatchesOrder(string text) => string.Equals(Normalize(text), Normalize(requestedText), StringComparison.OrdinalIgnoreCase);
+    private static string Normalize(string text) => Regex.Replace(Regex.Replace(text.Trim().Replace('ё', 'е').Replace('Ё', 'Е'), @"[^\p{L}\s]", ""), @"\s+", " ");
 }

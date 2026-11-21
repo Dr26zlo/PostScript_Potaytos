@@ -3,16 +3,29 @@ using UnityEngine.UI;
 
 public static class RoomReadableUi
 {
+    public static Font Font { get; private set; }
+    private static Sprite buttonPaper;
     public static readonly Color Ink = new Color(.16f, .115f, .085f);
     public static float Scale => Mathf.Clamp(Screen.height / 900f, .9f, 1.7f);
 
     public static GUIStyle PaperLabel(int size, FontStyle weight = FontStyle.Normal)
     {
-        var style = new GUIStyle(GUI.skin.label) { fontSize = size, fontStyle = weight };
+        var style = new GUIStyle(GUI.skin.label) { fontSize = size, fontStyle = weight, font = Font };
         foreach (GUIStyleState state in new[] { style.normal, style.hover, style.active, style.focused,
             style.onNormal, style.onHover, style.onActive, style.onFocused })
             state.textColor = Ink;
         return style;
+    }
+
+    public static bool PaperButton(Rect rect, string text, float fontScale = -1f)
+    {
+        var previous = GUI.color;
+        GUI.color = rect.Contains(Event.current.mousePosition) ? new Color(.9f,.83f,.68f) : Color.white;
+        if(buttonPaper!=null)DrawPaper(buttonPaper,rect);
+        else {GUI.color=new Color(.9f,.83f,.68f);GUI.DrawTexture(rect,Texture2D.whiteTexture);}
+        GUI.color=previous;
+        var style=PaperLabel(Mathf.RoundToInt(18*(fontScale < 0 ? Scale : fontScale)));style.alignment=TextAnchor.MiddleCenter;style.wordWrap=true;
+        return GUI.Button(rect,text,style);
     }
 
     public static void DrawPaper(Sprite sprite, Rect rect)
@@ -26,6 +39,8 @@ public static class RoomReadableUi
 
     public static void Configure(DialogueRunner runner)
     {
+        Font = runner.dialogueText != null ? runner.dialogueText.font : null;
+        buttonPaper = runner.choiceButtonPrefab != null ? runner.choiceButtonPrefab.GetComponent<Image>().sprite : null;
         Canvas canvas = runner.GetComponentInParent<Canvas>();
         if (canvas == null) return;
         CanvasScaler scaler = canvas.GetComponent<CanvasScaler>();

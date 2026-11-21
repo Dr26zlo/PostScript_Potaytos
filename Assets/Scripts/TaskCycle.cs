@@ -30,13 +30,14 @@ public sealed class TaskCycle : MonoBehaviour
 
     [SerializeField] private Entry[] tasks = Array.Empty<Entry>();
 
-    [SerializeField] private bool repeat = true;
+    [SerializeField] private bool repeat = false;
     [SerializeField] private GuestDoor guestDoor;
 
     public IReadOnlyList<Entry> Tasks => tasks;
 
     private void Awake()
     {
+        repeat = false;
         foreach (Entry task in tasks)
         {
             Guest source = task.Guest;
