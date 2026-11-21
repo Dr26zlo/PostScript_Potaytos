@@ -116,7 +116,9 @@ public sealed class RoomLamp : MonoBehaviour
             new Color(1f, .86f, .69f), .64f, 1f, 4.4f);
         // Window light remains when the lamp is off, keeping the scene legible.
         CreateLight("Холодный свет окна", room.transform.TransformPoint(new Vector3(-10.4f, 1.1f, 0)),
-            new Color(.46f, .65f, 1f), .32f, .8f, 5.5f);
+            new Color(.58f, .72f, 1f), .24f, .8f, 4.7f);
+        CreateLight("Лунный отблеск на ближней поверхности", room.transform.TransformPoint(new Vector3(-5.4f,-4.8f,0)),
+            new Color(.68f,.79f,1f),.16f,.2f,3.4f);
         ApplyState();
     }
 
@@ -172,7 +174,7 @@ public sealed class RoomLamp : MonoBehaviour
         if (!plane.Raycast(ray, out float distance)) return;
         Vector3 point = ray.GetPoint(distance);
         Bounds bounds = wallSwitch.bounds;
-        if (point.x >= bounds.min.x && point.x <= bounds.max.x && point.y >= bounds.min.y && point.y <= bounds.max.y)
+        if (SpriteHit.Contains(wallSwitch,point))
             interaction.Click();
     }
 

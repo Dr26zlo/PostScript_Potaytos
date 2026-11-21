@@ -71,7 +71,7 @@ public sealed class RoomPhoneCall : MonoBehaviour
         foreach (var sprite in phone.GetComponentsInChildren<SpriteRenderer>())
         {
             Bounds b = sprite.bounds;
-            if (at.x < b.min.x || at.x > b.max.x || at.y < b.min.y || at.y > b.max.y) continue;
+            if (!SpriteHit.Contains(sprite,at)) continue;
             Answer(); break;
         }
     }

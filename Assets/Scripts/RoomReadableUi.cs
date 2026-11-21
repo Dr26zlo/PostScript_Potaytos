@@ -88,12 +88,14 @@ public static class RoomReadableUi
             rect.anchoredPosition = new Vector2(0, 12);
             rect.sizeDelta = new Vector2(0, 0);
             rect.localScale = Vector3.one;
+            var commonBackground=runner.choicesContainer.GetComponent<Image>();if(commonBackground!=null)commonBackground.enabled=false;
             var group = runner.choicesContainer.GetComponent<VerticalLayoutGroup>();
             if (group == null) group = runner.choicesContainer.gameObject.AddComponent<VerticalLayoutGroup>();
             group.padding = new RectOffset();
             group.childAlignment = TextAnchor.LowerLeft;
-            group.spacing = 8; group.childControlHeight = true; group.childControlWidth = true;
-            group.childForceExpandHeight = false; group.childForceExpandWidth = true;
+            group.spacing = 8; group.childAlignment = TextAnchor.LowerLeft;
+            group.childControlHeight = true; group.childControlWidth = true;
+            group.childForceExpandHeight = false; group.childForceExpandWidth = false;
         }
     }
 
@@ -116,7 +118,9 @@ public static class RoomReadableUi
             var element = child.GetComponent<LayoutElement>();
             Text label = child.GetComponentInChildren<Text>();
             if (element == null) continue;
-            element.preferredHeight = Mathf.Max(54, label != null ? label.preferredHeight + 24 : 54);
+            element.preferredWidth=Mathf.Min(panel.rect.width*.48f,Mathf.Max(330,label!=null?label.preferredWidth+label.rectTransform.offsetMin.x-label.rectTransform.offsetMax.x:330));
+            element.preferredHeight = Mathf.Max(element.preferredWidth/6.8f, label != null ? label.preferredHeight + 36 : 72);
+            element.preferredHeight=Mathf.Max(72,element.preferredHeight);
             height += element.preferredHeight + 8;
         }
         ((RectTransform)runner.choicesContainer).SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, Mathf.Max(0, height - 8));
@@ -132,11 +136,14 @@ public static class RoomReadableUi
     {
         var layout = button.GetComponent<LayoutElement>();
         if (layout == null) layout = button.AddComponent<LayoutElement>();
-        layout.minHeight = 54; layout.preferredHeight = 54;
+        layout.minHeight = 72; layout.preferredHeight = 72;
         Image paper = button.GetComponent<Image>();
         Button control = button.GetComponent<Button>();
         if (control != null && paper != null)
         {
+            var reply=button.GetComponentInChildren<Text>();string asset=reply!=null&&reply.text.Length>48?"answer-wide":button.transform.GetSiblingIndex()%2==0?"answer-short-a":"answer-short-b";
+            var answer=Resources.Load<Sprite>("Demo/UI/"+asset);
+            if(answer!=null){paper.sprite=answer;paper.type=Image.Type.Sliced;paper.pixelsPerUnitMultiplier=answer.rect.height/72f;}
             paper.enabled = true;
             paper.color = Color.white;
             paper.raycastTarget = true;
@@ -162,7 +169,8 @@ public static class RoomReadableUi
             if (shadow != null) shadow.enabled = false;
             text.raycastTarget = false;
             text.rectTransform.anchorMin = Vector2.zero; text.rectTransform.anchorMax = Vector2.one;
-            text.rectTransform.offsetMin = new Vector2(38, 10); text.rectTransform.offsetMax = new Vector2(-38, -10);
+            float sidePadding = paper != null && paper.sprite != null && paper.sprite.name == "answer-wide" ? 58 : 38;
+            text.rectTransform.offsetMin = new Vector2(sidePadding, 18); text.rectTransform.offsetMax = new Vector2(-sidePadding, -18);
         }
     }
 }

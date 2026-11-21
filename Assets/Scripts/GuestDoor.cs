@@ -23,6 +23,7 @@ public sealed class GuestDoor : MonoBehaviour
     public void OpenForWaitingGuest() { if (IsWaiting) IsWaiting = false; }
     private void Update()
     {
+        if (DemoDirector.Instance != null && DemoDirector.Instance.Mode != "room") return;
         if (!IsWaiting || !Input.GetMouseButtonDown(0)) return;
         var camera = Camera.main;
         if (camera == null) return;
@@ -35,7 +36,7 @@ public sealed class GuestDoor : MonoBehaviour
         foreach (var sprite in closedDoor.GetComponentsInChildren<SpriteRenderer>())
         {
             var b = sprite.bounds;
-            if (point.x >= b.min.x && point.x <= b.max.x && point.y >= b.min.y && point.y <= b.max.y)
+            if (SpriteHit.Contains(sprite,point))
                 OpenForWaitingGuest();
         }
     }

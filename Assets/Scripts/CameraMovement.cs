@@ -36,6 +36,8 @@ public class CameraMovement : MonoBehaviour
     private Transform zoomTarget = null;
     private float targetOrthoSize;
     private bool isZooming = false;
+    public bool TutorialOverview { get; set; }
+    public Vector3 TutorialOverviewTarget { get; set; }
     public Transform CurrentFocus => zoomTarget;
     public bool HasFocus => isZooming && zoomTarget != null;
 
@@ -88,7 +90,7 @@ public class CameraMovement : MonoBehaviour
         cam.orthographicSize = Mathf.Min(maxSize,
             Mathf.Lerp(cam.orthographicSize, targetSize, Time.deltaTime * zoomSpeed));
 
-        Vector3 desired = isZooming && zoomTarget != null
+        Vector3 desired = TutorialOverview ? TutorialOverviewTarget : isZooming && zoomTarget != null
             ? zoomTarget.position
             : Vector3.Lerp(bounds.center, cam.ViewportToWorldPoint(new Vector3(Input.mousePosition.x / Screen.width, Input.mousePosition.y / Screen.height, -transform.position.z)), mouseFollowStrength);
         desired.z = transform.position.z;
@@ -142,6 +144,8 @@ public class CameraMovement : MonoBehaviour
         if (blurMaterial != null) Destroy(blurMaterial);
     }
 
+    private float wakeUntil;
+    public void BeginWakeBlur(){wakeUntil=Time.unscaledTime+1.3f;}
     void UpdateBlur()
     {
         if (!enableBlur || blurMaterial == null || Time.deltaTime <= 0f) return;
@@ -155,6 +159,7 @@ public class CameraMovement : MonoBehaviour
             targetBlur = Mathf.Clamp01(cameraSpeed / blurSpeedThreshold) * maxBlurSize;
         }
 
+        if(Time.unscaledTime<wakeUntil)targetBlur=Mathf.Max(targetBlur,(wakeUntil-Time.unscaledTime)/1.3f*.6f);
         float lerpSpeed = targetBlur > currentBlur ? 15f : blurDecaySpeed;
         currentBlur = Mathf.Lerp(currentBlur, targetBlur, Time.deltaTime * lerpSpeed);
 

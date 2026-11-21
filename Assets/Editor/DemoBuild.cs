@@ -20,7 +20,7 @@ public static class DemoBuild
   {
    string path=AssetDatabase.GUIDToAssetPath(id);var importer=AssetImporter.GetAtPath(path) as TextureImporter;
    if(importer==null)continue;
-   importer.textureType=TextureImporterType.Sprite;importer.spriteImportMode=SpriteImportMode.Single;importer.alphaIsTransparency=true;importer.maxTextureSize=2048;importer.textureCompression=TextureImporterCompression.Uncompressed;importer.mipmapEnabled=false;importer.SaveAndReimport();
+   importer.isReadable=path.Contains("/Memory/");if(path.Contains("/UI/answer-"))importer.spriteBorder=path.EndsWith("answer-short-a.png")?new Vector4(211,85,211,85):path.EndsWith("answer-short-b.png")?new Vector4(209,72,209,72):new Vector4(248,55,248,55);importer.textureType=TextureImporterType.Sprite;importer.spriteImportMode=SpriteImportMode.Single;importer.alphaIsTransparency=true;importer.maxTextureSize=path.Contains("/UI/")?4096:2048;importer.textureCompression=TextureImporterCompression.Uncompressed;importer.mipmapEnabled=false;importer.SaveAndReimport();
   }
  }
  public static void BuildAll()

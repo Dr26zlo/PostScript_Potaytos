@@ -53,6 +53,7 @@ public sealed class TypewriterStation : MonoBehaviour
     private bool confirmedDelivery;
 
     public Guest ActiveGuest => activeGuest;
+    public bool HasLineBreakHint => IsFocused && hasSheet && activeGuest != null && activeGuest.RequiresLineBreak && line == 0 && column >= activeGuest.RequestedText.Split('\n')[0].Trim().Length;
     public bool IsFocused => zoomArea != null && zoomArea.IsFocused;
 
     public void TakeOrder(Guest guest)
@@ -246,8 +247,7 @@ public sealed class TypewriterStation : MonoBehaviour
         }
 
         if (type != EventType.MouseDown || Toolbar.Contains(input.mousePosition) ||
-            (noteProgress > 0f && activeGuest != null && NoteRect.Contains(input.mousePosition)) ||
-            (!tutorialComplete && TutorialRect.Contains(input.mousePosition))) return;
+            (noteProgress > 0f && activeGuest != null && NoteRect.Contains(input.mousePosition))) return;
         if (hasSheet && column > 0 && line + 1 < Lines && (Hits(lever, pointer) || Hits(roller, pointer)))
         {
             dragging = true;
@@ -298,8 +298,7 @@ public sealed class TypewriterStation : MonoBehaviour
     {
         if (!sprite.enabled || !sprite.gameObject.activeInHierarchy) return false;
         Bounds bounds = sprite.bounds;
-        return pointer.x >= bounds.min.x && pointer.x <= bounds.max.x &&
-            pointer.y >= bounds.min.y && pointer.y <= bounds.max.y;
+        return SpriteHit.Contains(sprite,pointer);
     }
 
     internal bool TryPrint(char symbol)
@@ -483,47 +482,22 @@ public sealed class TypewriterStation : MonoBehaviour
 
     private void DrawTutorial()
     {
-        if (tutorialComplete) return;
-
-        int step;
-        string title;
-        string instruction;
-        if (!hasSheet)
-        {
-            step = 1;
-            title = "Вставьте бумагу";
-            instruction = "Нажмите «Вставить лист» на нижней панели.";
-        }
-        else if (text.Length == 0)
-        {
-            step = 2;
-            title = "Напечатайте текст";
-            instruction = "Нажимайте буквы мышью или на клавиатуре. Пробел — длинная клавиша.";
-        }
-        else
-        {
-            step = 3;
-            title = "Подготовьте лист";
-            instruction = "Для новой строки потяните рычаг вправо. Готовый лист снимите и отдайте гостю.";
-        }
-
-        Rect card = TutorialRect;
-        DrawPaper(tutorialPaper, card);
-        float inset = card.width * 0.1f;
-        float width = card.width - inset * 2f;
-        float left = card.x + inset;
-        float scale = card.width / 290f;
-        Color ink = tutorialPaper != null ? PaperInk : GUI.skin.label.normal.textColor;
-        Color accent = tutorialPaper != null ? Burgundy : ink;
-
-        var caption = PaperLabel(accent, Mathf.Max(9, Mathf.RoundToInt(13 * scale)), FontStyle.Bold);
-        GUI.Label(new Rect(left, card.y + card.height * 0.13f, width, card.height * 0.16f),
-            $"ПЕРВАЯ ПЕЧАТЬ  ·  {step} / 3", caption);
-        var heading = PaperLabel(ink, Mathf.Max(11, Mathf.RoundToInt(22 * scale)), FontStyle.Bold);
-        GUI.Label(new Rect(left, card.y + card.height * 0.31f, width, card.height * 0.23f), title, heading);
-        var body = PaperLabel(ink, Mathf.Max(9, Mathf.RoundToInt(16 * scale)));
-        body.wordWrap = true;
-        GUI.Label(new Rect(left, card.y + card.height * 0.54f, width, card.height * 0.38f), instruction, body);
+        if (tutorialComplete || HasLineBreakHint) return;
+        string instruction = !hasSheet ? "Вставьте лист в машинку" : text.Length == 0
+            ? "Напечатайте образец: нажимайте буквы мышью или на клавиатуре"
+            : line == 0 && activeGuest != null && activeGuest.RequiresLineBreak
+                ? "Напечатайте первую строку образца"
+                : activeGuest != null && line + 1 < activeGuest.RequestedText.Split('\n').Length
+                    ? "Завершите текст по образцу"
+                    : activeGuest != null && column < activeGuest.RequestedText.Split('\n')[Mathf.Min(line, activeGuest.RequestedText.Split('\n').Length - 1)].Trim().Length
+                        ? "Завершите текст по образцу" : "Проверьте текст и снимите готовый лист";
+        var style = new GUIStyle(GUI.skin.label) { font = RoomReadableUi.Font,
+            fontSize = Mathf.RoundToInt(24 * UiScale), alignment = TextAnchor.MiddleCenter, wordWrap = true };
+        var area = new Rect(Screen.width * .16f, Screen.height * .32f, Screen.width * .68f, 80 * UiScale);
+        style.normal.textColor = new Color(0, 0, 0, .75f);
+        GUI.Label(new Rect(area.x + 2, area.y + 2, area.width, area.height), instruction, style);
+        style.normal.textColor = Color.white;
+        GUI.Label(area, instruction, style);
     }
 
     private void DrawToolbar()
@@ -585,10 +559,25 @@ public sealed class TypewriterStation : MonoBehaviour
         var style = RoomReadableUi.PaperLabel(Mathf.RoundToInt(19 * s));
         style.wordWrap = true;
         GUI.Label(new Rect(card.x + 45*s, card.y + 35*s, card.width - 90*s, 85*s),
-            "В тексте есть опечатка. Можно выбросить этот лист и напечатать заново или всё равно отдать его клиенту.", style);
+            "Есть опечатка или неверный перенос строки. Можно заменить лист и перепечатать или всё равно отдать его клиенту.", style);
         if (GUI.Button(new Rect(card.x + 45*s, card.y + 135*s, 230*s, 44*s), "Заменить лист", style)) ResolveDeliveryWarning(false);
         if (GUI.Button(new Rect(card.x + 300*s, card.y + 135*s, 230*s, 44*s), "Всё равно отдать", style)) ResolveDeliveryWarning(true);
         return true;
+    }
+
+    private void DrawLineBreakHint()
+    {
+        if(!HasLineBreakHint)return;
+        float s=UiScale;var text=DemoDirector.Instance!=null?DemoDirector.Instance.Content.tutorial.lineBreak:"Потяните вправо, чтобы перейти на новую строку";
+        var style=new GUIStyle(GUI.skin.label){font=RoomReadableUi.Font,fontSize=Mathf.RoundToInt(25*s),alignment=TextAnchor.MiddleCenter,wordWrap=true};
+        style.normal.textColor=Color.white;
+        GUI.Label(new Rect(Screen.width*.16f,Screen.height*.32f,Screen.width*.68f,80*s),text,style);
+        Vector3 target=worldCamera.WorldToViewportPoint(lever.bounds.center);Vector2 point=new Vector2(target.x*Screen.width,(1-target.y)*Screen.height);
+        Color previous=GUI.color;GUI.color=new Color(1,1,1,.8f+.2f*Mathf.Sin(Time.unscaledTime*4));
+        GUI.DrawTexture(new Rect(point.x-34*s,point.y-2*s,68*s,4*s),Texture2D.whiteTexture);
+        Matrix4x4 matrix=GUI.matrix;Vector2 tip=new Vector2(point.x+34*s,point.y);
+        GUIUtility.RotateAroundPivot(40,tip);GUI.DrawTexture(new Rect(tip.x-20*s,tip.y-2*s,20*s,4*s),Texture2D.whiteTexture);GUI.matrix=matrix;
+        GUIUtility.RotateAroundPivot(-40,tip);GUI.DrawTexture(new Rect(tip.x-20*s,tip.y-2*s,20*s,4*s),Texture2D.whiteTexture);GUI.matrix=matrix;GUI.color=previous;
     }
 
     private void OnGUI()
@@ -622,5 +611,6 @@ public sealed class TypewriterStation : MonoBehaviour
         backStyle.alignment = TextAnchor.MiddleCenter;
         if (GUI.Button(RoomStationsController.BackButton, "Назад · Esc", backStyle)) zoomArea.ExitTypewriterMode();
         DrawToolbar();
+        DrawLineBreakHint();
     }
 }

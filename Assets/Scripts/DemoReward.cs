@@ -24,7 +24,8 @@ public sealed class DemoReward : MonoBehaviour
   var cam=Camera.main;if(cam==null)return;var move=cam.GetComponent<CameraMovement>();if(move.HasFocus)return;
   var ray=cam.ViewportPointToRay(new Vector3(Input.mousePosition.x/Screen.width,Input.mousePosition.y/Screen.height));
   if(!new Plane(Vector3.forward,transform.position).Raycast(ray,out float distance))return;var p=ray.GetPoint(distance);
-  foreach(var r in GetComponentsInChildren<SpriteRenderer>()){var b=r.bounds;if(p.x>=b.min.x&&p.x<=b.max.x&&p.y>=b.min.y&&p.y<=b.max.y)hovered=true;}
+  foreach(var r in GetComponentsInChildren<SpriteRenderer>()){var b=r.bounds;if(SpriteHit.Contains(r,p))hovered=true;}
+  if(hovered&&Input.GetMouseButtonDown(0))DemoDirector.Instance.InspectReward(this);
  }
- private void OnGUI(){if(!hovered)return;float s=RoomReadableUi.Scale;var box=new Rect((Screen.width-500*s)/2,Screen.height-120*s,500*s,100*s);RoomReadableUi.DrawPaper(paper,box);var style=RoomReadableUi.PaperLabel(Mathf.RoundToInt(16*s));style.wordWrap=true;GUI.Label(new Rect(box.x+30*s,box.y+18*s,box.width-60*s,box.height-30*s),Title+"\n"+Description,style);}
+ private void OnGUI(){if(!hovered)return;float s=RoomReadableUi.Scale;var box=new Rect((Screen.width-500*s)/2,Screen.height-120*s,500*s,100*s);RoomReadableUi.DrawPaper(paper,box);var style=RoomReadableUi.PaperLabel(Mathf.RoundToInt(16*s));style.wordWrap=true;GUI.Label(new Rect(box.x+30*s,box.y+18*s,box.width-60*s,box.height-30*s),Title+"\nНажмите, чтобы рассмотреть",style);}
 }

@@ -30,8 +30,9 @@ public sealed class Guest : MonoBehaviour, ITypewriterSheetRecipient
 
     public System.Action DemoInteraction;
     public System.Func<string, bool> DemoSubmission;
-    public void SetExpectedText(string value) { requestedText = value; }
-    public void CompleteDemo(DialogueObject response, bool success) { StartConversation(response, () => BeginDeparture(success)); }
+    public bool RequiresLineBreak { get; private set; }
+    public void SetExpectedText(string value, bool requiresLineBreak = false) { requestedText = value; RequiresLineBreak = requiresLineBreak; }
+    public void CompleteDemo(DialogueObject response, bool success) { completed = true; StartConversation(response, () => BeginDeparture(success)); }
 
     internal bool HasOrder => dialogue != null && !string.IsNullOrWhiteSpace(requestedText);
 
@@ -163,7 +164,7 @@ public sealed class Guest : MonoBehaviour, ITypewriterSheetRecipient
     {
         conversationEnded = onEnded;
         focusedCamera = Camera.main != null ? Camera.main.GetComponent<CameraMovement>() : null;
-        if (focusedCamera != null) focusedCamera.FocusOn(transform);
+        if (focusedCamera != null) focusedCamera.FocusOn(PortraitFocus.For(transform));
         if (dialogueRunner.onDialogueEnd == null) dialogueRunner.onDialogueEnd = new UnityEvent();
         dialogueRunner.onDialogueEnd.AddListener(FinishConversation);
         dialogueRunner.StartDialogue(node);
@@ -261,6 +262,14 @@ public sealed class Guest : MonoBehaviour, ITypewriterSheetRecipient
         Destroy(gameObject);
     }
 
-    public bool MatchesOrder(string text) => string.Equals(Normalize(text), Normalize(requestedText), StringComparison.OrdinalIgnoreCase);
+    public bool MatchesOrder(string text)
+    {
+        if(!RequiresLineBreak)return string.Equals(Normalize(text),Normalize(requestedText),StringComparison.OrdinalIgnoreCase);
+        var actual=System.Array.FindAll(text.Replace("\r", "").Split('\n'),x=>!string.IsNullOrWhiteSpace(x));
+        var expected=System.Array.FindAll(requestedText.Replace("\r", "").Split('\n'),x=>!string.IsNullOrWhiteSpace(x));
+        if(actual.Length!=expected.Length)return false;
+        for(int i=0;i<actual.Length;i++)if(!string.Equals(Normalize(actual[i]),Normalize(expected[i]),StringComparison.OrdinalIgnoreCase))return false;
+        return true;
+    }
     private static string Normalize(string text) => Regex.Replace(Regex.Replace(text.Trim().Replace('ё', 'е').Replace('Ё', 'Е'), @"[^\p{L}\s]", ""), @"\s+", " ");
 }

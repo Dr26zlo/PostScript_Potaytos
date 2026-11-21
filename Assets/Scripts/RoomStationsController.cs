@@ -72,7 +72,7 @@ public sealed class RoomStationsController : MonoBehaviour
     }
     public void Open(int station)
     {
-        if (station == 1 && DemoDirector.Instance != null) { DemoDirector.Instance.OpenJournal(); return; }
+        if (DemoDirector.Instance != null) { if(station==1)DemoDirector.Instance.OpenJournal();else if(station==2)DemoDirector.Instance.OpenArchive();return; }
         if (IsOpen || movement.HasFocus || (dialogue != null && dialogue.IsDialogueActive) || station < 1 || station > 2) return;
         GameObject prefab = Resources.Load<GameObject>(station == 1 ? "RoomStations/Board" : "RoomStations/Archive");
         if (prefab == null) return;
