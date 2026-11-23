@@ -23,6 +23,14 @@ public sealed class DemoDirector : MonoBehaviour
  private DemoGuidance guidance;private string storage="board";private bool resumed;
  private Transform imp; private DemoMemoryView memory; private AudioSource voice;
  private string SavePath => Environment.GetEnvironmentVariable("POSTCRIPT_QA")=="1"?"/tmp/postcript-qa-save.json":Path.Combine(Application.persistentDataPath,"postcript-demo-v3.json");
+#if UNITY_STANDALONE_WIN && !UNITY_EDITOR
+ [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+ private static void StartFullscreen()
+ {
+  Display display = Display.main;
+  Screen.SetResolution(display.systemWidth, display.systemHeight, FullScreenMode.FullScreenWindow);
+ }
+#endif
  [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)] static void Register(){ SceneManager.sceneLoaded-=Install;SceneManager.sceneLoaded+=Install; }
  static void Install(Scene s,LoadSceneMode mode){ if(Camera.main!=null && Camera.main.GetComponent<CameraMovement>()!=null)Camera.main.gameObject.AddComponent<DemoDirector>(); }
  private void Awake()

@@ -151,15 +151,21 @@ public sealed class RoomLamp : MonoBehaviour
 
     private Light2D CreateLight(string label, Vector3 position, Color color, float intensity, float innerRadius, float outerRadius)
     {
-        var lightObject = new GameObject(label);
-        lightObject.transform.SetParent(transform, false);
-        lightObject.transform.position = position;
-        Light2D light = lightObject.AddComponent<Light2D>();
-        light.lightType = Light2D.LightType.Point;
+        Light2D light = CreatePointLight(label, transform);
+        light.transform.position = position;
         light.color = color;
         light.intensity = intensity;
         light.pointLightOuterRadius = outerRadius;
         light.pointLightInnerRadius = innerRadius;
+        return light;
+    }
+
+    internal static Light2D CreatePointLight(string label, Transform parent)
+    {
+        // URP initializes sorting layers for newly added Light2D components only in the editor.
+        var prefab = Resources.Load<GameObject>("RoomLighting/RoomPointLight");
+        var light = Instantiate(prefab, parent).GetComponent<Light2D>();
+        light.gameObject.name = label;
         return light;
     }
 

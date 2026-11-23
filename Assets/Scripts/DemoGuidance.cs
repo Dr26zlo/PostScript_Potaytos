@@ -20,7 +20,7 @@ public sealed class DemoGuidance : MonoBehaviour
  {
   door=FindObjectOfType<GuestDoor>();dialogue=FindObjectOfType<DialogueRunner>();machine=FindObjectOfType<TypewriterStation>();foreach(var r in FindObjectsOfType<SpriteRenderer>())if(r.name=="Закрытая дверь"){doorSprite=r;break;}
   foreach(var root in gameObject.scene.GetRootGameObjects())if(root.transform.Find("Освещение")!=null){room=root.transform;break;}
-  var obj=new GameObject("Мягкая подсветка обучения");highlight=obj.AddComponent<Light2D>();highlight.lightType=Light2D.LightType.Point;highlight.color=new Color(.88f,.9f,1);highlight.pointLightOuterRadius=2;highlight.pointLightInnerRadius=.2f;
+  highlight=RoomLamp.CreatePointLight("Мягкая подсветка обучения",transform);highlight.enabled=false;highlight.color=new Color(.88f,.9f,1);highlight.pointLightOuterRadius=2;highlight.pointLightInnerRadius=.2f;
  }
  private void Update()
  {

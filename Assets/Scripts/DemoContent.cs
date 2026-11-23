@@ -16,3 +16,5 @@ using System;
 [Serializable] public class DemoSave { public int step; public string[] flags,results; public DemoDocument[] errors; }
 
 [Serializable] public class DemoTutorial { public string board,archive,door,lineBreak; }
+
+// я это даже комментировать не хочу...
