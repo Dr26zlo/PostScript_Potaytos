@@ -1,2 +1,4 @@
-###PostScript
-#By Potaytos
+# PostScript
+#### Команда Potaytos
+
+Последний коммит на [25.11.2026]
