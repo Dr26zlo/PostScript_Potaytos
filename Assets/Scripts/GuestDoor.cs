@@ -23,7 +23,7 @@ public sealed class GuestDoor : MonoBehaviour
     public void OpenForWaitingGuest() { if (IsWaiting) IsWaiting = false; }
     private void Update()
     {
-        if (DemoDirector.Instance != null && DemoDirector.Instance.Mode != "room") return;
+        if (CampaignController.Instance != null && CampaignController.Instance.Mode != "room") return;
         if (!IsWaiting || !Input.GetMouseButtonDown(0)) return;
         var camera = Camera.main;
         if (camera == null) return;

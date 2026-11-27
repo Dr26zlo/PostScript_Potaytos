@@ -28,6 +28,41 @@ public sealed class TaskCycle : MonoBehaviour
         public float DelayToNextTask => delayToNextTask;
     }
 
+    [Serializable]
+    public sealed class CampaignEntry
+    {
+        public string kind, target, requirement, speaker, portrait, prompt;
+        public bool awakening;
+        public string[] lines, documents;
+        public ConversationChoice[] choices;
+    }
+
+    [Serializable]
+    public sealed class ConversationChoice
+    {
+        public string label, answer, document;
+        public bool once, finish;
+    }
+
+    private bool campaignOwnsSchedule;
+
+    public void UseCampaignSchedule()
+    {
+        campaignOwnsSchedule = true;
+    }
+
+    public IEnumerator RunCampaign(
+        IReadOnlyList<CampaignEntry> entries, int startIndex, Action<int> enter,
+        IReadOnlyDictionary<string, Func<CampaignEntry, IEnumerator>> handlers)
+    {
+        for (int index = startIndex; index < entries.Count; index++)
+        {
+            CampaignEntry entry = entries[index];
+            enter(index);
+            yield return handlers[entry.kind](entry);
+        }
+    }
+
     [Header("Tasks")]
     [SerializeField] private Entry[] tasks = Array.Empty<Entry>();
 
@@ -65,6 +100,7 @@ public sealed class TaskCycle : MonoBehaviour
 
     private IEnumerator Start()
     {
+        if (campaignOwnsSchedule) yield break;
         do
         {
             bool playedTask = false;

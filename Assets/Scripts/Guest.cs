@@ -28,11 +28,11 @@ public sealed class Guest : MonoBehaviour, ITypewriterSheetRecipient
     private GuestDoor guestDoor;
     private bool doorOpen;
 
-    public System.Action DemoInteraction;
-    public System.Func<string, bool> DemoSubmission;
+    public System.Action OrderInteraction;
+    public System.Func<string, bool> OrderSubmission;
     public bool RequiresLineBreak { get; private set; }
     public void SetExpectedText(string value, bool requiresLineBreak = false) { requestedText = value; RequiresLineBreak = requiresLineBreak; }
-    public void CompleteDemo(DialogueObject response, bool success) { completed = true; StartConversation(response, () => BeginDeparture(success)); }
+    public void CompleteOrder(DialogueObject response, bool success) { completed = true; StartConversation(response, () => BeginDeparture(success)); }
 
     internal bool HasOrder => dialogue != null && !string.IsNullOrWhiteSpace(requestedText);
 
@@ -137,7 +137,7 @@ public sealed class Guest : MonoBehaviour, ITypewriterSheetRecipient
         if (arriving || completed || conversationEnded != null) return;
         if (dialogueRunner == null) dialogueRunner = FindObjectOfType<DialogueRunner>();
         if (typewriter == null) typewriter = FindObjectOfType<TypewriterStation>();
-        if (DemoInteraction != null) { DemoInteraction(); return; }
+        if (OrderInteraction != null) { OrderInteraction(); return; }
         if (!HasOrder) return;
         if (RoomStationsController.Instance != null && RoomStationsController.Instance.IsOpen) return;
         if (dialogueRunner == null) dialogueRunner = FindObjectOfType<DialogueRunner>();
@@ -190,7 +190,7 @@ public sealed class Guest : MonoBehaviour, ITypewriterSheetRecipient
         if (completed || typewriter == null || typewriter.ActiveGuest != this ||
             dialogueRunner == null || dialogueRunner.IsDialogueActive || string.IsNullOrWhiteSpace(text)) return false;
 
-        if (DemoSubmission != null) return DemoSubmission(text);
+        if (OrderSubmission != null) return OrderSubmission(text);
         bool correct = MatchesOrder(text);
         completed = true;
         typewriter.ReleaseOrder(this);

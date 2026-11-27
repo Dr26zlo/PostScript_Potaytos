@@ -218,7 +218,7 @@ public sealed class TypewriterStation : MonoBehaviour
     private void LateUpdate()
     {
         if(worldCamera==null||zoomArea==null)return;
-        bool available=(DemoDirector.Instance==null||DemoDirector.Instance.Mode=="room")&&
+        bool available=(CampaignController.Instance==null||CampaignController.Instance.Mode=="room")&&
             (dialogueRunner==null||!dialogueRunner.IsDialogueActive)&&
             (RoomStationsController.Instance==null||!RoomStationsController.Instance.IsOpen);
         UpdateMachineHover(PointerOnMachine(new Vector2(Input.mousePosition.x,Screen.height-Input.mousePosition.y)),available);
@@ -244,7 +244,7 @@ public sealed class TypewriterStation : MonoBehaviour
 
     private void HandleMouse(Event input)
     {
-        if (DemoDirector.Instance != null && DemoDirector.Instance.Mode != "room") return;
+        if (CampaignController.Instance != null && CampaignController.Instance.Mode != "room") return;
         EventType type = input.type;
         if (RoomStationsController.Instance != null && RoomStationsController.Instance.IsOpen) return;
         if (RoomStationsController.BackButton.Contains(input.mousePosition)) return;
@@ -593,7 +593,7 @@ public sealed class TypewriterStation : MonoBehaviour
     private void DrawLineBreakHint()
     {
         if(!HasLineBreakHint)return;
-        float s=UiScale;var text=DemoDirector.Instance!=null?DemoDirector.Instance.Content.tutorial.lineBreak:"Потяните вправо, чтобы перейти на новую строку";
+        float s=UiScale;var text=CampaignController.Instance!=null?CampaignController.Instance.Content.tutorial.lineBreak:"Потяните вправо, чтобы перейти на новую строку";
         var style=new GUIStyle(GUI.skin.label){font=RoomReadableUi.Font,fontSize=Mathf.RoundToInt(25*s),alignment=TextAnchor.MiddleCenter,wordWrap=true};
         style.normal.textColor=new Color(1,1,1,RoomReadableUi.HintAlpha);
         GUI.Label(new Rect(Screen.width*.16f,Screen.height*.32f,Screen.width*.68f,80*s),text,style);
@@ -607,7 +607,7 @@ public sealed class TypewriterStation : MonoBehaviour
 
     private void OnGUI()
     {
-        if (DemoDirector.Instance != null && DemoDirector.Instance.Mode != "room") return;
+        if (CampaignController.Instance != null && CampaignController.Instance.Mode != "room") return;
         if (DrawDeliveryWarning()) return;
         Event input = Event.current;
         HandleMouse(input);

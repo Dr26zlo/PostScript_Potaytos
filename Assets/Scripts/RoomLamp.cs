@@ -171,7 +171,7 @@ public sealed class RoomLamp : MonoBehaviour
 
     private void Update()
     {
-        if (DemoDirector.Instance != null && DemoDirector.Instance.Mode != "room") return;
+        if (CampaignController.Instance != null && CampaignController.Instance.Mode != "room") return;
         if (!Input.GetMouseButtonDown(0) || wallSwitch == null || cameraMovement.HasFocus) return;
         Vector3 mouse = Input.mousePosition;
         // The room camera renders to the full-screen RawImage through a RenderTexture.

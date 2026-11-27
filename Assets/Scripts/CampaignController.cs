@@ -6,23 +6,24 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public sealed class DemoDirector : MonoBehaviour
+public sealed class CampaignController : MonoBehaviour
 {
- public static DemoDirector Instance { get; private set; }
- public DemoContent Content { get; private set; }
+ public static CampaignController Instance { get; private set; }
+ public CampaignContent Content { get; private set; }
  public HashSet<string> Flags { get; private set; } = new HashSet<string>();
  public readonly Dictionary<string,string> Results = new Dictionary<string,string>();
  public int Step { get; private set; }
  public string Mode { get; private set; } = "welcome";
  private DialogueRunner dialogue; private CameraMovement movement; private TypewriterStation machine;
- private Guest guest; private DemoOrder order; private DemoOption selected; private GuestDoor door;
- private readonly List<DialogueObject> nodes = new List<DialogueObject>();
- private Action afterDialogue;private Action journalReturn; private bool sequenceDone; private bool started; private string inspected;
+ private Guest guest; private OrderDefinition order; private OrderOption selected; private GuestDoor door;
+ private TaskCycle cycle;
+ private readonly Dictionary<string, Transform> actors = new Dictionary<string, Transform>();
+ private Action journalReturn; private bool started; private string inspected;
  private static bool autoStart;
- private DemoReward inspectedReward;private Vector2 archiveScroll;
- private DemoGuidance guidance;private string storage="board";private bool resumed;
- private Transform imp; private DemoMemoryView memory; private AudioSource voice;
- private string SavePath => Environment.GetEnvironmentVariable("POSTCRIPT_QA")=="1"?"/tmp/postcript-qa-save.json":Path.Combine(Application.persistentDataPath,"postcript-demo-v3.json");
+ private InspectableReward inspectedReward;private Vector2 archiveScroll;
+ private TutorialGuidance guidance;private string storage="board";private bool resumed;
+ private MemoryPuzzleView memory;
+ private string SavePath => Environment.GetEnvironmentVariable("POSTCRIPT_QA")=="1"?Path.Combine(Path.GetTempPath(),"postcript-qa-save.json"):Path.Combine(Application.persistentDataPath,"postcript-demo-v3.json");
 #if UNITY_STANDALONE_WIN && !UNITY_EDITOR
  [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
  private static void StartFullscreen()
@@ -32,158 +33,241 @@ public sealed class DemoDirector : MonoBehaviour
  }
 #endif
  [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)] static void Register(){ SceneManager.sceneLoaded-=Install;SceneManager.sceneLoaded+=Install; }
- static void Install(Scene s,LoadSceneMode mode){ if(Camera.main!=null && Camera.main.GetComponent<CameraMovement>()!=null)Camera.main.gameObject.AddComponent<DemoDirector>(); }
+ static void Install(Scene s,LoadSceneMode mode){ if(Camera.main!=null && Camera.main.GetComponent<CameraMovement>()!=null)Camera.main.gameObject.AddComponent<CampaignController>(); }
  private void Awake()
  {
-  Instance=this; Content=JsonUtility.FromJson<DemoContent>(Resources.Load<TextAsset>("Demo/Content").text);
-  var cycle=FindObjectOfType<TaskCycle>();if(cycle!=null)cycle.enabled=false;
-  foreach(var t in FindObjectsOfType<Transform>(true))if(t.name=="Сидящий имп"){imp=t;var r=t.GetComponent<SpriteRenderer>();var art=Resources.Load<Sprite>("Demo/Art/imp");if(r!=null && art!=null){float bottom=r.bounds.min.y;float height=r.bounds.size.y;r.sprite=art;t.localScale*=height/r.bounds.size.y;t.position+=Vector3.up*(bottom-r.bounds.min.y);}imp.gameObject.SetActive(false);}
+  Instance=this; Content=JsonUtility.FromJson<CampaignContent>(Resources.Load<TextAsset>("Demo/Content").text);
+  cycle = FindObjectOfType<TaskCycle>();
+  if (cycle == null) cycle = gameObject.AddComponent<TaskCycle>();
+  cycle.UseCampaignSchedule();
+
+  foreach (var task in Content.tasks.Where(task => task.kind == "conversation"))
+  {
+   if (actors.ContainsKey(task.target)) continue;
+   var actor = FindObjectsOfType<Transform>(true).FirstOrDefault(item => item.name == task.target);
+   actors.Add(task.target, actor);
+   if (actor == null) continue;
+
+   var renderer = actor.GetComponent<SpriteRenderer>();
+   var portrait = Resources.Load<Sprite>("Demo/Art/" + task.portrait);
+   if (renderer != null && portrait != null)
+   {
+    float bottom = renderer.bounds.min.y;
+    float height = renderer.bounds.size.y;
+    renderer.sprite = portrait;
+    actor.localScale *= height / renderer.bounds.size.y;
+    actor.position += Vector3.up * (bottom - renderer.bounds.min.y);
+   }
+   actor.gameObject.SetActive(false);
+  }
  }
- private void Start(){dialogue=FindObjectOfType<DialogueRunner>();movement=GetComponent<CameraMovement>();machine=FindObjectOfType<TypewriterStation>();door=FindObjectOfType<GuestDoor>();memory=gameObject.AddComponent<DemoMemoryView>();voice=gameObject.AddComponent<AudioSource>();voice.playOnAwake=false;dialogue.onDialogueEnd.AddListener(OnDialogueEnd);guidance=gameObject.AddComponent<DemoGuidance>();movement.enabled=false;if(autoStart){autoStart=false;Begin(false);}}
- private void OnNode(DialogueObject node){if(Mode=="phone" && node.speakerName!="Вы"){voice.Stop();voice.PlayOneShot(Resources.Load<AudioClip>("PhoneAudio/VoiceQuestion"),.5f);}}
- private void OnDialogueEnd(){var done=afterDialogue;afterDialogue=null;done?.Invoke();}
- public DialogueObject Node(string who,string text){var n=ScriptableObject.CreateInstance<DialogueObject>();n.speakerName=who;n.dialogueText=text;nodes.Add(n);return n;}
- private DialogueChoice Choice(string label,Action action)=>new DialogueChoice{choiceText=label,action=action};
- private void Say(string who,IEnumerable<string> lines,Action done)
+
+ private void Start()
  {
-  DialogueObject first=null,last=null;foreach(string text in lines){var n=Node(who,text);if(first==null)first=n;if(last!=null)last.nextNode=n;last=n;}
-  afterDialogue=done;dialogue.StartDialogue(first);
+  dialogue = FindObjectOfType<DialogueRunner>();
+  movement = GetComponent<CameraMovement>();
+  machine = FindObjectOfType<TypewriterStation>();
+  door = FindObjectOfType<GuestDoor>();
+  memory = gameObject.AddComponent<MemoryPuzzleView>();
+  guidance = gameObject.AddComponent<TutorialGuidance>();
+  movement.enabled = false;
+  if (autoStart)
+  {
+   autoStart = false;
+   Begin(false);
+  }
  }
+
+ private static DialogueChoice Choice(string label, Action action) =>
+  new DialogueChoice { choiceText = label, action = action };
+
  public bool Available(string flag)=>string.IsNullOrEmpty(flag)||Flags.Contains(flag);
  public void AddDocument(string id){if(string.IsNullOrEmpty(id)||!Flags.Add(id))return;var document=Content.documents.FirstOrDefault(d=>d.id==id);if(started&&document!=null&&guidance!=null)guidance.Notify(document.storage);}
  public void Begin(bool resume)
  {
   resumed=resume;Flags.Clear();Results.Clear();Step=0;
-  if(resume && File.Exists(SavePath))try{var save=JsonUtility.FromJson<DemoSave>(File.ReadAllText(SavePath));Step=save.step;foreach(var f in save.flags)Flags.Add(f);if(save.errors!=null)Content.documents=Content.documents.Concat(save.errors).ToArray();foreach(var r in save.results){var bits=r.Split('=');Results[bits[0]]=bits[1];}}catch(Exception){Step=0;Flags.Clear();Results.Clear();}
+  if(resume && File.Exists(SavePath))try{var save=JsonUtility.FromJson<CampaignSave>(File.ReadAllText(SavePath));Step=save.step;foreach(var f in save.flags)Flags.Add(f);if(save.errors!=null)Content.documents=Content.documents.Concat(save.errors).ToArray();foreach(var r in save.results){var bits=r.Split('=');Results[bits[0]]=bits[1];}}catch(Exception){Step=0;Flags.Clear();Results.Clear();}
   foreach(var prior in Content.orders)if(Results.ContainsKey(prior.id)&&prior.options.Any(o=>o.id==Results[prior.id]&&o.reward)){var reward=FindReward(prior.reward);if(reward!=null)reward.SetActive(true);}
   foreach(string id in new[]{"archive_rules","start_memory","start_mixed","start_departure","contract_signature"})AddDocument(id);
   Mode="room";movement.enabled=true;started=true;StartCoroutine(Flow());
  }
- private void Save(){try{File.WriteAllText(SavePath,JsonUtility.ToJson(new DemoSave{step=Step,flags=Flags.ToArray(),results=Results.Select(p=>p.Key+"="+p.Value).ToArray(),errors=Content.documents.Where(d=>d.id.StartsWith("error_")).ToArray()}));}catch(Exception ex){Debug.LogWarning("Не удалось сохранить демо: "+ex.Message);}}
+ private void Save(){try{File.WriteAllText(SavePath,JsonUtility.ToJson(new CampaignSave{step=Step,flags=Flags.ToArray(),results=Results.Select(p=>p.Key+"="+p.Value).ToArray(),errors=Content.documents.Where(d=>d.id.StartsWith("error_")).ToArray()}));}catch(Exception ex){Debug.LogWarning("Не удалось сохранить демо: "+ex.Message);}}
  private IEnumerator Flow()
  {
-  for(;Step<Content.flow.Length;Step++)
+  var handlers = new Dictionary<string, Func<TaskCycle.CampaignEntry, IEnumerator>>
   {
-   Save(); string beat=Content.flow[Step];sequenceDone=false;
-   if(beat=="initial_board")
-   {
-    if(!resumed){guidance.SetStage("board");Mode="awakening";yield return guidance.Awaken();Mode="room";}
-    if(!Flags.Contains("tutorial_board_done")){guidance.SetStage("board");yield return new WaitUntil(()=>Flags.Contains("tutorial_board_done"));}
-    guidance.SetStage(null);
-   }
-   else if(beat=="initial_archive")
-   {
-    if(!Flags.Contains("tutorial_archive_done")){guidance.SetStage("archive");yield return new WaitUntil(()=>Flags.Contains("tutorial_archive_done"));}
-    guidance.SetStage(null);
-   }
-   else if(beat.StartsWith("call_")){yield return CallOrder(beat.Substring(5));}
-   else if(beat=="wife_call"){yield return Phone(Content.wife,()=>{AddDocument("wife_call");AddDocument("work_log");});}
-   else if(beat=="imp"){yield return ImpScene();}
-   else if(beat=="ending"){AddDocument("contract_end");Mode="room";OpenJournal();inspected="contract_end";yield return new WaitUntil(()=>Mode=="ending");movement.enabled=false;Save();yield break;}
-   else {order=Content.orders.FirstOrDefault(o=>o.id==beat);if(order!=null)yield return OrderVisit();}
-  }
+   { "tutorial", RunTutorial },
+   { "order", OrderVisit },
+   { "phone", RunPhone },
+   { "conversation", RunConversation },
+   { "ending", RunEnding }
+  };
+  return cycle.RunCampaign(Content.tasks, Step, index =>
+  {
+   Step = index;
+   Save();
+  }, handlers);
  }
- private IEnumerator OrderVisit()
+
+ private IEnumerator RunTutorial(TaskCycle.CampaignEntry task)
  {
+  if (task.awakening && !resumed)
+  {
+   guidance.SetStage(task.target);
+   Mode = "awakening";
+   yield return guidance.Awaken();
+   Mode = "room";
+  }
+  if (!Flags.Contains(task.requirement))
+  {
+   guidance.SetStage(task.target);
+   yield return new WaitUntil(() => Flags.Contains(task.requirement));
+  }
+  guidance.SetStage(null);
+ }
+
+ private bool AtEnding => Step < Content.tasks.Length && Content.tasks[Step].kind == "ending";
+
+ private IEnumerator RunEnding(TaskCycle.CampaignEntry task)
+ {
+  AddDocument(task.target);
+  Mode = "room";
+  OpenJournal();
+  inspected = task.target;
+  yield return new WaitUntil(() => Mode == "ending");
+  movement.enabled = false;
+  Save();
+ }
+
+ private IEnumerator OrderVisit(TaskCycle.CampaignEntry task)
+ {
+  order = Content.orders.First(item => item.id == task.target);
   var prefab=Resources.Load<GameObject>("Demo/Client");var obj=Instantiate(prefab);guest=obj.GetComponent<Guest>();guest.name=order.speaker;selected=null;
   var texture=Resources.Load<Sprite>("Demo/Art/"+order.npc);var renderer=guest.GetComponent<SpriteRenderer>();
   if(texture!=null){float height=renderer.bounds.size.y;renderer.sprite=texture;float newHeight=texture.bounds.size.y;guest.transform.localScale=Vector3.one*(height/newHeight);}
-  var reward=FindReward(order.reward);guest.PrepareArrival(reward,door);guest.DemoInteraction=InteractGuest;guest.DemoSubmission=Submit;
+  var reward=FindReward(order.reward);guest.PrepareArrival(reward,door);guest.OrderInteraction=InteractGuest;guest.OrderSubmission=Submit;
   yield return new WaitUntil(()=>guest==null);Mode="room";order=null;
  }
  private GameObject FindReward(string key)
  {
   string name=key=="glass_fish"?"Стеклянная рыба":key=="clock"?"Часы":null;
-  foreach(var t in FindObjectsOfType<Transform>(true))if(t.name==name){DemoReward.Attach(t.gameObject,key);return t.gameObject;}
+  foreach(var t in FindObjectsOfType<Transform>(true))if(t.name==name){InspectableReward.Attach(t.gameObject,key);return t.gameObject;}
   var sprite=Resources.Load<Sprite>("Demo/Art/"+key);if(sprite==null)return null;
-  var obj=new GameObject(key);var r=obj.AddComponent<SpriteRenderer>();r.sprite=sprite;r.sortingLayerName="FG";r.sortingOrder=30;obj.transform.position=new Vector3(key=="paper_tram"?4:5,-3,0);obj.transform.localScale=Vector3.one*(.9f/sprite.bounds.size.y);obj.SetActive(false);DemoReward.Attach(obj,key);return obj;
+  var obj=new GameObject(key);var r=obj.AddComponent<SpriteRenderer>();r.sprite=sprite;r.sortingLayerName="FG";r.sortingOrder=30;obj.transform.position=new Vector3(key=="paper_tram"?4:5,-3,0);obj.transform.localScale=Vector3.one*(.9f/sprite.bounds.size.y);obj.SetActive(false);InspectableReward.Attach(obj,key);return obj;
  }
  public void InteractGuest()
  {
   if(Mode!="room" || dialogue.IsDialogueActive || machine.IsFocused || (RoomStationsController.Instance!=null && RoomStationsController.Instance.IsOpen))return;
   if(selected!=null && machine.FinishedSheetCount>0){machine.TryGiveNextSheet(guest);return;}
   Portrait("neutral");movement.FocusOn(PortraitFocus.For(guest.transform));
-  if(!Flags.Contains(order.id+"_met")){Flags.Add(order.id+"_met");Say(order.speaker,order.intro,Menu);}
+  if(!Flags.Contains(order.id+"_met")){Flags.Add(order.id+"_met");dialogue.StartLines(order.speaker,order.intro,Menu);}
   else Menu();
  }
  private void Menu()
  {
-  Mode="room";var node=Node(order.speaker,"Что вы хотите уточнить?");
+  Mode="room";var choices = new List<DialogueChoice>();
   foreach(var q in order.questions)if(Available(q.requires))
   {
-   var question=q;node.choices.Add(Choice(q.label,()=>
+   var question=q;choices.Add(Choice(q.label,()=>
    {
     Portrait("question");
     if(!string.IsNullOrEmpty(question.action))
     {
-     if(question.action=="letter_daughter" && !Flags.Contains("letter_flash")){Flags.Add("letter_flash");Say("Мысль",new[]{"Она отступила. Боялась меня?.."},()=>OpenPuzzle(question.action));}
+     if(question.action=="letter_daughter" && !Flags.Contains("letter_flash")){Flags.Add("letter_flash");dialogue.StartLines("Мысль",new[]{"Она отступила. Боялась меня?.."},()=>OpenPuzzle(question.action));}
      else OpenPuzzle(question.action);
     }
     else
     {
      AddDocument(question.inspect);AddDocument(question.document);
      Action done=()=>{if(!string.IsNullOrEmpty(question.inspect))InspectDocument(question.inspect);else Menu();};
-     if(!string.IsNullOrEmpty(question.answer))Say(order.speaker,new[]{question.answer},done);else done();
+     if(!string.IsNullOrEmpty(question.answer))dialogue.StartLines(order.speaker,new[]{question.answer},done);else done();
     }
    }));
   }
-  node.choices.Add(Choice("Перейти к тексту заказа",TextMenu));
-  node.choices.Add(Choice("Вернуться к комнате",()=>{dialogue.EndDialogue();movement.ResetZoom();}));dialogue.StartDialogue(node);
+  choices.Add(Choice("Перейти к тексту заказа",TextMenu));
+  choices.Add(Choice("Вернуться к комнате",()=>{dialogue.EndDialogue();movement.ResetZoom();}));dialogue.StartMenu(order.speaker, "Что вы хотите уточнить?", choices);
  }
  private void TextMenu()
  {
-  var node=Node(order.speaker,"Какой текст напечатать?");
-  foreach(var opt in order.options)if(Available(opt.requires)){var option=opt;node.choices.Add(Choice(opt.label,()=>SelectOrder(option)));}
-  node.choices.Add(Choice("Ещё вопросы",Menu));dialogue.StartDialogue(node);
+  var choices = new List<DialogueChoice>();
+  foreach(var opt in order.options)if(Available(opt.requires)){var option=opt;choices.Add(Choice(opt.label,()=>SelectOrder(option)));}
+  choices.Add(Choice("Ещё вопросы",Menu));dialogue.StartMenu(order.speaker, "Какой текст напечатать?", choices);
  }
  private void OpenPuzzle(string id)
  {
   dialogue.EndDialogue();movement.ResetZoom();Mode="memory";movement.enabled=false;
   memory.Open(Content.puzzles.First(p=>p.id==id),()=>{Mode="room";movement.enabled=true;movement.FocusOn(PortraitFocus.For(guest.transform));Menu();});
  }
- private void SelectOrder(DemoOption option){selected=option;guest.SetExpectedText(option.text,option.requiresLineBreak);machine.TakeOrder(guest);dialogue.EndDialogue();movement.ResetZoom();}
+ private void SelectOrder(OrderOption option){selected=option;guest.SetExpectedText(option.text,option.requiresLineBreak);machine.TakeOrder(guest);dialogue.EndDialogue();movement.ResetZoom();}
  private void Portrait(string emotion){if(guest==null||order==null)return;var pose=Resources.Load<Sprite>("Demo/Art/"+order.npc+(emotion=="neutral"?"":"-"+emotion));if(pose!=null)PortraitFocus.SetSprite(guest.transform,pose);}
  private bool Submit(string text)
  {
   if(selected==null || guest==null)return false;
   bool exact=guest.MatchesOrder(text);bool success=exact && selected.reward;
   Results[order.id]=exact?selected.id:"typo";
-  if(exact)AddDocument(selected.document);else { var error=new DemoDocument{id="error_"+order.id,title="Лист с опечаткой · "+order.speaker,storage="archive",text=text+"\n\nКлиент получил лист с опечаткой. Награда не выдана."};var all=Content.documents.ToList();all.Add(error);Content.documents=all.ToArray();AddDocument(error.id);}machine.ReleaseOrder(guest);
-  var answer=Node(order.speaker,exact?selected.response:"В тексте ошибка. Я заберу лист, но воспользоваться им не смогу.");
-  Portrait(success?"happy":"angry");guest.CompleteDemo(answer,success);return true;
+  if(exact)AddDocument(selected.document);else { var error=new CampaignDocument{id="error_"+order.id,title="Лист с опечаткой · "+order.speaker,storage="archive",text=text+"\n\nКлиент получил лист с опечаткой. Награда не выдана."};var all=Content.documents.ToList();all.Add(error);Content.documents=all.ToArray();AddDocument(error.id);}machine.ReleaseOrder(guest);
+  var answer=dialogue.CreateNode(order.speaker,exact?selected.response:"В тексте ошибка. Я заберу лист, но воспользоваться им не смогу.");
+  Portrait(success?"happy":"angry");guest.CompleteOrder(answer,success);return true;
  }
- private IEnumerator CallOrder(string id)
+ private IEnumerator RunPhone(TaskCycle.CampaignEntry task)
  {
-  var source=Content.orders.First(o=>o.id==id);string result=Results.ContainsKey(id)?Results[id]:"typo";
-  var lines=source.calls.Get(result)??new[]{"Я не смог воспользоваться этим листом. В нём ошибка."};
-  string doc=id=="lantern"?"o1_call_"+result:"o2_call_"+result;
-  yield return Phone(lines,()=>AddDocument(doc));
- }
- private IEnumerator Phone(string[] lines,Action done)
- {
-  var call=GetComponent<RoomPhoneCall>();if(call==null)call=gameObject.AddComponent<RoomPhoneCall>();
-  call.SetConversation(lines);Mode="phone";yield return call.RingAndWait();done();Mode="room";
- }
- private IEnumerator ImpScene()
- {
-  if(imp!=null)imp.gameObject.SetActive(true);
-  var asked=new HashSet<string>();
-  Action menu=null;
-  menu=()=>
+  var lines = task.lines;
+  OrderCall outcome = null;
+  if (!string.IsNullOrEmpty(task.target))
   {
-   var node=Node("Имп","Что ещё хотите узнать?");
-   foreach(var entry in Content.imp.choices)if(!asked.Contains(entry.label))
-   {
-    var question=entry;node.choices.Add(Choice(entry.label,()=>{asked.Add(question.label);Say("Имп",new[]{question.answer},menu);}));
-   }
-   node.choices.Add(Choice("Покажи соглашение",()=>Say("Имп",new[]{Content.imp.outro},()=>{AddDocument(Content.imp.document);sequenceDone=true;})));
-   dialogue.StartDialogue(node);
-  };
-  if(imp!=null)movement.FocusOn(PortraitFocus.For(imp));Say("Имп",new[]{Content.imp.intro},menu);
-  yield return new WaitUntil(()=>sequenceDone);
-  if(imp!=null)imp.gameObject.SetActive(false);movement.ResetZoom();
+   var source = Content.orders.First(item => item.id == task.target);
+   var result = Results.TryGetValue(task.target, out var value) ? value : "typo";
+   outcome = source.calls.FirstOrDefault(call => call.result == result)
+    ?? source.calls.First(call => call.result == "typo");
+   lines = outcome.lines;
+  }
+
+  var phone = GetComponent<RoomPhoneCall>();
+  if (phone == null) phone = gameObject.AddComponent<RoomPhoneCall>();
+  phone.SetConversation(lines);
+  Mode = "phone";
+  yield return phone.RingAndWait();
+
+  if (outcome != null) AddDocument(outcome.document);
+  if (task.documents != null)
+   foreach (string document in task.documents) AddDocument(document);
+  Mode = "room";
  }
- public void CompletePuzzle(DemoPuzzle puzzle){Flags.Add(puzzle.id+"_complete");AddDocument(puzzle.onCompleteDocument);}
+
+ private IEnumerator RunConversation(TaskCycle.CampaignEntry task)
+ {
+  var actor = actors[task.target];
+  if (actor != null) actor.gameObject.SetActive(true);
+  var asked = new HashSet<TaskCycle.ConversationChoice>();
+  bool complete = false;
+
+  void ShowMenu()
+  {
+   var choices = new List<DialogueChoice>();
+   foreach (var choice in task.choices)
+   {
+    if (choice.once && asked.Contains(choice)) continue;
+    choices.Add(Choice(choice.label, () =>
+    {
+     asked.Add(choice);
+     dialogue.StartLines(task.speaker, new[] { choice.answer }, () =>
+     {
+      AddDocument(choice.document);
+      if (choice.finish) complete = true;
+      else ShowMenu();
+     });
+    }));
+   }
+   dialogue.StartMenu(task.speaker, task.prompt, choices);
+  }
+
+  if (actor != null) movement.FocusOn(PortraitFocus.For(actor));
+  dialogue.StartLines(task.speaker, task.lines, ShowMenu);
+  yield return new WaitUntil(() => complete);
+  if (actor != null) actor.gameObject.SetActive(false);
+  movement.ResetZoom();
+ }
+ public void CompletePuzzle(MemoryPuzzleDefinition puzzle){Flags.Add(puzzle.id+"_complete");AddDocument(puzzle.onCompleteDocument);}
  private void InspectDocument(string id){dialogue.EndDialogue();movement.ResetZoom();Mode="room";OpenStorage(Content.documents.First(d=>d.id==id).storage);inspected=id;journalReturn=()=>{movement.FocusOn(PortraitFocus.For(guest.transform));Menu();};}
  public bool IsReadingArchive => Mode=="archive"&&inspected!=null;
  public void ReadArchive(string id){if(Mode=="archive")inspected=id;}
@@ -193,7 +277,7 @@ public sealed class DemoDirector : MonoBehaviour
   if(storage=="board"&&Flags.Contains("tutorial_board_opened"))Flags.Add("tutorial_board_done");
   if(storage=="archive"&&Flags.Contains("tutorial_archive_opened"))Flags.Add("tutorial_archive_done");
   if(journalReturn!=null){var callback=journalReturn;journalReturn=null;Mode="room";movement.enabled=true;callback();return;}
-  Mode=Step<Content.flow.Length&&Content.flow[Step]=="ending"?"ending":"room";movement.enabled=Mode=="room";
+  Mode=AtEnding?"ending":"room";movement.enabled=Mode=="room";
  }
  public void OpenJournal()=>OpenStorage("board");
  public void OpenArchive()=>OpenStorage("archive");
@@ -207,7 +291,7 @@ public sealed class DemoDirector : MonoBehaviour
   Flags.Add(storage=="archive"?"tutorial_archive_opened":"tutorial_board_opened");
  }
  public void CloseReward(){dialogue.EndDialogue();Mode="room";movement.enabled=true;inspectedReward=null;}
- public void InspectReward(DemoReward reward){if(Mode!="room"||dialogue.IsDialogueActive)return;inspectedReward=reward;Mode="reward";movement.enabled=false;Say("Вы",new[]{reward.Description},null);}
+ public void InspectReward(InspectableReward reward){if(Mode!="room"||dialogue.IsDialogueActive)return;inspectedReward=reward;Mode="reward";movement.enabled=false;dialogue.StartLines("Вы",new[]{reward.Description},null);}
  private void OnGUI()
  {
   float s=RoomReadableUi.Scale;var label=RoomReadableUi.PaperLabel(Mathf.RoundToInt(19*s));label.wordWrap=true;
@@ -264,7 +348,7 @@ public sealed class DemoDirector : MonoBehaviour
   else
   {
    if(storage=="archive")DrawArchive(docs,s);else DrawBoard(docs,s);
-   if(RoomReadableUi.PaperButton(new Rect(20,20,200*s,46*s),Step<Content.flow.Length&&Content.flow[Step]=="ending"?"Продолжение следует":"Назад в комнату"))CloseJournal();
+   if(RoomReadableUi.PaperButton(new Rect(20,20,200*s,46*s),AtEnding?"Продолжение следует":"Назад в комнату"))CloseJournal();
   }
  }
  public static Rect FitImage(Rect area,float aspect)
@@ -273,7 +357,7 @@ public sealed class DemoDirector : MonoBehaviour
   return new Rect(area.center-size*.5f,size);
  }
  public static Vector2 UnrotatePointer(Vector2 point,Vector2 centre,float degrees)=>centre+(Vector2)(Quaternion.Euler(0,0,-degrees)*(point-centre));
- private void DrawBoard(DemoDocument[] docs,float s)
+ private void DrawBoard(CampaignDocument[] docs,float s)
  {
   var texture=Resources.Load<Texture2D>("Demo/Art/board");Rect board=FitImage(new Rect(30*s,65*s,Screen.width-60*s,Screen.height-100*s),texture!=null?texture.width/(float)texture.height:1.7f);
   if(texture!=null)GUI.DrawTexture(board,texture);
@@ -292,7 +376,7 @@ public sealed class DemoDirector : MonoBehaviour
    if(Event.current.type==EventType.MouseDown&&Event.current.button==0&&paper.Contains(UnrotatePointer(Event.current.mousePosition,paper.center,angle))){inspected=doc.id;Event.current.Use();}
   }
  }
- private void DrawArchive(DemoDocument[] docs,float s)
+ private void DrawArchive(CampaignDocument[] docs,float s)
  {
   var heading=new GUIStyle(GUI.skin.label){font=RoomReadableUi.Font,fontSize=Mathf.RoundToInt(28*s),alignment=TextAnchor.MiddleCenter};GUI.Label(new Rect(0,25*s,Screen.width,45*s),"Архив писем и рабочих записей",heading);
   Rect view=new Rect(Screen.width*.18f,90*s,Screen.width*.64f,Screen.height-130*s);float rowHeight=125*s;
@@ -305,5 +389,5 @@ public sealed class DemoDirector : MonoBehaviour
   }
   GUI.EndScrollView();
  }
- private void OnDestroy(){if(Instance==this)Instance=null;foreach(var n in nodes)if(n!=null)Destroy(n);}
+ private void OnDestroy(){if(Instance==this)Instance=null;}
 }

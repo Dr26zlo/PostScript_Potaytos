@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public sealed class DemoMemoryView : MonoBehaviour
+public sealed class MemoryPuzzleView : MonoBehaviour
 {
  private sealed class Piece { public Rect rect;public int row,col,group;public string text;public Texture2D paper;public Sprite sprite; }
  private sealed class Junk { public Rect rect;public Sprite sprite; }
@@ -13,13 +13,13 @@ public sealed class DemoMemoryView : MonoBehaviour
  private readonly Dictionary<string,State> states=new Dictionary<string,State>();
  private readonly Dictionary<Texture2D,List<Vector2>> contours=new Dictionary<Texture2D,List<Vector2>>();
  private readonly List<Visual> visuals=new List<Visual>();
- private DemoPuzzle puzzle;private State state;private Action closed;private AudioSource audioSource;
+ private MemoryPuzzleDefinition puzzle;private State state;private Action closed;private AudioSource audioSource;
  private GameObject ui;private RectTransform container,maskRoot;private Text status;
  private int drag=-1;private bool junkDrag;private Vector2 offset;private Sprite ovalMask;
  private static readonly Rect Surface=new Rect(80,70,1120,580);
  public bool IsOpen=>puzzle!=null;
  private void Awake(){audioSource=gameObject.AddComponent<AudioSource>();audioSource.playOnAwake=false;}
- public void Open(DemoPuzzle value,Action onClose)
+ public void Open(MemoryPuzzleDefinition value,Action onClose)
  {
   puzzle=value;closed=onClose;
   if(!states.TryGetValue(value.id,out state))
@@ -177,7 +177,7 @@ public sealed class DemoMemoryView : MonoBehaviour
    int old=piece.group,target=other.group;foreach(var member in state.pieces)if(member.group==old){member.rect.position+=delta;member.group=target;}
    var sound=Resources.Load<AudioClip>("RoomStations/Paper");if(sound!=null)audioSource.PlayOneShot(sound,.5f);
    bool complete=true;foreach(var first in state.pieces)foreach(var part in state.pieces)if(first.row==part.row&&first.group!=part.group)complete=false;
-   if(complete){state.complete=true;DemoDirector.Instance.CompletePuzzle(puzzle);}return true;
+   if(complete){state.complete=true;CampaignController.Instance.CompletePuzzle(puzzle);}return true;
   }
   return false;
  }
@@ -186,7 +186,7 @@ public sealed class DemoMemoryView : MonoBehaviour
 }
 public sealed class MemoryDragHandle : MonoBehaviour,IPointerDownHandler,IPointerUpHandler,IBeginDragHandler,IDragHandler,IEndDragHandler
 {
- public DemoMemoryView owner;public int index;public bool junk;
+ public MemoryPuzzleView owner;public int index;public bool junk;
  public void OnPointerDown(PointerEventData e)=>owner.BeginDrag(index,junk,e);
  public void OnBeginDrag(PointerEventData e)=>owner.BeginDrag(index,junk,e);
  public void OnDrag(PointerEventData e)=>owner.Drag(e);

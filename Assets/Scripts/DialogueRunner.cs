@@ -49,6 +49,58 @@ public class DialogueRunner : MonoBehaviour
         ShowNode(dialogue);
     }
 
+    private readonly List<DialogueObject> runtimeNodes = new List<DialogueObject>();
+
+    public DialogueObject CreateNode(string speaker, string text)
+    {
+        var node = ScriptableObject.CreateInstance<DialogueObject>();
+        node.speakerName = speaker;
+        node.dialogueText = text;
+        runtimeNodes.Add(node);
+        return node;
+    }
+
+    public void StartMenu(string speaker, string prompt, IEnumerable<DialogueChoice> choices)
+    {
+        var node = CreateNode(speaker, prompt);
+        node.choices.AddRange(choices);
+        StartDialogue(node);
+    }
+
+    public void StartLines(string speaker, IEnumerable<string> lines, System.Action finished)
+    {
+        DialogueObject first = null, last = null;
+        foreach (string line in lines)
+        {
+            var node = CreateNode(speaker, line);
+            if (last == null) first = node;
+            else last.nextNode = node;
+            last = node;
+        }
+
+        if (first == null)
+        {
+            finished?.Invoke();
+            return;
+        }
+        if (finished != null)
+        {
+            void OnFinished()
+            {
+                onDialogueEnd.RemoveListener(OnFinished);
+                finished();
+            }
+            onDialogueEnd.AddListener(OnFinished);
+        }
+        StartDialogue(first);
+    }
+
+    private void OnDestroy()
+    {
+        foreach (var node in runtimeNodes)
+            Destroy(node);
+    }
+
     public event System.Action<DialogueObject> NodeShown;
 
     private void ShowNode(DialogueObject node)

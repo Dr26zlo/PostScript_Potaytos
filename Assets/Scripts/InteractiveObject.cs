@@ -29,8 +29,8 @@ public class InteractiveObject : MonoBehaviour
     }
 
     private DialogueRunner dialogueRunner;
-    private bool WorldBlocked => DemoDirector.Instance != null &&
-        (DemoDirector.Instance.Mode != "room" || (dialogueRunner != null && dialogueRunner.IsDialogueActive) || (RoomStationsController.Instance != null && RoomStationsController.Instance.IsOpen));
+    private bool WorldBlocked => CampaignController.Instance != null &&
+        (CampaignController.Instance.Mode != "room" || (dialogueRunner != null && dialogueRunner.IsDialogueActive) || (RoomStationsController.Instance != null && RoomStationsController.Instance.IsOpen));
 
     private static int pointerFrame=-1,clickFrame=-1;private static InteractiveObject pointerTarget;
     private static InteractiveObject PointerTarget()

@@ -20,8 +20,8 @@ public sealed class RoomStationsController : MonoBehaviour
     private AudioClip paperSound;
     private int selected = -1, kind;
     private float openedAt;
-    private DemoDocument[] documents;private int page;
-    public bool IsReading => DemoDirector.Instance != null && DemoDirector.Instance.IsReadingArchive;
+    private CampaignDocument[] documents;private int page;
+    public bool IsReading => CampaignController.Instance != null && CampaignController.Instance.IsReadingArchive;
     private float Scale => RoomReadableUi.Scale;
     public static Rect BackButton => new Rect(16, 16, 150 * RoomReadableUi.Scale, 42 * RoomReadableUi.Scale);
 
@@ -58,15 +58,15 @@ public sealed class RoomStationsController : MonoBehaviour
     }
     private void Update()
     {
-        if (DemoDirector.Instance != null && DemoDirector.Instance.Mode != "room" && !(DemoDirector.Instance.Mode == "archive" && IsOpen)) return;
+        if (CampaignController.Instance != null && CampaignController.Instance.Mode != "room" && !(CampaignController.Instance.Mode == "archive" && IsOpen)) return;
         if(IsReading)return;
         if (room == null) return;
         Vector3 world = PointerWorld();
         if (IsOpen)
         {
             if (Input.GetKeyDown(KeyCode.Escape) || Input.GetMouseButtonDown(1)) { Close(); return; }
-            if (kind == 2) {HoverCards(world);if(selected>=0&&Input.GetMouseButtonDown(0)&&documents!=null){int index=page*4+selected;if(index<documents.Length)DemoDirector.Instance.ReadArchive(documents[index].id);return;}}
-            if (DemoDirector.Instance==null && Time.unscaledTime - openedAt > 0.3f && Input.GetMouseButtonDown(0) && !BoundsOf(panel).Contains(world)) Close();
+            if (kind == 2) {HoverCards(world);if(selected>=0&&Input.GetMouseButtonDown(0)&&documents!=null){int index=page*4+selected;if(index<documents.Length)CampaignController.Instance.ReadArchive(documents[index].id);return;}}
+            if (CampaignController.Instance==null && Time.unscaledTime - openedAt > 0.3f && Input.GetMouseButtonDown(0) && !BoundsOf(panel).Contains(world)) Close();
             return;
         }
         if (movement.HasFocus || (dialogue != null && dialogue.IsDialogueActive) || !Input.GetMouseButtonDown(0)) return;
@@ -83,18 +83,18 @@ public sealed class RoomStationsController : MonoBehaviour
         {Vector2 a=ArchiveOutline[i],b=ArchiveOutline[j];if((a.y>p.y)!=(b.y>p.y)&&p.x<(b.x-a.x)*(p.y-a.y)/(b.y-a.y)+a.x)inside=!inside;}
         return inside;
     }
-    public void ShowArchive(DemoDocument[] available)
+    public void ShowArchive(CampaignDocument[] available)
     {
         documents=available;page=0;Show(2);
     }
     public void Open(int station)
     {
-        if (DemoDirector.Instance != null) { if(station==1)DemoDirector.Instance.OpenJournal();else if(station==2)DemoDirector.Instance.OpenArchive();return; }
+        if (CampaignController.Instance != null) { if(station==1)CampaignController.Instance.OpenJournal();else if(station==2)CampaignController.Instance.OpenArchive();return; }
         Show(station);
     }
     private void Show(int station)
     {
-        if (IsOpen || (DemoDirector.Instance==null && movement.HasFocus) || (dialogue != null && dialogue.IsDialogueActive) || station < 1 || station > 2) return;
+        if (IsOpen || (CampaignController.Instance==null && movement.HasFocus) || (dialogue != null && dialogue.IsDialogueActive) || station < 1 || station > 2) return;
         GameObject prefab = Resources.Load<GameObject>(station == 1 ? "RoomStations/Board" : "RoomStations/Archive");
         if (prefab == null) return;
         kind = station;
@@ -185,8 +185,8 @@ public sealed class RoomStationsController : MonoBehaviour
     }
     public void Close()
     {
-        bool notify=DemoDirector.Instance!=null&&DemoDirector.Instance.Mode=="archive";
-        Hide();if(notify)DemoDirector.Instance.CloseJournal();
+        bool notify=CampaignController.Instance!=null&&CampaignController.Instance.Mode=="archive";
+        Hide();if(notify)CampaignController.Instance.CloseJournal();
     }
     public void Hide()
     {

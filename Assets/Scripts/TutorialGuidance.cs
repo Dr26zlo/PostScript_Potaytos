@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
-public sealed class DemoGuidance : MonoBehaviour
+public sealed class TutorialGuidance : MonoBehaviour
 {
  public string Stage { get; private set; }
  private readonly Queue<string> notifications=new Queue<string>();private string toast;private float toastRemaining;private GuestDoor door;private DialogueRunner dialogue;private TypewriterStation machine;private SpriteRenderer doorSprite;
@@ -24,7 +24,7 @@ public sealed class DemoGuidance : MonoBehaviour
  }
  private void Update()
  {
-  var director=DemoDirector.Instance;if(director==null||highlight==null)return;
+  var director=CampaignController.Instance;if(director==null||highlight==null)return;
   string target=Stage;
   if(string.IsNullOrEmpty(target)&&door!=null&&door.IsWaiting)target="door";
   Vector3 at=room!=null?room.TransformPoint(target=="board"?new Vector3(15.6f,.4f,0):new Vector3(11,-6,0)):Vector3.zero;
@@ -43,7 +43,7 @@ public sealed class DemoGuidance : MonoBehaviour
  }
  private void OnGUI()
  {
-  var director=DemoDirector.Instance;if(director==null)return;
+  var director=CampaignController.Instance;if(director==null)return;
   if(opening>=0)
   {
    float height=Screen.height*.5f*(1-Mathf.SmoothStep(0,1,Mathf.Clamp01(opening)));
