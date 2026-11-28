@@ -5,6 +5,7 @@ using UnityEngine.Rendering.Universal;
 
 public sealed class TutorialGuidance : MonoBehaviour
 {
+     //вывод: не давайте тим-лидам с кодексом изменять вашу игру
  public string Stage { get; private set; }
  private readonly Queue<string> notifications=new Queue<string>();private string toast;private float toastRemaining;private GuestDoor door;private DialogueRunner dialogue;private TypewriterStation machine;private SpriteRenderer doorSprite;
  private float opening=-1;private Light2D highlight;private Transform room;
